@@ -1,7 +1,7 @@
 {
   "appId": "com.mario2100.game",
   "appName": "2100 Mario",
-  "webDir": ".",
+  "webDir": "www",
   "bundledWebRuntime": false,
   "server": {
     "androidScheme": "https"

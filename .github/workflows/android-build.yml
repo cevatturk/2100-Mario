@@ -1,0 +1,56 @@
+name: Android APK & Google Play AAB Build
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-android:
+    name: Build 2100 Mario APK & Play Store AAB
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Setup Java JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Prepare www bundle & Sync Capacitor Android
+        run: |
+          mkdir -p www
+          cp index.html privacy-policy.html manifest.json app-ads.txt www/
+          cp -r css js assets www/
+          npm install --no-audit --no-fund
+          npx cap sync android
+
+      - name: Generate Upload Keystore & Sign Release AAB + APK
+        run: |
+          cd android
+          chmod +x gradlew
+          keytool -genkeypair -v -keystore release-key.jks -alias mario2100 -keyalg RSA -keysize 2048 -validity 10000 \
+            -storepass Mario2100Store! -keypass Mario2100Store! \
+            -dname "CN=Cevat TURK, OU=GameDev, O=CevatTURK, L=Istanbul, S=Istanbul, C=TR"
+          ./gradlew assembleDebug bundleRelease \
+            -Pandroid.injected.signing.store.file=$(pwd)/release-key.jks \
+            -Pandroid.injected.signing.store.password=Mario2100Store! \
+            -Pandroid.injected.signing.key.alias=mario2100 \
+            -Pandroid.injected.signing.key.password=Mario2100Store!
+
+      - name: Upload Play Store AAB, APK & Keystore Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: 2100-Mario-Android-Paketleri
+          path: |
+            android/app/build/outputs/apk/debug/app-debug.apk
+            android/app/build/outputs/bundle/release/app-release.aab
+            android/release-key.jks
