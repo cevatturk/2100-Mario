@@ -77,8 +77,10 @@ KEY FEATURES:
    * *Uygulamanız gerekli kullanıcı verilerini topluyor veya paylaşıyor mu?* -> **Evet** (Google AdMob SDK nedeniyle).
    * *Veri Türleri:* **Cihaz veya diğer kimlikler (Device or other IDs - Advertising ID)** ve **Yaklaşık Konum (Approximate location - IP tabanlı)** + **Uygulama etkileşimleri / Tanı verileri (Diagnostics)**.
    * *Kullanım Amacı:* **Reklamcılık veya pazarlama (Advertising or marketing)** ve **Analiz / Dolandırıcılık önleme (Analytics & Fraud prevention)**.
-4. **Gizlilik Politikası URL'si:**
-   * Proje ana dizinindeki `privacy-policy.html` dosyasını GitHub Pages / Netlify / kendi sitenizde yayınladığınız bağlantı (ör. `https://siteniz.com/privacy-policy.html`).
-5. **Hazır Görsel Dosyalarınız (`assets/store/` klasöründe):**
+4. **Gizlilik Politikası URL'si (Canlı GitHub Pages Linkiniz):**
+   * `https://cevatturk.github.io/2100-Mario/privacy-policy.html`
+5. **Geliştirici Web Sitesi URL'si (Google AdMob `app-ads.txt` Doğrulaması İçin):**
+   * `https://cevatturk.github.io` (Ana dizininde `https://cevatturk.github.io/app-ads.txt` otomatik yayınlanmıştır)
+6. **Hazır Görsel Dosyalarınız (`assets/store/` klasöründe):**
    * Uygulama İkonu (`512x512 px`): `assets/store/icon-512.png`
    * Öne Çıkan Görsel / Feature Graphic (`1024x500 px`): `assets/store/feature-graphic-1024x500.png`
