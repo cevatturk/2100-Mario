@@ -39,7 +39,7 @@ jobs:
           chmod +x gradlew
           keytool -genkeypair -v -keystore release-key.jks -alias mario2100 -keyalg RSA -keysize 2048 -validity 10000 \
             -storepass Mario2100Store! -keypass Mario2100Store! \
-            -dname "CN=Cevat TURK, OU=GameDev, O=CevatTURK, L=Istanbul, S=Istanbul, C=TR"
+            -dname "CN=CG Studio Home, OU=GameStudio, O=CG Studio Home, L=Istanbul, S=Istanbul, C=TR"
           ./gradlew assembleDebug bundleRelease \
             -Pandroid.injected.signing.store.file=$(pwd)/release-key.jks \
             -Pandroid.injected.signing.store.password=Mario2100Store! \

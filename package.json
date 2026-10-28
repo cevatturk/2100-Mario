@@ -1,6 +1,7 @@
 {
   "name": "2100-mario",
   "version": "1.0.0",
+  "author": "CG Studio Home <info@erpdanisman.com>",
   "description": "2100 Mario - 40-Level Campaign, 15-Level Troll Mode & Character Studio",
   "main": "index.html",
   "scripts": {

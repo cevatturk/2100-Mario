@@ -1,6 +1,9 @@
 # 2100 Mario — Google Play Store Mağaza Giriş Rehberi ve Hazır Metinler
 
-Bu dosya, **Google Play Console** üzerinde **2100 Mario (`com.mario2100.game`)** uygulamasını oluştururken sorulan tüm metinleri ve form yanıtlarını kopyala-yapıştır yapabilmeniz için hazırlanmıştır.
+Bu dosya, **Google Play Console** üzerinde **CG Studio Home** geliştirici hesabıyla **2100 Mario (`com.mario2100.game`)** uygulamasını oluştururken sorulan tüm metinleri ve form yanıtlarını kopyala-yapıştır yapabilmeniz için hazırlanmıştır.
+
+* **Geliştirici Adı:** `CG Studio Home`
+* **Resmi İletişim E-postası:** `info@erpdanisman.com`
 
 ---
 
