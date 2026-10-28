@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#070812">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>2100 Mario</title>
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/store/icon-512.png">
+    <link rel="apple-touch-icon" href="assets/store/icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="game-wrapper">
+        <!-- Main Game Canvas -->
+        <canvas id="gameCanvas" width="1280" height="720"></canvas>
+
+        <!-- HUD Overlay -->
+        <div id="hud" class="hidden">
+            <div class="hud-left">
+                <button id="btn-hud-profile" class="profile-square-btn" style="padding: 3px 9px 3px 4px;" title="Oyuncu Profili">
+                    <div class="profile-frame-box hud-size" id="hud-profile-avatar">🥷</div>
+                    <div class="profile-btn-info">
+                        <span class="profile-btn-tag" id="hud-profile-tag">PROFİL</span>
+                        <span class="profile-btn-name" id="hud-profile-name">Gölge Şövalye</span>
+                    </div>
+                </button>
+                <div class="hud-stat health-box" id="hud-hearts" title="3 Can"><span class="heart-full">♥</span><span class="heart-full">♥</span><span class="heart-full">♥</span></div>
+                <div class="hud-stat power-badge" id="hud-power">
+                    <span class="power-dot"></span>
+                    <span id="hud-power-text">Gölge Modu</span>
+                </div>
+                <div class="hud-stat checkpoint-badge hidden" id="hud-checkpoint">
+                    🚩 Kayıt Noktası Aktif
+                </div>
+                <div class="hud-stat" id="hud-fps" style="border-color: rgba(6, 214, 160, 0.5); color: #06d6a0; font-weight: 700; font-size: 12px;">
+                    ⚡ 120 FPS
+                </div>
+            </div>
+
+            <div class="hud-center">
+                <div class="hud-level-title" id="hud-level-name">Bölüm 1: Kristal Mağaralar</div>
+                <!-- Boss Health Bar -->
+                <div id="boss-hud" class="hidden">
+                    <div class="boss-name" id="boss-hud-name">KARANLIK MUHAFIZ (BOSS)</div>
+                    <div class="boss-bar-bg">
+                        <div id="boss-bar-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hud-right">
+                <button id="btn-hud-character" class="customize-btn" style="padding: 6px 11px; font-size: 12.5px; background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047;" title="Karakter Değiştir (Coin 🪙)">
+                    👤 Karakter
+                </button>
+                <button id="btn-hud-customize" class="customize-btn" style="padding: 6px 12px; font-size: 12.5px;" title="Karakteri Kişiselleştir">
+                    🎨 Kişiselleştir
+                </button>
+                <div class="hud-stat goldcoin-stat" id="hud-goldcoin-box" style="cursor:pointer; border-color: rgba(255, 209, 102, 0.6);" title="Tıkla: Karakter Değiştirme Parası (Coin 🪙)">
+                    <span class="icon-goldcoin">🪙</span>
+                    <span><span id="hud-goldcoin-label">Coin:</span> <strong id="hud-goldcoins" style="color:#ffd166;">0</strong></span>
+                </div>
+                <div class="hud-stat emerald-stat" id="hud-emerald-box" style="cursor:pointer;" title="Tıkla: Karakter Kişiselleştirme (Antik Zümrüt)">
+                    <span class="icon-emerald">❖</span>
+                    <span><span id="hud-emerald-label">Zümrüt:</span> <strong id="hud-emeralds">0</strong> <small id="hud-level-emeralds">(0/0)</small></span>
+                </div>
+                <div class="hud-stat coin-stat" title="Toplam Kristal (Güçlendirme Parası)">
+                    <span class="icon-coin">◆</span>
+                    <span id="hud-coins">0</span>
+                </div>
+                <div class="hud-stat score-stat">
+                    <span class="icon-star">★</span>
+                    <span id="hud-score">00000</span>
+                </div>
+                <button id="btn-hud-troll" class="troll-round-btn hud-troll-btn" title="Trol Modu (15 Bölüm) - Sinirlenen Adam (😡)">
+                    <span class="troll-face-icon">😡</span>
+                    <span class="troll-badge-text" id="hud-troll-badge">TROL</span>
+                </button>
+                <button id="btn-hud-lang" class="lang-square-btn hud-lang-btn" title="Dil Seçimi / Language (👅)">
+                    <span class="lang-tongue-icon">👅</span>
+                    <span class="lang-code-badge" id="hud-lang-code">TR</span>
+                </button>
+                <button id="btn-mute" class="icon-btn" title="Sesi Aç/Kapat">🔊</button>
+                <button id="btn-hud-settings" class="icon-btn" title="Ayarlar Menüsü">⚙️</button>
+                <button id="btn-pause" class="icon-btn" title="Duraklat">⏸</button>
+            </div>
+        </div>
+
+        <!-- Touch Controls (Mobile / Tablet & On-Screen) -->
+        <div id="touch-controls" class="hidden">
+            <div class="dpad-group">
+                <button id="touch-left" class="touch-btn" aria-label="Sol">◀</button>
+                <button id="touch-right" class="touch-btn" aria-label="Sağ">▶</button>
+            </div>
+            <div class="action-group">
+                <button id="touch-fire" class="touch-btn btn-fire" aria-label="Ateş Topu / Atılma">🔥</button>
+                <button id="touch-jump" class="touch-btn btn-jump" aria-label="Zıpla">▲</button>
+            </div>
+        </div>
+
+        <!-- Title & 10-Level Campaign Map Screen -->
+        <div id="screen-map" class="overlay-screen">
+            <div class="map-container">
+                <div class="map-top-bar">
+                    <div class="currencies-group">
+                        <button id="btn-map-profile" class="profile-square-btn" title="Profilini Görüntüle ve Düzenle">
+                            <div class="profile-frame-box" id="map-profile-avatar">🥷</div>
+                            <div class="profile-btn-info">
+                                <span class="profile-btn-tag" id="map-profile-tag">OYUNCU PROFİLİ</span>
+                                <span class="profile-btn-name" id="map-profile-name">Gölge Şövalye</span>
+                            </div>
+                        </button>
+                        <div class="wallet-pill goldcoin-pill" id="map-goldcoin-pill" style="cursor:pointer; border-color: rgba(255, 209, 102, 0.7); background: rgba(255, 209, 102, 0.12);" title="Karakter Değiştirme Parası (Coin 🪙)">
+                            <span class="icon-goldcoin">🪙</span>
+                            <span><span id="map-goldcoin-label">Coin:</span> <strong id="map-wallet-goldcoins" style="color:#ffd166;">0</strong></span>
+                        </div>
+                        <div class="wallet-pill emerald-pill" title="Karakter Kişiselleştirme Parası">
+                            <span class="icon-emerald">❖</span>
+                            <span><span id="map-emerald-label">Antik Zümrüt:</span> <strong id="map-wallet-emeralds">0</strong></span>
+                        </div>
+                        <div class="wallet-pill" title="Mağaza Güçlendirme Parası">
+                            <span class="icon-coin">◆</span>
+                            <span><span id="map-coin-label">Kristal:</span> <strong id="map-wallet-coins">0</strong></span>
+                        </div>
+                        <div class="wallet-pill" id="map-hearts-pill" title="Oyuncu Can Hakkı: 3 Can" style="border-color: rgba(255, 42, 133, 0.55); color: #ff2a85; font-weight: 800;">
+                            <span id="map-hearts-text">♥ ♥ ♥ 3 CAN</span>
+                        </div>
+                        <div class="wallet-pill" id="map-fps-pill" title="120 FPS Ultra Akıcı Motor Aktif" style="border-color: rgba(6, 214, 160, 0.55); color: #06d6a0; font-weight: 800;">
+                            <span id="map-fps">⚡ 120 FPS</span>
+                        </div>
+                    </div>
+
+                    <div class="title-header">
+                        <span class="badge-tag" id="map-season-badge">40 BÖLÜM TAM SÜRÜM</span>
+                        <h1 id="map-game-title">2100 Mario</h1>
+                    </div>
+
+                    <div class="top-buttons-group">
+                        <button id="btn-open-character" class="customize-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047; color: #fff;">👤 KARAKTER DEĞİŞTİR (🪙)</button>
+                        <button id="btn-open-customize" class="customize-btn">🎨 KARAKTERİ KİŞİSELLEŞTİR</button>
+                        <button id="btn-open-shop" class="shop-btn">🛒 GÜÇLENDİRME MAĞAZASI</button>
+                        <button id="btn-map-troll" class="troll-round-btn" title="Trol Modu (15 Bölüm) - Sinirlenen Adam (😡)">
+                            <span class="troll-face-icon">😡</span>
+                            <span class="troll-badge-text" id="map-troll-badge">TROL</span>
+                        </button>
+                        <button id="btn-map-lang" class="lang-square-btn" title="Dil Seçimi / Language (👅)">
+                            <span class="lang-tongue-icon">👅</span>
+                            <span class="lang-code-badge" id="map-lang-code">TR</span>
+                        </button>
+                        <button id="btn-map-settings" class="icon-btn" style="width:42px;height:42px;font-size:20px;" title="Ayarlar Menüsü">⚙️</button>
+                    </div>
+                </div>
+
+                <!-- 10-Level Interactive Campaign Grid -->
+                <div class="world-map-grid" id="level-nodes-container">
+                    <!-- Dynamically populated 10 level nodes -->
+                </div>
+
+                <div class="level-preview-card" id="level-info-box">
+                    <div class="preview-header">
+                        <span class="world-tag" id="preview-world">DÜNYA 1</span>
+                        <h3 id="preview-title">Bölüm 1: Kristal Mağaralar</h3>
+                    </div>
+                    <p id="preview-desc">Karanlık mağaralarda çift zıplama ve duvardan zıplama yeteneklerini keşfet.</p>
+                    <div class="mechanics-list" id="preview-features">
+                        <span>❖ Antik Zümrüt Topla -> Karakterini Kişiselleştir!</span>
+                        <span>🚩 Checkpoint Sistemi</span>
+                        <span>⚙ Testereler & Sarkıtlar</span>
+                        <span>👑 Ritimli Boss Savaşları</span>
+                    </div>
+                </div>
+
+                <div class="map-actions">
+                    <button id="btn-play-level" class="primary-btn">BÖLÜME BAŞLA ▶</button>
+                    <button id="btn-character-main" class="customize-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047; color: #fff;">👤 KARAKTER DEĞİŞTİR (🪙 COİN)</button>
+                    <button id="btn-customize-main" class="customize-btn">🎨 KARAKTERİ KİŞİSELLEŞTİR (❖)</button>
+                    <button id="btn-unlock-all" class="secondary-btn" title="Test için 40 bölümü, +500 Coin, +50 Antik Zümrüt ve +500 Kristali aç">🔓 40 Bölüm + 500🪙 Coin + 50❖ Zümrüt Aç (Test)</button>
+                </div>
+
+                <div class="controls-hint">
+                    <span id="map-controls-hint"><strong>Kontroller:</strong> A/D veya Ok Tuşları (Koş) • W/Boşluk (Çift Zıplama & Duvar Zıplaması) • X/F/Shift (Ateş Topu / Atılma)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Character Change & Realistic Outfit + Face Studio Modal (Uses Gold Coins 🪙) -->
+        <div id="screen-character" class="overlay-screen hidden">
+            <div class="customize-container" style="position: relative; border-color: rgba(255, 209, 102, 0.55); box-shadow: 0 0 40px rgba(245, 158, 11, 0.25);">
+                <button id="btn-close-character-x" class="modal-close-x" title="Kapat (ESC)">✕</button>
+                <div class="shop-header" style="padding-right: 48px;">
+                    <div>
+                        <h2 id="char-modal-title" style="color: #ffd166;">👤 KARAKTER DEĞİŞTİRME & GERÇEKÇİ KIYAFET / YÜZ STÜDYOSU</h2>
+                        <p class="shop-sub" id="char-modal-sub">Bölümlerde topladığın <strong>Coin (🪙)</strong> ile gerçekçi tarihi ve modern kıyafetleri aç! Kıyafeti giydirince karakterin <strong>yüz tipi, bıyığı/sakalı ve duruşu</strong> da gerçekle birebir değişir!</p>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                        <button id="btn-ad-chest-char" class="customize-btn" style="background: linear-gradient(135deg, #10b981, #059669); border-color: #6ee7b7; color: #fff; padding: 8px 14px; font-size: 13px;">
+                            🎬 Reklam İzle (+50 🪙 Coin)
+                        </button>
+                        <div class="wallet-pill" style="border-color: rgba(255, 209, 102, 0.85); background: rgba(255, 209, 102, 0.16);">
+                            <span class="icon-goldcoin">🪙</span>
+                            <span>Coin: <strong id="char-wallet-goldcoins" style="color: #ffd166;">0</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="customize-body">
+                    <!-- Left: Live Zoomed-In Character & Face Preview -->
+                    <div class="preview-stage" style="border-color: rgba(255, 209, 102, 0.4);">
+                        <div class="preview-stage-title" id="char-preview-title" style="color: #ffd166;">CANLI KIYAFET & YÜZ TİPİ ÖNİZLEME</div>
+                        <canvas id="charPreviewCanvas" width="250" height="270"></canvas>
+                        <div class="preview-equipped-summary" id="char-preview-summary" style="color: #ffd166; font-weight: 700;">
+                            Yavuz Sultan Selim • Tac-ı Selimi & Uzun Pala Bıyık + İnci Küpe
+                        </div>
+                    </div>
+
+                    <!-- Right: Character Outfit & Face Cards -->
+                    <div class="customize-options-panel">
+                        <div class="cust-grid" id="char-items-container" style="grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; max-height: 370px;">
+                            <!-- Populated dynamically by game.js -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shop-footer">
+                    <button id="btn-close-character" class="primary-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706);">SEÇİMİ KAYDET VE DÖN ✓</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Character Customization Studio Modal (Uses Ancient Emeralds ❖) -->
+        <div id="screen-customize" class="overlay-screen hidden">
+            <div class="customize-container" style="position: relative;">
+                <button id="btn-close-customize-x" class="modal-close-x" title="Kapat (ESC)">✕</button>
+                <div class="shop-header" style="padding-right: 48px;">
+                    <div>
+                        <h2 id="cust-modal-title">🎨 KARAKTER KİŞİSELLEŞTİRME STÜDYOSU</h2>
+                        <p class="shop-sub" id="cust-modal-sub">Bölümlerde topladığın <strong>Antik Zümrütleri (❖)</strong> kullanarak şövalyeni dilediğin gibi tasarla!</p>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                        <button id="btn-ad-chest-cust" class="customize-btn" style="background: linear-gradient(135deg, #10b981, #059669); border-color: #6ee7b7; color: #fff; padding: 8px 14px; font-size: 13px;">
+                            🎬 Reklam İzle (+10 ❖ Zümrüt & +50 🪙 Coin)
+                        </button>
+                        <div class="wallet-pill emerald-pill">
+                            <span class="icon-emerald">❖</span>
+                            <span><strong id="cust-wallet-emeralds">0</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="customize-body">
+                    <!-- Left: Live Animated Character Preview -->
+                    <div class="preview-stage">
+                        <div class="preview-stage-title" id="cust-preview-title">CANLI KARAKTER ÖNİZLEME</div>
+                        <canvas id="customizePreviewCanvas" width="240" height="260"></canvas>
+                        <div class="preview-equipped-summary" id="preview-summary-text">
+                            Gölge Mavisi • Şövalye Miğferi • Plazma Katana
+                        </div>
+                    </div>
+
+                    <!-- Right: Customization Categories & Options -->
+                    <div class="customize-options-panel">
+                        <div class="cust-tabs">
+                            <button class="cust-tab active" data-tab="helmet">🪖 Miğfer (12)</button>
+                            <button class="cust-tab" data-tab="backGear">⚔️ Silah & Kanat (12)</button>
+                            <button class="cust-tab" data-tab="skin">🛡 Zırh (12)</button>
+                            <button class="cust-tab" data-tab="visor">👁 Göz & Vizör (10)</button>
+                            <button class="cust-tab" data-tab="aura">✨ Aura & Efekt (10)</button>
+                            <button class="cust-tab" data-tab="cape">🧣 Pelerin (10)</button>
+                            <button class="cust-tab" data-tab="upgrade">⚡ Güçlendirme (8)</button>
+                        </div>
+                        <div class="cust-grid" id="cust-items-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shop-footer">
+                    <button id="btn-close-customize" class="primary-btn">KAYDET VE HARİTAYA DÖN ✓</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crystal Shop & Upgrades Modal (Uses Blue Crystals ◆) -->
+        <div id="screen-shop" class="overlay-screen hidden">
+            <div class="shop-container" style="position: relative;">
+                <button id="btn-close-shop-x" class="modal-close-x" title="Kapat (ESC)">✕</button>
+                <div class="shop-header" style="padding-right: 48px;">
+                    <h2 id="shop-modal-title">🛒 GÜÇLENDİRME CEPHANELİĞİ (KRİSTAL MAĞAZASI)</h2>
+                    <div class="wallet-pill">
+                        <span class="icon-coin">◆</span>
+                        <strong id="shop-wallet-coins">0</strong>
+                    </div>
+                </div>
+                <p class="shop-sub" id="shop-modal-sub">Bölümlerde topladığın mavi kristallerle (◆) kalıcı can, kalkan ve ateş topu güçlendirmeleri aç!</p>
+
+                <div class="shop-grid" id="shop-items-container">
+                    <!-- Populated dynamically by game.js -->
+                </div>
+
+                <div class="shop-footer">
+                    <button id="btn-close-shop" class="primary-btn">HARİTAYA DÖN ✓</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pause / Victory / Game Over Modal -->
+        <div id="screen-modal" class="overlay-screen hidden">
+            <div class="modal-card">
+                <h2 id="modal-title">OYUN DURAKLATILDI</h2>
+                <p id="modal-subtitle">Karanlık mağaralar seni bekliyor...</p>
+                <div id="modal-stats" class="modal-stats hidden">
+                    <div><span id="modal-stat-emerald-label">Antik Zümrüt:</span> <strong id="stat-emeralds" style="color:#06d6a0">0</strong> ❖</div>
+                    <div><span id="modal-stat-coin-label">Kristal:</span> <strong id="stat-coins" style="color:#00f2fe">0</strong> ◆</div>
+                    <div><span id="modal-stat-score-label">Skor:</span> <strong id="stat-score">0</strong></div>
+                </div>
+                <div class="modal-buttons">
+                    <button id="btn-ad-revive" class="primary-btn hidden" style="background: linear-gradient(135deg, #10b981, #059669); border: 2px solid #6ee7b7; box-shadow: 0 0 22px rgba(16, 185, 129, 0.55);">
+                        🎬 REKLAM İZLE & KALDIĞIN YERDEN CANLAN (3 ♥ + 🛡)
+                    </button>
+                    <button id="btn-ad-double" class="primary-btn hidden" style="background: linear-gradient(135deg, #f59e0b, #d97706); border: 2px solid #fde047; box-shadow: 0 0 22px rgba(245, 158, 11, 0.55);">
+                        🎬 REKLAM İZLE & BÖLÜM ÖDÜLLERİNİ 2'YE KATLA (2x 🪙❖◆)
+                    </button>
+                    <button id="btn-resume" class="primary-btn">DEVAM ET</button>
+                    <button id="btn-next-level" class="primary-btn hidden">SONRAKİ BÖLÜM ▶</button>
+                    <button id="btn-modal-customize" class="customize-btn">🎨 KARAKTERİ KİŞİSELLEŞTİR</button>
+                    <button id="btn-restart" class="secondary-btn">BÖLÜMÜ BAŞTAN BAŞLAT ↻</button>
+                    <button id="btn-to-map" class="secondary-btn">HARİTAYA DÖN 🗺</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Google AdMob Smart Rewarded / Interstitial Overlay -->
+        <div id="screen-ad-overlay" class="overlay-screen hidden" style="z-index: 9999; background: rgba(4, 6, 16, 0.96);">
+            <div class="modal-card" style="max-width: 540px; border: 2px solid #ffd166; box-shadow: 0 0 45px rgba(255, 209, 102, 0.35); text-align: center;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+                    <span style="background: rgba(255, 209, 102, 0.2); border: 1px solid #ffd166; color: #ffd166; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800;">
+                        📺 GOOGLE ADMOB • <span id="ad-overlay-badge">ÖDÜLLÜ REKLAM</span>
+                    </span>
+                    <span id="ad-overlay-timer" style="color: #06d6a0; font-weight: 800; font-size: 14px;">⏳ 5 sn</span>
+                </div>
+                <div style="background: linear-gradient(135deg, #0f172a, #1e1b4b); border: 1px solid rgba(0, 242, 254, 0.35); border-radius: 14px; padding: 28px 18px; margin-bottom: 14px;">
+                    <div style="font-size: 46px; margin-bottom: 8px;" id="ad-overlay-icon">🎁</div>
+                    <h3 id="ad-overlay-title" style="color: #ffffff; font-size: 20px; margin-bottom: 6px;">Google AdMob Ödüllü Video Reklam</h3>
+                    <p id="ad-overlay-desc" style="color: #cbd5e1; font-size: 14px; margin-bottom: 14px;">Reklam tamamlandığında ödülün anında hesabına eklenecek!</p>
+                    <div style="width: 100%; height: 10px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden;">
+                        <div id="ad-overlay-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #06d6a0, #00f2fe, #ffd166); transition: width 0.25s linear;"></div>
+                    </div>
+                </div>
+                <button id="btn-ad-claim" class="primary-btn" disabled style="width: 100%; opacity: 0.6;">
+                    ⏳ Reklam Oynatılıyor... (5)
+                </button>
+            </div>
+        </div>
+
+        <!-- Settings Menu Modal (Gear Button ⚙️) -->
+        <div id="screen-settings" class="overlay-screen hidden">
+            <div class="modal-card" style="max-width: 460px; position: relative;">
+                <button id="btn-close-settings-x" class="modal-close-x" title="Kapat (ESC)">✕</button>
+                <h2 id="settings-modal-title">⚙️ OYUN AYARLARI</h2>
+                <p id="settings-subtitle" style="margin-bottom: 18px; color: #93a1c8;">Ses efektlerini, müziği ve oyun sıfırlama seçeneklerini buradan yönetebilirsin.</p>
+                <div class="modal-buttons" style="gap: 12px;">
+                    <button id="btn-toggle-sfx" class="secondary-btn" style="display:flex; justify-content:space-between; align-items:center; padding: 13px 18px; font-size: 15px;">
+                        <span id="settings-sfx-label">🔊 Ses Efektleri (SFX)</span>
+                        <strong id="sfx-status-text" style="color:#06d6a0;">AÇIK</strong>
+                    </button>
+                    <button id="btn-toggle-music" class="secondary-btn" style="display:flex; justify-content:space-between; align-items:center; padding: 13px 18px; font-size: 15px;">
+                        <span id="settings-music-label">🎵 Arka Plan Müziği</span>
+                        <strong id="music-status-text" style="color:#06d6a0;">AÇIK</strong>
+                    </button>
+                    <div class="secondary-btn" style="display:flex; justify-content:space-between; align-items:center; padding: 13px 18px; font-size: 15px; border-color: rgba(6, 214, 160, 0.5); cursor: default;">
+                        <span id="settings-fps-label">⚡ Kare Hızı (FPS Motoru)</span>
+                        <strong id="settings-fps-text" style="color:#06d6a0;">120 FPS ULTRA AKICI</strong>
+                    </div>
+                    <button id="btn-settings-restart-level" class="secondary-btn" style="padding: 13px 18px; font-size: 15px; border-color: rgba(255, 209, 102, 0.5); color: #ffd166;">
+                        🔄 Aktif Bölümü Sıfırla (Baştan Başla)
+                    </button>
+                    <button id="btn-settings-reset-all" class="secondary-btn" style="padding: 13px 18px; font-size: 15px; border-color: rgba(255, 42, 133, 0.65); color: #ff2a85;">
+                        ⚠️ Tüm Oyun İlerlemesini Sıfırla (Reset)
+                    </button>
+                    <a href="privacy-policy.html" target="_blank" class="secondary-btn" style="padding: 12px 18px; font-size: 14.5px; border-color: rgba(0, 242, 254, 0.5); color: #00f2fe; text-decoration: none; text-align: center; display: block;">
+                        🛡️ Gizlilik Politikası / Privacy Policy
+                    </a>
+                    <button id="btn-close-settings" class="primary-btn" style="margin-top: 6px;">
+                        AYARLARI KAYDET VE DÖN ✓
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Language Selection Modal (Square Human Tongue 👅 Button -> 6 Languages: RU, TR, EN, IT, ES, FR) -->
+        <div id="screen-language" class="overlay-screen hidden">
+            <div class="lang-modal-card">
+                <button id="btn-close-lang-x" class="modal-close-x" title="Dil Menüsünden Çık (ESC)">✕</button>
+                <div class="lang-modal-header">
+                    <div class="lang-hero-square">👅</div>
+                    <h2 id="lang-modal-title">👅 DİL SEÇİMİ / LANGUAGE</h2>
+                    <p id="lang-modal-sub">Oyun dilini aşağıdan seçebilirsin (6 Dil):</p>
+                </div>
+                <div class="lang-options-grid" id="lang-options-grid">
+                    <!-- Populated dynamically with Rusça, Türkçe, İngilizce, İtalyanca, İspanyolca, Fransızca -->
+                </div>
+                <button id="btn-close-lang" class="primary-btn" style="width: 100%; max-width: 320px; padding: 11px 20px;">
+                    DİLİ KAYDET VE ÇIK ✓
+                </button>
+            </div>
+        </div>
+
+        <!-- Player Profile Modal (Square Frame Button -> Avatar -> Name -> Character Attributes -> 30 Profile Pictures) -->
+        <div id="screen-profile" class="overlay-screen hidden">
+            <div class="profile-modal-card">
+                <!-- Sağ Üst Çarpı (✕) Kapatma Butonu -->
+                <button id="btn-close-profile-x" class="modal-close-x" title="Profil Menüsünden Çık (ESC)">✕</button>
+
+                <!-- 1. İlk Profil Fotoğrafı -->
+                <div class="profile-top-avatar-wrap">
+                    <div class="profile-hero-square" id="profile-hero-avatar">🥷</div>
+                    <span class="profile-avatar-title-badge" id="profile-hero-title">Siber Şövalye</span>
+                </div>
+
+                <!-- 2. Sonra Karakter İsmi -->
+                <div class="profile-name-section">
+                    <label class="profile-name-label" id="profile-name-label" for="profile-name-input">✏️ KARAKTER İSMİ (İSTEDİĞİN GİBİ YAZ)</label>
+                    <input type="text" id="profile-name-input" class="profile-name-input" maxlength="24" value="Gölge Şövalye" placeholder="Karakter ismini yaz..." />
+                </div>
+
+                <!-- 3. Onun Altında Karakter Özellikleri -->
+                <div class="profile-attributes-box">
+                    <div class="profile-section-title" id="profile-attr-title">⚔️ KARAKTER ÖZELLİKLERİ VE DONANIM</div>
+                    <div class="profile-stats-grid" id="profile-attributes-grid">
+                        <!-- Dynamically populated live character stats -->
+                    </div>
+                </div>
+
+                <!-- 4. Onun Altında "Profil Fotoğrafı Seç" Kutucuğu (30 Ayrı Profil Resmi) -->
+                <div class="profile-picker-box">
+                    <div class="profile-section-title" id="profile-picker-title" style="color: #06d6a0;">🖼️ PROFİL FOTOĞRAFI SEÇ (30 AYRI PROFİL RESMİ)</div>
+                    <div class="profile-avatars-grid" id="profile-avatars-grid">
+                        <!-- 30 distinct profile pictures populated by game.js -->
+                    </div>
+                </div>
+
+                <button id="btn-close-profile" class="primary-btn" style="width: 100%; max-width: 320px; padding: 10px 20px; font-size: 13.5px;">
+                    PROFİLİ KAYDET VE ÇIK ✕
+                </button>
+            </div>
+        </div>
+
+        <!-- 😡 15-Level Troll Mode Modal (Round Angry Man Button -> 15 Troll Levels) -->
+        <div id="screen-troll" class="overlay-screen hidden">
+            <div class="troll-modal-card">
+                <button id="btn-close-troll-x" class="modal-close-x" title="Trol Menüsünden Çık (ESC)">✕</button>
+
+                <div class="troll-modal-header">
+                    <div class="troll-hero-circle">😡</div>
+                    <div>
+                        <span class="troll-mode-pill" id="troll-modal-pill">🤬 ÖZEL SİNİR KRİZİ MODU • 15 BÖLÜM</span>
+                        <h2 id="troll-modal-title">😡 TROL MODU (15 TUZAKLI BÖLÜM)</h2>
+                        <p id="troll-modal-sub">Dikkat! Her nesne değil ama <strong>belirli olanlar</strong> tuzaklıdır: Belirli zeminler bir anda çöker (<strong>-3 ♥</strong>), belirli <strong>[?]</strong> kutularından <strong>Uranyum Bombası (☢️ -3 ♥)</strong> yağar, belirli <strong>Antik Zümrütler (❖)</strong> ise seni <strong>en başa ışınlar!</strong></p>
+                    </div>
+                </div>
+
+                <!-- 15 Troll Levels Grid (5x3) -->
+                <div class="troll-map-grid" id="troll-nodes-container">
+                    <!-- Populated dynamically with 15 Troll levels -->
+                </div>
+
+                <!-- Selected Troll Level Preview -->
+                <div class="troll-preview-box">
+                    <div class="preview-header">
+                        <span class="world-tag" id="troll-preview-world" style="border-color:#ff2a85;color:#ff2a85;background:rgba(255,42,133,0.16);">😡 TROL MODU 1/15</span>
+                        <h3 id="troll-preview-title">Trol Bölüm 1: Masum Görünen Yol</h3>
+                    </div>
+                    <p id="troll-preview-desc">Dikkat! Her yer değil ama belirli zeminler bir anda çöker (-3 ♥), bazı [?] kutularından Uranyum Bombası yağar (-3 ♥) ve bazı Zümrütler en başa ışınlar!</p>
+                </div>
+
+                <div class="map-actions" style="width:100%;justify-content:center;">
+                    <button id="btn-play-troll" class="primary-btn" style="background:linear-gradient(135deg,#ff2a85,#ff5400);box-shadow:0 0 24px rgba(255,42,133,0.6);">
+                        😡 TROL BÖLÜMÜNE BAŞLA ▶
+                    </button>
+                    <button id="btn-unlock-all-troll" class="secondary-btn" style="border-color:rgba(255,209,102,0.6);color:#ffd166;">
+                        🔓 15 Trol Bölümünün Tümünü Aç
+                    </button>
+                    <button id="btn-close-troll" class="secondary-btn">
+                        NORMAL HARİTAYA DÖN ✕
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/audio.js"></script>
+    <script src="js/levels.js"></script>
+    <script src="js/entities.js"></script>
+    <script src="js/game.js"></script>
+</body>
+</html>
