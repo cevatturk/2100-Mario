@@ -1251,9 +1251,12 @@ class Player {
             }
         }
 
-        const maxSpeed = (this.speedTimer > 0 ? 7.0 : 5.2) * this.speedMult;
-        const accel = (this.onGround ? 0.95 : 0.75) * this.speedMult;
-        const friction = this.onGround ? 0.78 : 0.86;
+        const isIce = this.onGround && this.currentSurface === 'ice';
+        const isBoost = this.onGround && this.currentSurface === 'boost';
+        const surfSpeedFactor = isBoost ? 1.48 : (isIce ? 1.18 : 1.0);
+        const maxSpeed = (this.speedTimer > 0 ? 7.0 : 5.2) * this.speedMult * surfSpeedFactor;
+        const accel = (this.onGround ? (isIce ? 0.38 : (isBoost ? 1.35 : 0.95)) : 0.75) * this.speedMult;
+        const friction = this.onGround ? (isIce ? 0.965 : 0.78) : 0.86;
 
         if (input.left) {
             this.vx = Math.max(this.vx - accel, -maxSpeed);
@@ -1263,7 +1266,11 @@ class Player {
             this.facing = 1;
         } else {
             this.vx *= friction;
-            if (Math.abs(this.vx) < 0.1) this.vx = 0;
+            if (!isIce && Math.abs(this.vx) < 0.1) this.vx = 0;
+            else if (isIce && Math.abs(this.vx) < 0.03) this.vx = 0;
+        }
+        if (isBoost && (input.left || input.right)) {
+            this.vx = Math.max(-maxSpeed, Math.min(maxSpeed, this.vx + this.facing * 0.35));
         }
 
         if (input.jumpPressed) {
@@ -1355,6 +1362,7 @@ class Player {
 
         this.y += this.vy;
         this.onGround = false;
+        this.currentSurface = 'normal';
 
         for (const s of allSolids) {
             if (this.intersects(s)) {
@@ -1362,6 +1370,7 @@ class Player {
                     this.y = s.y - this.h;
                     this.vy = 0;
                     this.onGround = true;
+                    this.currentSurface = s.surfaceType || 'normal';
                     this.coyoteTimer = 7;
                     this.jumpsLeft = this.maxJumps;
                     if (s.currentVx) {
@@ -2092,9 +2101,9 @@ class Player {
             ctx.fillRect(-9, -34 + bodyBob, 1.5, 2);
             ctx.fillRect(-3, -34 + bodyBob, 1.5, 2);
             ctx.fillRect(3, -34 + bodyBob, 1.5, 2);
-        } else if (id === "yavuz_sultan_selim") {
+        } else if (id === "yavuz_sultan_selim" || id === "fatih_sultan_mehmet") {
             // Imperial Flowing Kaftan Back Drape (Altın İşlemeli Kırmızı Hünkar Kaftanı)
-            ctx.fillStyle = "#800a1d";
+            ctx.fillStyle = id === "fatih_sultan_mehmet" ? "#7b0d1e" : "#800a1d";
             ctx.beginPath();
             ctx.moveTo(-7, -35 + bodyBob);
             ctx.quadraticCurveTo(-22, -26 + wave1, -24, -6 + wave2);
@@ -2111,6 +2120,99 @@ class Player {
             ctx.beginPath();
             ctx.moveTo(-3, -18 + bodyBob);
             ctx.quadraticCurveTo(-18, -13 + bodyBob, -25, -22 + bodyBob);
+            ctx.stroke();
+        } else if (id === "janissary_aga") {
+            // Janissary Felt Börk Hanging Tail (Yatırma) & Crimson Cloak
+            ctx.fillStyle = "#f8f9fa";
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 1.3;
+            ctx.beginPath();
+            ctx.moveTo(-4, -56 + bodyBob);
+            ctx.quadraticCurveTo(-18, -46 + wave1 * 0.5, -15, -31 + wave2 * 0.5);
+            ctx.lineTo(-7, -33 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        } else if (id === "mete_han") {
+            // Steppe Wolf-Fur Mantle + Quiver of Feathered Arrows
+            ctx.fillStyle = "#5c5346";
+            ctx.beginPath();
+            ctx.moveTo(-6, -35 + bodyBob);
+            ctx.quadraticCurveTo(-21, -27 + wave1, -23, -10 + wave2);
+            ctx.lineTo(-8, -10 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            // Quiver on back
+            ctx.fillStyle = "#6f4518";
+            ctx.fillRect(-13, -36 + bodyBob, 5, 15);
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(-12, -36 + bodyBob);
+            ctx.lineTo(-15, -44 + bodyBob);
+            ctx.moveTo(-10, -36 + bodyBob);
+            ctx.lineTo(-11, -45 + bodyBob);
+            ctx.stroke();
+        } else if (id === "cyber_shogun") {
+            // Cyber Sashimono War Banner & Glowing Twin Katana Scabbards
+            ctx.strokeStyle = "#ff0055";
+            ctx.lineWidth = 2.6;
+            ctx.beginPath();
+            ctx.moveTo(-4, -22 + bodyBob);
+            ctx.lineTo(-22, -36 + bodyBob);
+            ctx.moveTo(-4, -18 + bodyBob);
+            ctx.lineTo(-20, -28 + bodyBob);
+            ctx.stroke();
+        } else if (id === "cosmic_astronaut") {
+            // NASA EVA Life-Support Backpack + Dual Thruster Nozzles
+            ctx.fillStyle = "#e9ecef";
+            ctx.strokeStyle = "#00f2fe";
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.roundRect(-15, -36 + bodyBob, 10, 17, 3);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#00f2fe";
+            ctx.fillRect(-13, -33 + bodyBob, 6, 4);
+        } else if (id === "ice_valkyrie") {
+            // Shimmering Frost-Crystal Winged Cape
+            ctx.fillStyle = "rgba(0, 242, 254, 0.55)";
+            ctx.strokeStyle = "#caf0f8";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(-6, -34 + bodyBob);
+            ctx.quadraticCurveTo(-24, -30 + wave1, -27, -7 + wave2);
+            ctx.lineTo(-9, -8 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        } else if (id === "golden_pharaoh") {
+            // Royal Sun-God Gold & Lapis Lazuli Cape
+            ctx.fillStyle = "#1d3557";
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 1.8;
+            ctx.beginPath();
+            ctx.moveTo(-6, -34 + bodyBob);
+            ctx.quadraticCurveTo(-21, -26 + wave1, -24, -7 + wave2);
+            ctx.lineTo(-8, -7 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        } else if (id === "spartan_gladiator") {
+            // Iconic Spartan Crimson War Cloak + Round Bronze Aspis Shield on Back
+            ctx.fillStyle = "#b5171e";
+            ctx.beginPath();
+            ctx.moveTo(-6, -35 + bodyBob);
+            ctx.quadraticCurveTo(-23, -27 + wave1, -26, -6 + wave2);
+            ctx.lineTo(-8, -6 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillStyle = "#d4af37";
+            ctx.strokeStyle = "#7f5539";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(-9, -25 + bodyBob, 9, 0, Math.PI * 2);
+            ctx.fill();
             ctx.stroke();
         }
 
@@ -2141,10 +2243,38 @@ class Player {
             pantsColor = "#2b0938"; // Royal purple hose
             bootColor = "#d4af37";  // Golden royal sabatons / boots
             bootTrim = "#ff2a85";
-        } else if (id === "yavuz_sultan_selim") {
+        } else if (id === "yavuz_sultan_selim" || id === "fatih_sultan_mehmet") {
             pantsColor = "#6b0918"; // Imperial crimson shalwar/kaftan lower
             bootColor = "#b58900";  // Ottoman Moroccan yellow/gold leather boots (Sarı Çedik Papuç)
             bootTrim = "#ffd166";
+        } else if (id === "janissary_aga") {
+            pantsColor = "#1d3557"; // Janissary navy Potur trousers
+            bootColor = "#9b002c";  // Red leather Janissary boots
+            bootTrim = "#ffd166";
+        } else if (id === "mete_han") {
+            pantsColor = "#4a3b2c"; // Steppe leather riding trousers
+            bootColor = "#2b1d12";  // Fur-trimmed steppe cavalry boots
+            bootTrim = "#8c7a5b";
+        } else if (id === "cyber_shogun") {
+            pantsColor = "#111520"; // Armored black hakama
+            bootColor = "#e63946";  // Neon crimson samurai greaves (Suneate)
+            bootTrim = "#00f2fe";
+        } else if (id === "cosmic_astronaut") {
+            pantsColor = "#f8f9fa"; // White EVA space suit legs
+            bootColor = "#adb5bd";  // Magnetic moon boots
+            bootTrim = "#00f2fe";
+        } else if (id === "ice_valkyrie") {
+            pantsColor = "#1b4965"; // Frost-steel leggings
+            bootColor = "#caf0f8";  // Silver-ice winged greaves
+            bootTrim = "#00f2fe";
+        } else if (id === "golden_pharaoh") {
+            pantsColor = "#f8f9fa"; // Royal white pleated Egyptian Shendyt kilt
+            bootColor = "#ffd166";  // Golden royal sandals
+            bootTrim = "#00f2fe";
+        } else if (id === "spartan_gladiator") {
+            pantsColor = "#7f5539"; // Leather pteruges war skirt
+            bootColor = "#b58900";  // Bronze Spartan greaves
+            bootTrim = "#9b002c";
         }
 
         // Back Leg
@@ -2373,6 +2503,126 @@ class Player {
             ctx.lineTo(-6, -27 + bodyBob);
             ctx.closePath();
             ctx.fill();
+        } else if (id === "fatih_sultan_mehmet") {
+            // Fatih Sultan Mehmet's Imperial Crimson & Gold Kaftan with Royal Indigo Inner Robe
+            ctx.fillStyle = "#1d3557";
+            ctx.beginPath();
+            ctx.roundRect(-8.5, -35 + bodyBob, 17, 19, 3);
+            ctx.fill();
+            ctx.fillStyle = "#a4133c";
+            ctx.fillRect(-9.5, -35 + bodyBob, 6, 19);
+            ctx.fillRect(3.5, -35 + bodyBob, 6, 19);
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 1.6;
+            ctx.strokeRect(-9.5, -35 + bodyBob, 6, 19);
+            ctx.strokeRect(3.5, -35 + bodyBob, 6, 19);
+            ctx.fillStyle = "#ffd166";
+            ctx.fillRect(-9.5, -21 + bodyBob, 19, 3.5);
+        } else if (id === "janissary_aga") {
+            // Ottoman Janissary Aga Crimson Dolama Coat + Gold Chest Armour & Belt
+            ctx.fillStyle = "#c1121f";
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(-9, -35 + bodyBob, 18, 19, 4);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#ffd166";
+            ctx.fillRect(-9, -22 + bodyBob, 18, 4.5);
+            ctx.fillStyle = "#00f2fe";
+            ctx.beginPath();
+            ctx.arc(0, -19.8 + bodyBob, 2.2, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (id === "mete_han") {
+            // Great Hun Emperor Mete Han Steppe Lamellar Leather & Gold Armor
+            ctx.fillStyle = "#582f0e";
+            ctx.strokeStyle = "#d4af37";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(-9, -35 + bodyBob, 18, 19, 4);
+            ctx.fill();
+            ctx.stroke();
+            // Wolf-fur shoulder trim
+            ctx.fillStyle = "#6c757d";
+            ctx.fillRect(-10, -35 + bodyBob, 20, 4.5);
+            // Golden Sun Belt Buckle
+            ctx.fillStyle = "#ffd166";
+            ctx.fillRect(-9, -21 + bodyBob, 18, 3.5);
+        } else if (id === "cyber_shogun") {
+            // Neon-Armored Samurai O-Yoroi Cuirass (Do)
+            ctx.fillStyle = "#161a1d";
+            ctx.strokeStyle = "#ff0055";
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.roundRect(-9.5, -35 + bodyBob, 19, 19, 3);
+            ctx.fill();
+            ctx.stroke();
+            ctx.strokeStyle = "#00f2fe";
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.moveTo(-7, -30 + bodyBob);
+            ctx.lineTo(7, -30 + bodyBob);
+            ctx.moveTo(-7, -25 + bodyBob);
+            ctx.lineTo(7, -25 + bodyBob);
+            ctx.stroke();
+        } else if (id === "cosmic_astronaut") {
+            // Pressurized White EVA Space Suit Torso + Chest Control Unit
+            ctx.fillStyle = "#f8f9fa";
+            ctx.strokeStyle = "#adb5bd";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(-9.5, -35 + bodyBob, 19, 19, 4);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#1d3557";
+            ctx.fillRect(-5, -31 + bodyBob, 10, 7);
+            ctx.fillStyle = "#00f2fe";
+            ctx.fillRect(-3.5, -29.5 + bodyBob, 3, 3);
+            ctx.fillStyle = "#ff2a85";
+            ctx.fillRect(1, -29.5 + bodyBob, 2.5, 2.5);
+        } else if (id === "ice_valkyrie") {
+            // Nordic Frost-Silver Valkyrie Breastplate & Ice Crystal Core
+            ctx.fillStyle = "#1b4965";
+            ctx.strokeStyle = "#caf0f8";
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.roundRect(-9, -35 + bodyBob, 18, 19, 4);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#00f2fe";
+            ctx.beginPath();
+            ctx.arc(0, -27 + bodyBob, 3.2, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (id === "golden_pharaoh") {
+            // Ancient Egyptian Golden Broad Collar (Usekh) & Royal Chest Pectoral
+            ctx.fillStyle = "#d9a066";
+            ctx.beginPath();
+            ctx.roundRect(-9, -35 + bodyBob, 18, 19, 4);
+            ctx.fill();
+            ctx.fillStyle = "#ffd166";
+            ctx.strokeStyle = "#00f2fe";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(0, -34 + bodyBob, 8.5, 0, Math.PI);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#ffd166";
+            ctx.fillRect(-9, -21 + bodyBob, 18, 4);
+        } else if (id === "spartan_gladiator") {
+            // Bronze Muscular Greek Cuirass + Crimson Baldric Strap
+            ctx.fillStyle = "#b58900";
+            ctx.strokeStyle = "#7f5539";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.roundRect(-9, -35 + bodyBob, 18, 19, 4);
+            ctx.fill();
+            ctx.stroke();
+            ctx.strokeStyle = "#9b002c";
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(-7, -34 + bodyBob);
+            ctx.lineTo(7, -18 + bodyBob);
+            ctx.stroke();
         }
 
         // =====================================================
@@ -2664,6 +2914,95 @@ class Player {
             ctx.quadraticCurveTo(9.6, -39.4 + bodyBob, 10.4, -35.4 + bodyBob);
             ctx.stroke();
             ctx.restore();
+        } else if (id === "fatih_sultan_mehmet") {
+            // Fatih Sultan Mehmet Face: Sharp young Sultan pointed beard + upturned mustache + fierce brow
+            ctx.strokeStyle = "#1b0f0a";
+            ctx.lineWidth = 2.1;
+            ctx.beginPath();
+            ctx.moveTo(0.2, -48 + bodyBob);
+            ctx.lineTo(7.4, -46.8 + bodyBob);
+            ctx.stroke();
+            ctx.fillStyle = "#22120b";
+            ctx.beginPath();
+            ctx.moveTo(-6, -42 + bodyBob);
+            ctx.quadraticCurveTo(-3, -34 + bodyBob, 5.5, -33.5 + bodyBob);
+            ctx.lineTo(9.2, -37.5 + bodyBob);
+            ctx.lineTo(6.5, -39.5 + bodyBob);
+            ctx.lineTo(-3, -39 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.strokeStyle = "#140b06";
+            ctx.lineWidth = 2.0;
+            ctx.beginPath();
+            ctx.moveTo(1.5, -39.8 + bodyBob);
+            ctx.quadraticCurveTo(6.5, -40.8 + bodyBob, 10.5, -42.2 + bodyBob);
+            ctx.stroke();
+        } else if (id === "janissary_aga" || id === "mete_han") {
+            // Fierce Warrior Long Steppe / Janissary Pala Mustache
+            ctx.strokeStyle = "#1a110b";
+            ctx.lineWidth = 2.4;
+            ctx.beginPath();
+            ctx.moveTo(0, -48 + bodyBob);
+            ctx.lineTo(7.5, -46.8 + bodyBob);
+            ctx.stroke();
+            ctx.strokeStyle = "#160d08";
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(0.5, -39.8 + bodyBob);
+            ctx.quadraticCurveTo(6, -40.5 + bodyBob, 11.2, -36.5 + bodyBob);
+            ctx.stroke();
+        } else if (id === "cyber_shogun") {
+            // Samurai Menpo Half-Face Armored Demon Mask + Glowing Cyber Visor Eyes
+            ctx.fillStyle = "#11151c";
+            ctx.strokeStyle = "#ff0055";
+            ctx.lineWidth = 1.3;
+            ctx.beginPath();
+            ctx.roundRect(-7, -43 + bodyBob, 16, 8, 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#00f2fe";
+            ctx.fillRect(1, -46.5 + bodyBob, 7, 2.4);
+        } else if (id === "ice_valkyrie") {
+            // Flowing Platinum-Blonde Nordic Braids & Ice-Blue Eyes
+            ctx.fillStyle = "#00f2fe";
+            ctx.beginPath();
+            ctx.arc(4.2, -45 + bodyBob, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = "#f8edeb";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(-7, -45 + bodyBob);
+            ctx.quadraticCurveTo(-13, -38 + bodyBob, -11, -28 + bodyBob);
+            ctx.stroke();
+        } else if (id === "golden_pharaoh") {
+            // Royal Golden False Beard of the Pharaoh (Postiche) & Kohl Eye Liner
+            ctx.strokeStyle = "#111111";
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.moveTo(-1, -45 + bodyBob);
+            ctx.lineTo(7, -45 + bodyBob);
+            ctx.stroke();
+            ctx.fillStyle = "#ffd166";
+            ctx.strokeStyle = "#b58900";
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(4, -36 + bodyBob);
+            ctx.lineTo(7, -36 + bodyBob);
+            ctx.lineTo(6.5, -28 + bodyBob);
+            ctx.lineTo(4.5, -28 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        } else if (id === "spartan_gladiator") {
+            // Fierce Spartan Warrior Beard
+            ctx.fillStyle = "#2b1d12";
+            ctx.beginPath();
+            ctx.moveTo(-6, -42 + bodyBob);
+            ctx.lineTo(-4, -34 + bodyBob);
+            ctx.lineTo(9, -34.5 + bodyBob);
+            ctx.lineTo(8.5, -40 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
         }
 
         // =====================================================
@@ -2859,6 +3198,164 @@ class Player {
             ctx.moveTo(4.5, -60 + bodyBob);
             ctx.quadraticCurveTo(8, -68 + bodyBob, 1.5, -71 + bodyBob);
             ctx.stroke();
+        } else if (id === "fatih_sultan_mehmet") {
+            // Fatih Sultan Mehmet's Iconic Round White Imperial Destar Turban around Crimson Cap + Gold Plume
+            ctx.fillStyle = "#c1121f";
+            ctx.beginPath();
+            ctx.roundRect(-4.5, -64 + bodyBob, 9, 12, 3);
+            ctx.fill();
+            ctx.fillStyle = "#ffffff";
+            ctx.strokeStyle = "#dee2e6";
+            ctx.lineWidth = 1.3;
+            ctx.beginPath();
+            ctx.ellipse(0, -54 + bodyBob, 11.8, 6.2, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#ffd166";
+            ctx.beginPath();
+            ctx.arc(4, -57 + bodyBob, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 2.2;
+            ctx.beginPath();
+            ctx.moveTo(4, -59 + bodyBob);
+            ctx.quadraticCurveTo(8, -67 + bodyBob, 3, -70 + bodyBob);
+            ctx.stroke();
+        } else if (id === "janissary_aga") {
+            // Iconic Tall White Felt Janissary Börk + Golden Spoon Holder (Kaşıklık / Tüylük) + Tall Plume
+            ctx.fillStyle = "#f8f9fa";
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 1.6;
+            ctx.beginPath();
+            ctx.roundRect(-8.5, -64 + bodyBob, 17, 15, 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#ffd166";
+            ctx.fillRect(-9, -52 + bodyBob, 18, 3.5);
+            ctx.fillRect(2, -62 + bodyBob, 3.5, 9);
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(3.5, -62 + bodyBob);
+            ctx.quadraticCurveTo(7, -71 + bodyBob, 1, -73 + bodyBob);
+            ctx.stroke();
+        } else if (id === "mete_han") {
+            // Turkic Steppe Fur-Rimmed Conical Golden Helmet (Börk / Tolga) + Eagle Feathers
+            ctx.fillStyle = "#495057";
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(-9.5, -49 + bodyBob);
+            ctx.lineTo(0, -64 + bodyBob);
+            ctx.lineTo(9.5, -49 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            // Wolf Fur Trim
+            ctx.fillStyle = "#6c757d";
+            ctx.beginPath();
+            ctx.roundRect(-10.5, -52 + bodyBob, 21, 4.5, 2);
+            ctx.fill();
+            // Twin Steppe Eagle Feathers
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 2.2;
+            ctx.beginPath();
+            ctx.moveTo(0, -63 + bodyBob);
+            ctx.quadraticCurveTo(-7, -70 + bodyBob, -11, -67 + bodyBob);
+            ctx.stroke();
+        } else if (id === "cyber_shogun") {
+            // Samurai Kabuto Helmet with Golden Kuwagata Horns & Neon Trim
+            ctx.fillStyle = "#161a1d";
+            ctx.strokeStyle = "#ff0055";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(0, -49 + bodyBob, 11, Math.PI, 0, false);
+            ctx.lineTo(13, -45 + bodyBob);
+            ctx.lineTo(-13, -45 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            // Golden Crescent Kuwagata Horns
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 2.4;
+            ctx.beginPath();
+            ctx.moveTo(3, -55 + bodyBob);
+            ctx.lineTo(9, -66 + bodyBob);
+            ctx.moveTo(1, -55 + bodyBob);
+            ctx.lineTo(-4, -65 + bodyBob);
+            ctx.stroke();
+        } else if (id === "cosmic_astronaut") {
+            // Full Bubble Space Helmet with Reflective Gold Solar Visor
+            ctx.fillStyle = "#f8f9fa";
+            ctx.strokeStyle = "#00f2fe";
+            ctx.lineWidth = 1.8;
+            ctx.beginPath();
+            ctx.arc(0, -45 + bodyBob, 12, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#ffd166";
+            ctx.beginPath();
+            ctx.ellipse(3, -45 + bodyBob, 7.5, 6.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = "rgba(255,255,255,0.65)";
+            ctx.beginPath();
+            ctx.arc(5, -47.5 + bodyBob, 2.2, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (id === "ice_valkyrie") {
+            // Winged Silver-Ice Valkyrie Diadem Helmet
+            ctx.fillStyle = "#caf0f8";
+            ctx.strokeStyle = "#00f2fe";
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.arc(0, -50 + bodyBob, 9.5, Math.PI, 0, false);
+            ctx.fill();
+            ctx.stroke();
+            // White Feathered Valkyrie Helmet Wings
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath();
+            ctx.moveTo(-2, -52 + bodyBob);
+            ctx.lineTo(-12, -64 + bodyBob);
+            ctx.lineTo(-6, -49 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        } else if (id === "golden_pharaoh") {
+            // Iconic Blue & Gold Striped Egyptian Nemes Headdress + Golden Uraeus Cobra
+            ctx.fillStyle = "#1d3557";
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-11, -36 + bodyBob);
+            ctx.lineTo(-12, -56 + bodyBob);
+            ctx.lineTo(0, -61 + bodyBob);
+            ctx.lineTo(10, -55 + bodyBob);
+            ctx.lineTo(9, -48 + bodyBob);
+            ctx.lineTo(-5, -48 + bodyBob);
+            ctx.lineTo(-6, -36 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            // Golden Uraeus Cobra on Brow
+            ctx.fillStyle = "#ffd166";
+            ctx.beginPath();
+            ctx.arc(5, -54 + bodyBob, 2.5, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (id === "spartan_gladiator") {
+            // Bronze Corinthian Helmet with Tall Sweeping Crimson Horsehair Crest
+            ctx.fillStyle = "#d4af37";
+            ctx.strokeStyle = "#7f5539";
+            ctx.lineWidth = 1.4;
+            ctx.beginPath();
+            ctx.arc(0, -49 + bodyBob, 10, Math.PI, 0, false);
+            ctx.fill();
+            ctx.stroke();
+            // Tall Crimson Horsehair Crest
+            ctx.fillStyle = "#d90429";
+            ctx.beginPath();
+            ctx.moveTo(-11, -54 + bodyBob);
+            ctx.quadraticCurveTo(0, -69 + bodyBob, 11, -55 + bodyBob);
+            ctx.quadraticCurveTo(0, -60 + bodyBob, -11, -54 + bodyBob);
+            ctx.fill();
         }
 
         // =====================================================
@@ -2866,10 +3363,14 @@ class Player {
         // =====================================================
         let sleeveColor = "#525b26";
         if (id === "soldier_modern") sleeveColor = "#6b705c";
-        else if (id === "rich_tycoon") sleeveColor = "#111520";
+        else if (id === "rich_tycoon" || id === "cyber_shogun") sleeveColor = "#111520";
         else if (id === "ottoman_pasha") sleeveColor = "#14213d";
         else if (id === "royal_king") sleeveColor = "#3c096c";
-        else if (id === "yavuz_sultan_selim") sleeveColor = "#9b002c";
+        else if (id === "yavuz_sultan_selim" || id === "fatih_sultan_mehmet" || id === "janissary_aga") sleeveColor = "#9b002c";
+        else if (id === "mete_han") sleeveColor = "#582f0e";
+        else if (id === "cosmic_astronaut") sleeveColor = "#f8f9fa";
+        else if (id === "ice_valkyrie") sleeveColor = "#1b4965";
+        else if (id === "golden_pharaoh" || id === "spartan_gladiator") sleeveColor = "#d9a066";
 
         const handX = 6 - runSwing * 0.7;
         const handY = -21 + bodyBob;
@@ -2900,18 +3401,49 @@ class Player {
             ctx.beginPath();
             ctx.arc(handX + 2, handY - 1, 2.8, 0, Math.PI * 2);
             ctx.fill();
-        } else if (id === "royal_king") {
-            // Golden Royal Scepter with Glowing Ruby Orb (Kraliyet Asası)
+        } else if (id === "royal_king" || id === "golden_pharaoh") {
+            // Golden Royal Scepter with Glowing Gem Orb
             ctx.strokeStyle = "#ffd166";
             ctx.lineWidth = 2.6;
             ctx.beginPath();
             ctx.moveTo(handX + 1, handY + 4);
             ctx.lineTo(handX + 5, handY - 14);
             ctx.stroke();
-            ctx.fillStyle = "#ff0055";
+            ctx.fillStyle = id === "golden_pharaoh" ? "#00f2fe" : "#ff0055";
             ctx.beginPath();
             ctx.arc(handX + 5, handY - 15, 3.5, 0, Math.PI * 2);
             ctx.fill();
+        } else if (id === "fatih_sultan_mehmet" || id === "janissary_aga") {
+            // Curved Ottoman Conquest Sword / Yatagan
+            ctx.strokeStyle = "#f8f9fa";
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(handX + 2, handY);
+            ctx.quadraticCurveTo(handX + 12, handY - 6, handX + 15, handY - 16);
+            ctx.stroke();
+        } else if (id === "mete_han") {
+            // Turkic Composite Recurve Bow (Yay)
+            ctx.strokeStyle = "#d4af37";
+            ctx.lineWidth = 2.2;
+            ctx.beginPath();
+            ctx.arc(handX + 3, handY - 2, 10, -Math.PI * 0.45, Math.PI * 0.45);
+            ctx.stroke();
+        } else if (id === "cyber_shogun") {
+            // Glowing Neon Plasma Katana
+            ctx.strokeStyle = "#00f2fe";
+            ctx.lineWidth = 2.6;
+            ctx.beginPath();
+            ctx.moveTo(handX + 1, handY);
+            ctx.lineTo(handX + 16, handY - 15);
+            ctx.stroke();
+        } else if (id === "ice_valkyrie" || id === "spartan_gladiator") {
+            // Valkyrie Frost Spear / Spartan Dory Spear
+            ctx.strokeStyle = id === "ice_valkyrie" ? "#00f2fe" : "#7f5539";
+            ctx.lineWidth = 2.3;
+            ctx.beginPath();
+            ctx.moveTo(handX - 4, handY + 6);
+            ctx.lineTo(handX + 14, handY - 16);
+            ctx.stroke();
         }
     }
 }

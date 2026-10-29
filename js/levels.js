@@ -123,8 +123,92 @@ const EXTRA_30_LEVELS = [
     { id: 35, world: "BÖLGE 4: KOZMİK HİÇLİK", shortName: "Sonsuzluk Yolu", name: "Bölüm 36: Sonsuzluk Koridoru", desc: "Düşük yerçekimi, çöken taşlar ve keskin testerelerin birleştiği uzman parkuru.", themeColor: "#ffd166", isBossLevel: false },
     { id: 36, world: "BÖLGE 4: KOZMİK HİÇLİK", shortName: "Elit Muhafızlar", name: "Bölüm 37: Elit Muhafız Alayı", desc: "Ateş topu ve kalkanını hazır tut! En yoğun Golem ve Nöbetçi savunması.", themeColor: "#ffd166", isBossLevel: false },
     { id: 37, world: "BÖLGE 4: KOZMİK HİÇLİK", shortName: "Kıyamet Kulesi", name: "Bölüm 38: Kıyamet Kulesi", desc: "Yüksek duvar zıplama bacaları, ışınlanma kapıları ve sarkıt tuzakları.", themeColor: "#ffd166", isBossLevel: false },
-    { id: 38, world: "BÖLGE 4: KOZMİK HİÇLİK", shortName: "Taht Koridoru", name: "Bölüm 39: Karanlık Taht Koridoru", desc: "Büyük finale giden son geçit! Tüm yeteneklerini kullanarak portal kapısına ulaş.", themeColor: "#ffd166", isBossLevel: false },
-    { id: 39, world: "FİNAL: BÖLÜM 40", shortName: "Tanrı-İmparator 👑", name: "Bölüm 40: Kozmik Tanrı-İmparator (Büyük Final)", desc: "40. Bölüm Büyük Final Savaşı (30 Can): Neon Uçurumu'nun mutlak hakimi Kozmik Tanrı-İmparator'u yen ve efsane ol!", themeColor: "#ff2a85", isBossLevel: true }
+    { id: 38, world: "BÖLGE 4: KOZMİK HİÇLİK", shortName: "Taht Koridoru", name: "Bölüm 39: Karanlık Taht Koridoru", desc: "Karanlık tahta giden geçit! Tüm yeteneklerini kullanarak portal kapısına ulaş.", themeColor: "#ffd166", isBossLevel: false },
+    { id: 39, world: "BÖLGE 4: BOSS 9", shortName: "Hiçlik İmparatoru ☠", name: "Bölüm 40: Kozmik Hiçlik İmparatoru (Boss 9)", desc: "4. Bölge Sonu Boss Savaşı (26 Can): Kozmik Hiçlik İmparatoru'nu yen ve Buzul Kalesi kapısını aç!", themeColor: "#ff2a85", isBossLevel: true },
+
+    // =========================================================================
+    // BÖLGE 5 (BÖLÜM 41-50): BUZUL VALKÜR KALESİ (🧊 Kaygan Buz Zeminler & 💨 Fırtına Rüzgarı)
+    // =========================================================================
+    { id: 40, world: "BÖLGE 5: BUZUL KALESİ", shortName: "Donmuş Vadi", name: "Bölüm 41: Donmuş Kristal Vadi", desc: "Yeni Mekanik! 🧊 Kaygan buz platformlarda hızını kontrol et ve 🚀 Trambolinlerle uçurumları aş!", themeColor: "#48cae4", isBossLevel: false },
+    { id: 41, world: "BÖLGE 5: BUZUL KALESİ", shortName: "Buz Sarkıtları", name: "Bölüm 42: Kutup Sarkıt Geçidi", desc: "Buz zemin üzerinde kayarken tavandan düşen dev buz sarkıtlarına ve testerelere dikkat et!", themeColor: "#48cae4", isBossLevel: false },
+    { id: 42, world: "BÖLGE 5: BUZUL KALESİ", shortName: "Kuzey Rüzgarı", name: "Bölüm 43: Kuzey Rüzgarı Kanyonu", desc: "Yeni Mekanik! 💨 Dikey hava akımlarına (Updraft) girerek gökyüzündeki buz adalarına süzül!", themeColor: "#90e0ef", isBossLevel: false },
+    { id: 43, world: "BÖLGE 5: BUZUL KALESİ", shortName: "Ayna Köprüler", name: "Bölüm 44: Kırılan Buz Köprüleri", desc: "Buz zeminlerden hız al, çöken köprülerde hiç durmadan trambolinlere zıpla!", themeColor: "#90e0ef", isBossLevel: false },
+    { id: 44, world: "BÖLGE 5: BOSS 10", shortName: "Buzul Devi ☠", name: "Bölüm 45: Kuzeyin Buzul Devi (Boss 10)", desc: "Boss Savaşı (28 Can): Kaygan buz zeminli ve trambolinli arenada Buzul Devi'ni ez!", themeColor: "#ff2a85", isBossLevel: true },
+    { id: 45, world: "BÖLGE 5: BUZUL KALESİ", shortName: "Tipi Kulesi", name: "Bölüm 46: Dondurucu Tipi Kulesi", desc: "Dikey hava akımları ve duvar zıplama bacalarıyla Buzul Kulesi'nin zirvesine tırman!", themeColor: "#48cae4", isBossLevel: false },
+    { id: 46, world: "BÖLGE 5: BUZUL KALESİ", shortName: "Buz Lazerleri", name: "Bölüm 47: Kutup Lazer Üssü", desc: "Yeni Mekanik! ⚡ Zamanlamalı Lazer Kapılarının sönmesini bekle ve buz zeminde kayarak geç!", themeColor: "#48cae4", isBossLevel: false },
+    { id: 47, world: "BÖLGE 5: BUZUL KALESİ", shortName: "Kutup Portalları", name: "Bölüm 48: Aurora Portal Labirenti", desc: "Kuzey ışıkları altında solucan delikleri ve zırhlı buzul golemleriyle dolu labirent.", themeColor: "#90e0ef", isBossLevel: false },
+    { id: 48, world: "BÖLGE 5: BUZUL KALESİ", shortName: "Valkür Surları", name: "Bölüm 49: Buzul Valkür Surları", desc: "Buz konveyörleri, rüzgar akımları ve keskin nişancı nöbetçilerle korunan kale surları!", themeColor: "#90e0ef", isBossLevel: false },
+    { id: 49, world: "BÖLGE 5: BOSS 11", shortName: "Buz Kralı ☠", name: "Bölüm 50: Ebedi Buz Kralı Frost (Boss 11)", desc: "50. Bölüm Yarı-Final Savaşı (30 Can): Rüzgar akımlı buz arenasında Kral Frost'u devir!", themeColor: "#ff2a85", isBossLevel: true },
+
+    // =========================================================================
+    // BÖLGE 6 (BÖLÜM 51-60): ANTİK ZÜMRÜT TAPINAĞI & FİRAVUN PİRAMİDİ (⚡ Lazer Kapıları & Tuzaklar)
+    // =========================================================================
+    { id: 50, world: "BÖLGE 6: ANTİK TAPINAK", shortName: "Zümrüt Vaha", name: "Bölüm 51: Kayıp Zümrüt Vahası", desc: "Antik Tapınak bölgesine hoş geldin! 🚀 Trambolinler ve ⏩ Hız bantlarıyla tapınak avlusunu geç.", themeColor: "#06d6a0", isBossLevel: false },
+    { id: 51, world: "BÖLGE 6: ANTİK TAPINAK", shortName: "Piramit Koridoru", name: "Bölüm 52: Piramit Lazer Koridoru", desc: "Antik güvenlik sistemi devrede! ⚡ Zamanlamalı Lazer Kapılarından ritim tutarak geç.", themeColor: "#ffd166", isBossLevel: false },
+    { id: 52, world: "BÖLGE 6: ANTİK TAPINAK", shortName: "Kum Fırtınası", name: "Bölüm 53: Kum Fırtınası Uçurumu", desc: "💨 Yükselen sıcak hava akımlarını kullanarak devasa testere çukurlarının üstünden uç!", themeColor: "#ffd166", isBossLevel: false },
+    { id: 53, world: "BÖLGE 6: ANTİK TAPINAK", shortName: "Hazine Odası", name: "Bölüm 54: Firavun'un Hazine Odası", desc: "Çok katlı tapınak odalarında 🌀 portalları ve trambolinleri kullanarak zümrütleri topla.", themeColor: "#06d6a0", isBossLevel: false },
+    { id: 54, world: "BÖLGE 6: BOSS 12", shortName: "Altın Sfenks ☠", name: "Bölüm 55: Mekanik Altın Sfenks (Boss 12)", desc: "Boss Savaşı (32 Can): Lazer kapılı ve trambolinli piramit arenasında Sfenks'i mağlup et!", themeColor: "#ff2a85", isBossLevel: true },
+    { id: 55, world: "BÖLGE 6: ANTİK TAPINAK", shortName: "Akrep Mahzeni", name: "Bölüm 56: Zehirli Akrep Mahzeni", desc: "Hızlı neon akrepler, çöken tapınak taşları ve tavandan inen sarkıt tuzakları!", themeColor: "#06d6a0", isBossLevel: false },
+    { id: 56, world: "BÖLGE 6: ANTİK TAPINAK", shortName: "Güneş Kulesi", name: "Bölüm 57: Ra'nın Güneş Kulesi", desc: "Dikey hava akımları ve zıplama pedleriyle Güneş Kulesi'nin en üst katına yüksel!", themeColor: "#ffd166", isBossLevel: false },
+    { id: 57, world: "BÖLGE 6: ANTİK TAPINAK", shortName: "Lanetli Geçit", name: "Bölüm 58: Lanetli Hız Koridoru", desc: "⏩ Turbo hız konveyörleri üzerinde koşarken lazer kapılarından ve testerelerden sıyrıl!", themeColor: "#ffd166", isBossLevel: false },
+    { id: 58, world: "BÖLGE 6: ANTİK TAPINAK", shortName: "Kutsal Mihrap", name: "Bölüm 59: Kutsal Zümrüt Mihrabı", desc: "Tapınak muhafızı Golem ve Nöbetçi ordusunu ateş toplarınla yararak ilerle!", themeColor: "#06d6a0", isBossLevel: false },
+    { id: 59, world: "BÖLGE 6: BOSS 13", shortName: "Firavun ☠", name: "Bölüm 60: Ölümsüz Siber Firavun (Boss 13)", desc: "6. Bölge Boss Savaşı (34 Can): Çift lazerli ve rüzgar akımlı arenada Siber Firavun'u yen!", themeColor: "#ff2a85", isBossLevel: true },
+
+    // =========================================================================
+    // BÖLGE 7 (BÖLÜM 61-70): GÖKYÜZÜ FIRTINA ADALARI (🚀 Trambolinler & 💨 Hava Akımları)
+    // =========================================================================
+    { id: 60, world: "BÖLGE 7: GÖKYÜZÜ ADALARI", shortName: "Bulut Limanı", name: "Bölüm 61: Bulut Üstü Siber Liman", desc: "Gökyüzü Adaları! Adadan adaya 🚀 yüksek güçlü trambolinlerle uçarak geç!", themeColor: "#00f2fe", isBossLevel: false },
+    { id: 61, world: "BÖLGE 7: GÖKYÜZÜ ADALARI", shortName: "Rüzgar Tüneli", name: "Bölüm 62: Stratosfer Rüzgar Tüneli", desc: "💨 Devasa hava akımları seni bulutların üzerine taşıyacak, havadaki testerelere dikkat!", themeColor: "#38bdf8", isBossLevel: false },
+    { id: 62, world: "BÖLGE 7: GÖKYÜZÜ ADALARI", shortName: "Şimşek Köprüsü", name: "Bölüm 63: Şimşekli Gökyüzü Köprüsü", desc: "Yüksek voltaj elektrik çukurları üzerinde ⏩ turbo hız bantları ve çöken platformlar!", themeColor: "#38bdf8", isBossLevel: false },
+    { id: 63, world: "BÖLGE 7: GÖKYÜZÜ ADALARI", shortName: "Uçan Kuleler", name: "Bölüm 64: Uçan Kuleler Parkuru", desc: "Gökyüzünde asılı duran dikey duvarlardan sekerek ve lazer kapılarını aşarak ilerle!", themeColor: "#00f2fe", isBossLevel: false },
+    { id: 64, world: "BÖLGE 7: BOSS 14", shortName: "Fırtına Kartalı ☠", name: "Bölüm 65: Meka Fırtına Hükümdarı (Boss 14)", desc: "Boss Savaşı (36 Can): Hava akımlı ve düşük yerçekimli gökyüzü arenasında zafer kazan!", themeColor: "#ff2a85", isBossLevel: true },
+    { id: 65, world: "BÖLGE 7: GÖKYÜZÜ ADALARI", shortName: "Jet Konveyör", name: "Bölüm 66: Jet Hızı Platformları", desc: "⏩ Turbo hız konveyörleri ve 🚀 trambolinlerin birleştiği baş döndürücü hava parkuru!", themeColor: "#38bdf8", isBossLevel: false },
+    { id: 66, world: "BÖLGE 7: GÖKYÜZÜ ADALARI", shortName: "Gökkuşağı Yolu", name: "Bölüm 67: Prizma Gökyüzü Yolu", desc: "Kaygan buz bulutları, solucan delikleri ve elit gökyüzü nöbetçileri bir arada!", themeColor: "#00f2fe", isBossLevel: false },
+    { id: 67, world: "BÖLGE 7: GÖKYÜZÜ ADALARI", shortName: "Kasırga Gözü", name: "Bölüm 68: Kasırganın Gözü", desc: "Arka arkaya dizilmiş 💨 fırtına akımları ve ⚡ zamanlamalı lazer bariyerleri!", themeColor: "#38bdf8", isBossLevel: false },
+    { id: 68, world: "BÖLGE 7: GÖKYÜZÜ ADALARI", shortName: "Gökyüzü Hisarı", name: "Bölüm 69: Bulut Hisarı Savunması", desc: "Gökyüzü İmparatoru öncesi son kale! Golem ve Nöbetçi hatlarını trambolinlerle aş.", themeColor: "#00f2fe", isBossLevel: false },
+    { id: 69, world: "BÖLGE 7: BOSS 15", shortName: "Gök Titanı ☠", name: "Bölüm 70: Stratosfer Gök Titanı (Boss 15)", desc: "7. Bölge Boss Savaşı (38 Can): Çift trambolinli gökyüzü arenasında Gök Titanı'nı devir!", themeColor: "#ff2a85", isBossLevel: true },
+
+    // =========================================================================
+    // BÖLGE 8 (BÖLÜM 71-80): SİBER SAMURAY & SHOGUN KALESİ (⏩ Hız Bantları & ⚡ Lazer Kuleleri)
+    // =========================================================================
+    { id: 70, world: "BÖLGE 8: SAMURAY KALESİ", shortName: "Sakura Kapısı", name: "Bölüm 71: Neon Sakura Kapısı", desc: "Siber Samuray Kalesi'ne giriş! ⏩ Hız konveyörleri ve dönen katana testereleri seni bekliyor.", themeColor: "#ff2a85", isBossLevel: false },
+    { id: 71, world: "BÖLGE 8: SAMURAY KALESİ", shortName: "Ninja Çatıları", name: "Bölüm 72: Gece Ninja Çatıları", desc: "Kale çatılarında 🚀 trambolinlerle zıpla ve tavandan inen tuzaklardan kaç!", themeColor: "#f72585", isBossLevel: false },
+    { id: 72, world: "BÖLGE 8: SAMURAY KALESİ", shortName: "Lazer Dojo", name: "Bölüm 73: Lazer Korumalı Dojo", desc: "⚡ Çoklu Lazer Kapılarıyla korunan Samuray Dojo'sunda kusursuz zamanlamayla ilerle!", themeColor: "#f72585", isBossLevel: false },
+    { id: 73, world: "BÖLGE 8: SAMURAY KALESİ", shortName: "Bambu Kule", name: "Bölüm 74: Siber Bambu Kulesi", desc: "Dikey duvar zıplama bacaları, 💨 rüzgar akımları ve hızlı akrep suikastçılar!", themeColor: "#ff2a85", isBossLevel: false },
+    { id: 74, world: "BÖLGE 8: BOSS 16", shortName: "Kızıl Ronin ☠", name: "Bölüm 75: Gölge Komutan Kızıl Ronin (Boss 16)", desc: "Boss Savaşı (40 Can): Hız bantlı ve lazerli Dojo arenasında Kızıl Ronin ile düello!", themeColor: "#ff2a85", isBossLevel: true },
+    { id: 75, world: "BÖLGE 8: SAMURAY KALESİ", shortName: "Buzlu Bahçe", name: "Bölüm 76: Donmuş Zen Bahçesi", desc: "🧊 Kaygan buz zeminler ve çöken köprüler üzerinde yüksek hızlı samuray sınavı!", themeColor: "#f72585", isBossLevel: false },
+    { id: 76, world: "BÖLGE 8: SAMURAY KALESİ", shortName: "Katana Geçidi", name: "Bölüm 77: Dönen Katana Koridoru", desc: "Dar koridorlarda hareketli testereler, ⚡ lazer kapıları ve zırhlı samuray golemleri!", themeColor: "#ff2a85", isBossLevel: false },
+    { id: 77, world: "BÖLGE 8: SAMURAY KALESİ", shortName: "Portal Kalesi", name: "Bölüm 78: Shogun Portal Labirenti", desc: "🌀 Solucan delikleri ve 🚀 trambolinlerle birbirine bağlanan 3 katlı kale odaları.", themeColor: "#f72585", isBossLevel: false },
+    { id: 78, world: "BÖLGE 8: SAMURAY KALESİ", shortName: "Shogun Muhafızı", name: "Bölüm 79: Shogun'un Elit Muhafızları", desc: "Ateş topu ve kalkanını kuşan! Shogun'un taht odası önündeki en güçlü savunma hattı.", themeColor: "#ff2a85", isBossLevel: false },
+    { id: 79, world: "BÖLGE 8: BOSS 17", shortName: "Siber Shogun ☠", name: "Bölüm 80: İmparator Siber Shogun (Boss 17)", desc: "8. Bölge Boss Savaşı (42 Can): Lazer ve testereli taht odasında Siber Shogun'u alt et!", themeColor: "#ff2a85", isBossLevel: true },
+
+    // =========================================================================
+    // BÖLGE 9 (BÖLÜM 81-90): TARİHİ KAHRAMANLAR & FETİH BURÇLARI (Surlar, Toplar & Kuleler)
+    // =========================================================================
+    { id: 80, world: "BÖLGE 9: FETİH BURÇLARI", shortName: "Anadolu Hisarı", name: "Bölüm 81: Kızıl Surlar ve Hendekler", desc: "Tarihi Fetih Burçları! Lav hendeklerini 🚀 mancınık trambolinleriyle aş ve surlara çık!", themeColor: "#f59e0b", isBossLevel: false },
+    { id: 81, world: "BÖLGE 9: FETİH BURÇLARI", shortName: "Şahi Koridoru", name: "Bölüm 82: Ateş ve Barut Koridoru", desc: "⏩ Hız bantları üzerinde koşarken ateş püskürten nöbetçilerden ve testerelerden kaç!", themeColor: "#d97706", isBossLevel: false },
+    { id: 82, world: "BÖLGE 9: FETİH BURÇLARI", shortName: "Bozkır Rüzgarı", name: "Bölüm 83: Ötüken Bozkır Rüzgarı", desc: "💨 Güçlü bozkır rüzgar akımlarıyla yüksek kulelerin üzerinden uçarak zümrütleri topla!", themeColor: "#f59e0b", isBossLevel: false },
+    { id: 83, world: "BÖLGE 9: FETİH BURÇLARI", shortName: "Demir Kapılar", name: "Bölüm 84: Zırhlı Kale Kapıları", desc: "⚡ Zamanlamalı enerji kapıları ve dikey burç duvarlarından tırmanarak iç kaleye gir!", themeColor: "#d97706", isBossLevel: false },
+    { id: 84, world: "BÖLGE 9: BOSS 18", shortName: "Kale Muhafızı ☠", name: "Bölüm 85: Zırhlı Kale Komutanı (Boss 18)", desc: "Boss Savaşı (44 Can): Trambolinli ve testereli kale avlusunda Zırhlı Komutan'ı yen!", themeColor: "#ff2a85", isBossLevel: true },
+    { id: 85, world: "BÖLGE 9: FETİH BURÇLARI", shortName: "Haliç Zinciri", name: "Bölüm 86: Zincirli Boğaz Köprüleri", desc: "Çöken köprüler, 🧊 kaygan zeminler ve elektrikli hendekler üzerinden nefes kesen geçiş!", themeColor: "#f59e0b", isBossLevel: false },
+    { id: 86, world: "BÖLGE 9: FETİH BURÇLARI", shortName: "Sancak Kulesi", name: "Bölüm 87: Ulubatlı Sancak Kulesi", desc: "Yüksek duvar zıplama kuleleri ve 💨 hava akımlarıyla sancağı en tepeye taşı!", themeColor: "#d97706", isBossLevel: false },
+    { id: 87, world: "BÖLGE 9: FETİH BURÇLARI", shortName: "Yeraltı Tüneli", name: "Bölüm 88: Surlar Altı Lağım Tüneli", desc: "Tavandan düşen sarkıtlar, ⚡ lazer tuzakları ve karanlık mahzen golemleri!", themeColor: "#f59e0b", isBossLevel: false },
+    { id: 88, world: "BÖLGE 9: FETİH BURÇLARI", shortName: "Zafer Meydanı", name: "Bölüm 89: Büyük Zafer Meydanı", desc: "Bölge finali öncesi son sınav! Portallar, hız bantları ve elit muhafız ordusu.", themeColor: "#d97706", isBossLevel: false },
+    { id: 89, world: "BÖLGE 9: BOSS 19", shortName: "Demir الدوق ☠", name: "Bölüm 90: İmparatorluk Demir Titanı (Boss 19)", desc: "9. Bölge Boss Savaşı (46 Can): Büyük sur arenasında Demir Titan'ı dize getir!", themeColor: "#ff2a85", isBossLevel: true },
+
+    // =========================================================================
+    // BÖLGE 10 (BÖLÜM 91-100): GALAKTİK OMEGA ÇEKİRDEĞİ (BÜYÜK 100. BÖLÜM FİNALİ)
+    // =========================================================================
+    { id: 90, world: "BÖLGE 10: OMEGA GALAKSİ", shortName: "Yıldız Üssü", name: "Bölüm 91: Yörünge Yıldız Üssü", desc: "Son Sezon (91-100)! 🌌 Düşük yerçekimi, 🚀 trambolinler ve ⚡ lazer kapıları bir arada!", themeColor: "#c77dff", isBossLevel: false },
+    { id: 91, world: "BÖLGE 10: OMEGA GALAKSİ", shortName: "Süpernova", name: "Bölüm 92: Süpernova Hız Tüneli", desc: "⏩ Turbo hız konveyörleri ve 🧊 kriyo-buz platformlarla süpernova ateşinden kaç!", themeColor: "#7209b7", isBossLevel: false },
+    { id: 92, world: "BÖLGE 10: OMEGA GALAKSİ", shortName: "Pulsar Akımı", name: "Bölüm 93: Pulsar Rüzgar Akımları", desc: "💨 Kozmik plazma akımlarıyla uzay boşluğundaki dev testerelerin üzerinden süzül!", themeColor: "#c77dff", isBossLevel: false },
+    { id: 93, world: "BÖLGE 10: OMEGA GALAKSİ", shortName: "Kuantum Ağı", name: "Bölüm 94: Kuantum Lazer Izgarası", desc: "Peş peşe açılıp kapanan ⚡ yüksek voltajlı lazer kapıları ve ışınlanma portalları!", themeColor: "#7209b7", isBossLevel: false },
+    { id: 94, world: "BÖLGE 10: BOSS 20", shortName: "Omega Muhafız ☠", name: "Bölüm 95: Galaktik Omega Muhafızı (Boss 20)", desc: "Boss Savaşı (48 Can): Sıfır yerçekimli ve lazer kapılı uzay arenasında Omega Muhafız!", themeColor: "#ff2a85", isBossLevel: true },
+    { id: 95, world: "BÖLGE 10: OMEGA GALAKSİ", shortName: "Karadelik Yolu", name: "Bölüm 96: Karadelik Ufuk Çizgisi", desc: "Çöken kuantum köprüleri, 💨 dikey hava akımları ve yoğun sarkıt yağmuru!", themeColor: "#c77dff", isBossLevel: false },
+    { id: 96, world: "BÖLGE 10: OMEGA GALAKSİ", shortName: "Kozmik Kule", name: "Bölüm 97: Sonsuzluk Kulesi Tırmanışı", desc: "Trambolinler, duvar zıplama bacaları ve hareketli testerelerle dolu uzay kulesi!", themeColor: "#7209b7", isBossLevel: false },
+    { id: 97, world: "BÖLGE 10: OMEGA GALAKSİ", shortName: "İmparatorluk Yolu", name: "Bölüm 98: Kozmik İmparatorluk Yolu", desc: "Buz, Hız bandı, Lazer kapısı, Rüzgar akımı ve Trambolin mekaniklerinin hepsi tek bölümde!", themeColor: "#ffd166", isBossLevel: false },
+    { id: 98, world: "BÖLGE 10: OMEGA GALAKSİ", shortName: "Son Sığınak", name: "Bölüm 99: 100. Bölüm Öncesi Son Sınav", desc: "100. Bölüm Büyük Finalinden önceki son geçit! Tüm güçlendirmeleri al ve kapıya ulaş.", themeColor: "#ffd166", isBossLevel: false },
+    { id: 99, world: "FİNAL: BÖLÜM 100", shortName: "Evren Hükümdarı 👑", name: "Bölüm 100: Evren Hükümdarı Kozmik İmparator (100. Bölüm Büyük Final)", desc: "100. BÖLÜM BÜYÜK FİNAL (55 Can): Tüm galaksinin hakimi Evren Hükümdarı'nı yen ve Marinext 2100 Efsanesi ol!", themeColor: "#ff2a85", isBossLevel: true }
 ];
 
 LEVEL_INFO.push(...EXTRA_30_LEVELS);
@@ -341,17 +425,69 @@ function createLevelData(levelIndex) {
     const checkpoints = [];
     const teleporters = [];
     const gravityZones = [];
+    const jumpPads = [];
+    const windZones = [];
+    const laserGates = [];
     const signs = [];
     let portal = { x: 3200, y: 400 };
     let bossConfig = null;
 
-    const addGround = (gx, gy, gw, gh = 4, type = 'ground') => {
+    const addGround = (gx, gy, gw, gh = 4, type = 'ground', surfaceType = 'normal') => {
         solids.push({
             x: gx * TILE_SIZE,
             y: gy * TILE_SIZE,
             w: gw * TILE_SIZE,
             h: gh * TILE_SIZE,
-            type
+            type,
+            surfaceType
+        });
+    };
+
+    const addMovingPlatform = (startGx, startGy, endGx, endGy, gw = 3.2, speed = 1.2) => {
+        movingPlatforms.push({
+            x: startGx * TILE_SIZE,
+            y: startGy * TILE_SIZE,
+            startX: startGx * TILE_SIZE,
+            startY: startGy * TILE_SIZE,
+            endX: endGx * TILE_SIZE,
+            endY: endGy * TILE_SIZE,
+            w: gw * TILE_SIZE,
+            h: 22,
+            speed
+        });
+    };
+
+    const addJumpPad = (gx, gy, boostVy = -19.5) => {
+        jumpPads.push({
+            x: gx * TILE_SIZE,
+            y: gy * TILE_SIZE - 16,
+            w: 44,
+            h: 16,
+            boostVy,
+            anim: 0
+        });
+    };
+
+    const addWindZone = (gx, gy, gw, gh, forceX = 0, forceY = -0.62) => {
+        windZones.push({
+            x: gx * TILE_SIZE,
+            y: gy * TILE_SIZE,
+            w: gw * TILE_SIZE,
+            h: gh * TILE_SIZE,
+            forceX,
+            forceY
+        });
+    };
+
+    const addLaserGate = (gx, gy, gh = 3.5, period = 150, onDuration = 75, phase = 0) => {
+        laserGates.push({
+            x: gx * TILE_SIZE + 14,
+            y: gy * TILE_SIZE,
+            w: 18,
+            h: gh * TILE_SIZE,
+            period,
+            onDuration,
+            phase
         });
     };
 
@@ -805,124 +941,370 @@ function createLevelData(levelIndex) {
 
         default: {
             const info = LEVEL_INFO[levelIndex] || LEVEL_INFO[0];
-            if (info.isBossLevel) {
-                // BOSS LEVELS 15, 20, 25, 30, 35, 40
-                const bossHp = 18 + Math.floor((levelIndex - 10) * 0.4);
-                addGround(0, 12, 50, 5);
-                addGround(0, 0, 2, 12, 'wall');
-                addGround(48, 0, 2, 12, 'wall');
+            const worldIdx = Math.floor(levelIndex / 10); // 0..9 (10 Worlds)
+            const subIdx = levelIndex % 10;               // 0..9 within World
 
-                signs.push({ x: 250, y: 12 * TILE_SIZE - 55, text: `${info.name} (${bossHp} CAN) - Güçlendirmeleri Al!` });
+            if (info.isBossLevel) {
+                // BOSS ARENAS (Levels 15, 20, 25, ..., 100) — Unique Arena Mechanics per World!
+                const bossHp = levelIndex === 99 ? 55 : (18 + Math.floor((levelIndex - 10) * 0.36));
+                const arenaStyle = Math.floor(levelIndex / 5) % 4;
+                const mainSurface = (worldIdx === 4) ? 'ice' : ((worldIdx === 7 && arenaStyle === 2) ? 'boost' : 'normal');
+
+                addGround(0, 12, 52, 5, 'ground', mainSurface);
+                addGround(0, 0, 2, 12, 'wall');
+                addGround(50, 0, 2, 12, 'wall');
+
+                signs.push({ x: 250, y: 12 * TILE_SIZE - 55, text: `${info.name} (${bossHp} CAN) — Taktiksel Boss Arenası!` });
                 mysteryBlocks.push({ x: 6 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'shield' });
                 mysteryBlocks.push({ x: 8 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'fire' });
                 mysteryBlocks.push({ x: 10 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'speed' });
                 checkpoints.push({ x: 12.5 * TILE_SIZE, y: 12 * TILE_SIZE - 64 });
 
-                if (levelIndex % 2 === 1) {
-                    gravityZones.push({ x: 23 * TILE_SIZE, y: 2 * TILE_SIZE, w: 12 * TILE_SIZE, h: 10 * TILE_SIZE });
+                // Interactive Boss Arena Elements (Jump Pads, Wind Updrafts, Low-Gravity, Saws, Teleporters)
+                addJumpPad(16.2, 12, -18.5);
+                addJumpPad(44.2, 12, -18.5);
+
+                if (arenaStyle === 0) {
+                    addGround(18, 8.6, 4.5, 0.7, 'platform', mainSurface);
+                    addGround(28, 6.0, 5.5, 0.7, 'platform');
+                    addGround(39, 8.6, 4.5, 0.7, 'platform', mainSurface);
+                    addSaw(21, 11.8, 28, 11.8, 1.45, 20);
+                    addSaw(34, 11.8, 41, 11.8, 1.45, 20);
+                } else if (arenaStyle === 1) {
+                    addWindZone(26, 4, 8, 8, 0, -0.58);
+                    addGround(18, 8.2, 5.0, 0.7, 'platform');
+                    addGround(38, 8.2, 5.0, 0.7, 'platform');
+                    addSaw(22, 11.8, 38, 11.8, 1.6, 22);
+                } else if (arenaStyle === 2) {
+                    gravityZones.push({ x: 22 * TILE_SIZE, y: 2 * TILE_SIZE, w: 16 * TILE_SIZE, h: 10 * TILE_SIZE });
+                    addGround(18, 8.8, 4.5, 0.7, 'platform');
+                    addGround(28, 5.8, 5.0, 0.7, 'platform');
+                    addGround(38, 8.8, 4.5, 0.7, 'platform');
+                    addLaserGate(24, 8.5, 3.5, 160, 70, 0);
+                    addLaserGate(36, 8.5, 3.5, 160, 70, 80);
+                } else {
+                    addMovingPlatform(19, 8.5, 26, 8.5, 3.8, 1.3);
+                    addMovingPlatform(34, 8.5, 41, 8.5, 3.8, 1.3);
+                    addGround(28, 5.8, 5.0, 0.7, 'platform');
+                    addSaw(24, 11.8, 36, 11.8, 1.55, 21);
                 }
 
-                addGround(17, 8.8, 4.5, 0.7, 'platform');
-                addGround(27, 6.2, 5.5, 0.7, 'platform');
-                addGround(38, 8.8, 4.5, 0.7, 'platform');
-
-                addSaw(20, 11.8, 27, 11.8, 1.4 + (levelIndex % 3) * 0.15, 20);
-                addSaw(33, 11.8, 40, 11.8, 1.4 + (levelIndex % 3) * 0.15, 20);
-
                 teleporters.push({
-                    x1: 15.5 * TILE_SIZE, y1: 12 * TILE_SIZE - 56,
-                    x2: 45 * TILE_SIZE, y2: 12 * TILE_SIZE - 56,
+                    x1: 14.5 * TILE_SIZE, y1: 12 * TILE_SIZE - 56,
+                    x2: 46.5 * TILE_SIZE, y2: 12 * TILE_SIZE - 56,
                     color: info.themeColor || "#ff2a85"
                 });
 
-                coins.push({ x: 19 * TILE_SIZE, y: 7.9 * TILE_SIZE, type: 'emerald' });
-                coins.push({ x: 29.5 * TILE_SIZE, y: 5.3 * TILE_SIZE, type: 'emerald' });
-                coins.push({ x: 40 * TILE_SIZE, y: 7.9 * TILE_SIZE, type: 'emerald' });
+                coins.push({ x: 20 * TILE_SIZE, y: 7.5 * TILE_SIZE, type: 'emerald' });
+                coins.push({ x: 30.5 * TILE_SIZE, y: 4.9 * TILE_SIZE, type: 'emerald' });
+                coins.push({ x: 40.5 * TILE_SIZE, y: 7.5 * TILE_SIZE, type: 'emerald' });
 
                 bossConfig = {
                     name: info.name.toUpperCase(),
                     hp: bossHp,
-                    x: 36 * TILE_SIZE,
+                    x: 37 * TILE_SIZE,
                     y: 12 * TILE_SIZE - 110,
                     minX: 15 * TILE_SIZE,
-                    maxX: 45 * TILE_SIZE,
+                    maxX: 46 * TILE_SIZE,
                     variant: ((levelIndex % 3) + 1)
                 };
-                portal = { x: 29.5 * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
+                portal = { x: 30.5 * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
             } else {
-                // HANDCRAFTED PROCEDURAL CAMPAIGN LEVELS (BÖLÜM 11 - 39)
-                const pattern = levelIndex % 4;
+                // ============================================================================
+                // 8 DISTINCT SURPRISING LEVEL ARCHETYPES FOR LEVELS 11..99
+                // Every level within a 10-level World uses a different structural archetype!
+                // ============================================================================
+                const nonBossSlot = [0, 1, 2, 3, 0, 4, 5, 6, 7, 0][subIdx];
+                const archetype = (nonBossSlot + worldIdx) % 8;
+                const worldSurface = worldIdx === 4 ? 'ice' : ((worldIdx === 6 || worldIdx === 7) ? 'boost' : 'normal');
 
-                // Section 1: Start Zone + Power-up Mystery Blocks
-                addGround(0, 12, 14, 5);
-                signs.push({ x: 240, y: 12 * TILE_SIZE - 55, text: `${info.name}: ${info.shortName}` });
-                mysteryBlocks.push({ x: 6 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'fire' });
-                mysteryBlocks.push({ x: 8 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'shield' });
-                mysteryBlocks.push({ x: 10 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'speed' });
-                enemies.push({ x: 11 * TILE_SIZE, y: 11 * TILE_SIZE, type: 'crawler', minX: 7 * TILE_SIZE, maxX: 13 * TILE_SIZE });
+                // Common Start Zone with Power-Up Mystery Boxes & Level Introduction Sign
+                addGround(0, 12, 13, 5, 'ground', worldIdx === 4 ? 'ice' : 'normal');
+                signs.push({ x: 250, y: 12 * TILE_SIZE - 55, text: `${info.name} — ${info.desc.slice(0, 68)}...` });
+                mysteryBlocks.push({ x: 5.5 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'fire' });
+                mysteryBlocks.push({ x: 7.5 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'shield' });
+                mysteryBlocks.push({ x: 9.5 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'speed' });
 
-                // Section 2: First Obstacle Course (Lava + Crumble Bridges + Stalactites OR Moving Platforms + Saws)
-                hazards.push({ x: 14 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 18 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
-                addGround(14, 14, 18, 3);
+                if (archetype === 0) {
+                    // ARCHETYPE 0: 🚀 TRAMBOLİN GÖKYÜZÜ ADALARI (High-Altitude Jump Pad Islands)
+                    addJumpPad(11.5, 12, -20.5);
+                    hazards.push({ x: 13 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 24 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(13, 14, 24, 3);
 
-                if (pattern === 0 || pattern === 2) {
-                    addGround(15, 1, 16, 1.2, 'wall');
-                    for (let i = 0; i < 4; i++) {
-                        addCrumble(15.2 + i * 4.0, 10.6 - (i % 2) * 1.3, 2.4);
-                        stalactites.push({ x: (16.2 + i * 4.0) * TILE_SIZE, y: 2.2 * TILE_SIZE });
-                        coins.push({ x: (16.2 + i * 4.0) * TILE_SIZE, y: (8.8 - (i % 2) * 1.3) * TILE_SIZE, type: 'coin' });
-                    }
-                    coins.push({ x: 23.2 * TILE_SIZE, y: 9.7 * TILE_SIZE, type: 'emerald' });
-                } else {
-                    addGround(16, 9.8, 3.5, 0.8, 'platform');
-                    addSaw(21, 5, 21, 10.8, 1.5, 22);
-                    addGround(23, 8.2, 3.5, 0.8, 'platform');
-                    addSaw(28, 4.5, 28, 10.5, 1.6, 22);
-                    addCoinArc(16.5 * TILE_SIZE, 7.2 * TILE_SIZE, 6, 48);
-                    coins.push({ x: 24.5 * TILE_SIZE, y: 7.3 * TILE_SIZE, type: 'emerald' });
-                }
+                    addGround(15, 7.2, 5.5, 0.9, 'platform', worldSurface);
+                    enemies.push({ x: 17 * TILE_SIZE, y: 6.2 * TILE_SIZE, type: 'crawler', minX: 15.2 * TILE_SIZE, maxX: 20 * TILE_SIZE });
+                    addJumpPad(19.5, 7.2, -19.5);
 
-                // Section 3: Mid-Level Safe Bastion + Checkpoint + Guard Squad
-                addGround(32, 11, 15, 6);
-                checkpoints.push({ x: 33.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
-                enemies.push({ x: 37.5 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 35 * TILE_SIZE, maxX: 42 * TILE_SIZE });
-                enemies.push({ x: 42 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'sentinel', minX: 37 * TILE_SIZE, maxX: 45.5 * TILE_SIZE });
-                coins.push({ x: 40 * TILE_SIZE, y: 10.1 * TILE_SIZE, type: 'emerald' });
+                    addGround(23, 4.2, 6.0, 0.9, 'platform');
+                    coins.push({ x: 26 * TILE_SIZE, y: 3.2 * TILE_SIZE, type: 'emerald' });
+                    addSaw(26, 3.8, 26, 9.5, 1.5, 22);
+                    addJumpPad(28.0, 4.2, -18.5);
 
-                // Section 4: Wormhole Teleporter OR Wall-Jump Chimney + Low-Gravity Canyon
-                if (pattern === 1 || pattern === 3) {
-                    addGround(48, 3, 2, 9, 'wall');
-                    addGround(53, 2, 2, 10, 'wall');
-                    addSaw(51.5, 10.2, 51.5, 5.2, 1.4, 20);
-                    addGround(47, 12, 9, 5);
-                } else {
-                    addGround(47, 12, 9, 5);
-                    addGround(48, 4, 1.5, 8, 'wall');
+                    addGround(31, 8.2, 5.5, 0.9, 'platform', worldSurface);
+                    enemies.push({ x: 33 * TILE_SIZE, y: 7.2 * TILE_SIZE, type: 'sentinel', minX: 31.5 * TILE_SIZE, maxX: 36 * TILE_SIZE });
+
+                    // Mid Checkpoint Bastion
+                    addGround(37, 11, 13, 6);
+                    checkpoints.push({ x: 38.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
+                    enemies.push({ x: 43 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 40 * TILE_SIZE, maxX: 48 * TILE_SIZE });
+                    addJumpPad(48.5, 11, -20.5);
+
+                    // Second Sky-Island Chain with Moving Platforms & Jump Pads
+                    hazards.push({ x: 50 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 24 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(50, 14, 24, 3);
+                    addGround(52, 6.5, 5.0, 0.9, 'platform');
+                    addMovingPlatform(58.5, 6.5, 64.5, 4.5, 3.5, 1.35);
+                    addGround(66.5, 5.5, 6.0, 0.9, 'platform', worldSurface);
+                    enemies.push({ x: 69 * TILE_SIZE, y: 4.5 * TILE_SIZE, type: 'sentinel', minX: 67 * TILE_SIZE, maxX: 72 * TILE_SIZE });
+
+                    addGround(74, 10, 14, 7);
+                    enemies.push({ x: 78 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 75 * TILE_SIZE, maxX: 83 * TILE_SIZE });
+                    portal = { x: 85 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+
+                } else if (archetype === 1) {
+                    // ARCHETYPE 1: 💨 FIRTINA RÜZGAR TÜNELİ & SÜZÜLÜŞ VADİSİ (Updraft Wind Currents)
+                    hazards.push({ x: 13 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 22 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(13, 14, 22, 3);
+
+                    addWindZone(14.5, 3, 5.5, 10.5, 0.08, -0.68);
+                    addGround(20.5, 6.2, 5.5, 0.9, 'platform');
+                    enemies.push({ x: 22.5 * TILE_SIZE, y: 5.2 * TILE_SIZE, type: 'sentinel', minX: 21 * TILE_SIZE, maxX: 25.5 * TILE_SIZE });
+                    addSaw(27, 4.0, 27, 11.0, 1.55, 24);
+
+                    addWindZone(28.5, 2.5, 5.5, 11.0, 0.08, -0.72);
+                    addGround(35, 11, 14, 6, 'ground', worldSurface);
+                    checkpoints.push({ x: 36.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
+                    enemies.push({ x: 41 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 38 * TILE_SIZE, maxX: 47 * TILE_SIZE });
+                    enemies.push({ x: 45 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'crawler', minX: 39 * TILE_SIZE, maxX: 48 * TILE_SIZE });
+
+                    // Second Wind Canyon with Laser Gate & High Platforms
+                    hazards.push({ x: 49 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 23 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(49, 14, 23, 3);
+                    addWindZone(50.5, 2, 6.0, 11.5, 0.1, -0.7);
+                    addGround(57, 5.5, 7.5, 0.9, 'platform', worldSurface);
+                    addLaserGate(60.5, 2.0, 3.5, 140, 65, 0);
+                    enemies.push({ x: 62 * TILE_SIZE, y: 4.5 * TILE_SIZE, type: 'sentinel', minX: 58 * TILE_SIZE, maxX: 64 * TILE_SIZE });
+                    addCrumble(66, 7.5, 2.8);
+                    addCrumble(69.5, 8.8, 2.5);
+
+                    addGround(72, 10, 15, 7);
+                    enemies.push({ x: 76 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 73 * TILE_SIZE, maxX: 82 * TILE_SIZE });
+                    portal = { x: 84 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+
+                } else if (archetype === 2) {
+                    // ARCHETYPE 2: ⚡ ZAMANLAMALI LAZER KALESİ & GÜVENLİK KORİDORU (Timed Laser Vault)
+                    addGround(13, 12, 22, 5, 'ground', worldSurface);
+                    addGround(15, 7.5, 18, 1.0, 'wall'); // Ceiling over laser corridor
+
+                    addLaserGate(17, 8.5, 3.5, 140, 65, 0);
+                    enemies.push({ x: 20 * TILE_SIZE, y: 11 * TILE_SIZE, type: 'crawler', minX: 18 * TILE_SIZE, maxX: 23 * TILE_SIZE });
+                    addLaserGate(24, 8.5, 3.5, 140, 65, 45);
+                    enemies.push({ x: 27 * TILE_SIZE, y: 11 * TILE_SIZE, type: 'golem', minX: 25 * TILE_SIZE, maxX: 30 * TILE_SIZE });
+                    addLaserGate(31, 8.5, 3.5, 140, 65, 90);
+
+                    // Upper bonus path over the ceiling via Jump Pad!
+                    addJumpPad(13.8, 12, -19.5);
+                    coins.push({ x: 24 * TILE_SIZE, y: 6.4 * TILE_SIZE, type: 'emerald' });
+
+                    // Checkpoint + Portal Elevator
+                    addGround(35, 11, 13, 6);
+                    checkpoints.push({ x: 36.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
                     teleporters.push({
                         x1: 45.5 * TILE_SIZE, y1: 11 * TILE_SIZE - 56,
-                        x2: 50.5 * TILE_SIZE, y2: 8.2 * TILE_SIZE - 56,
+                        x2: 50.5 * TILE_SIZE, y2: 7.5 * TILE_SIZE - 56,
                         color: info.themeColor || "#00f2fe"
                     });
-                    addGround(49.5, 8.2, 6.5, 0.9, 'platform');
+                    addGround(47.5, 2, 2, 10, 'wall');
+
+                    // Second Section: High Security Bridges + Lasers
+                    hazards.push({ x: 49.5 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 22 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(49.5, 14, 22, 3);
+                    addGround(49.5, 7.5, 8.5, 0.9, 'platform');
+                    addLaserGate(54, 4.0, 3.5, 130, 60, 20);
+                    enemies.push({ x: 56 * TILE_SIZE, y: 6.5 * TILE_SIZE, type: 'sentinel', minX: 51 * TILE_SIZE, maxX: 57.5 * TILE_SIZE });
+
+                    addMovingPlatform(59, 8.5, 65, 8.5, 3.5, 1.4);
+                    addSaw(62, 5.0, 62, 11.0, 1.6, 22);
+                    addCrumble(66.5, 9.2, 3.0);
+
+                    addGround(71.5, 10, 15, 7, 'ground', worldSurface);
+                    addLaserGate(75, 6.5, 3.5, 135, 65, 0);
+                    enemies.push({ x: 78 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 76 * TILE_SIZE, maxX: 83 * TILE_SIZE });
+                    portal = { x: 84 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+
+                } else if (archetype === 3) {
+                    // ARCHETYPE 3: 🧊 KAYGAN BUZ KANYONU & ÇÖKEN KÖPRÜLER (Slippery Ice & Crumble Run)
+                    addGround(13, 11.5, 10, 5.5, 'ground', 'ice');
+                    enemies.push({ x: 17 * TILE_SIZE, y: 10.5 * TILE_SIZE, type: 'crawler', minX: 14 * TILE_SIZE, maxX: 22 * TILE_SIZE });
+                    addSaw(19, 11.3, 22.5, 11.3, 1.45, 20);
+
+                    hazards.push({ x: 23 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 16 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(23, 14, 16, 3);
+                    addGround(24, 1, 14, 1.2, 'wall');
+                    for (let i = 0; i < 3; i++) {
+                        addCrumble(24.5 + i * 4.5, 10.2 - (i % 2) * 1.2, 2.5);
+                        stalactites.push({ x: (25.5 + i * 4.5) * TILE_SIZE, y: 2.2 * TILE_SIZE });
+                    }
+
+                    addGround(39, 11, 14, 6, 'ground', 'ice');
+                    checkpoints.push({ x: 40.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
+                    enemies.push({ x: 45 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 42 * TILE_SIZE, maxX: 51 * TILE_SIZE });
+                    addJumpPad(51.5, 11, -19.5);
+
+                    // Ice Platforms in the Sky
+                    hazards.push({ x: 53 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 20 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(53, 14, 20, 3);
+                    addGround(54.5, 6.8, 6.5, 0.9, 'platform', 'ice');
+                    enemies.push({ x: 57 * TILE_SIZE, y: 5.8 * TILE_SIZE, type: 'sentinel', minX: 55 * TILE_SIZE, maxX: 60.5 * TILE_SIZE });
+                    addSaw(62.5, 4.5, 62.5, 10.5, 1.6, 24);
+                    addGround(64.5, 7.8, 6.5, 0.9, 'platform', 'ice');
+                    enemies.push({ x: 67 * TILE_SIZE, y: 6.8 * TILE_SIZE, type: 'crawler', minX: 65 * TILE_SIZE, maxX: 70.5 * TILE_SIZE });
+
+                    addGround(73, 10, 14, 7, 'ground', 'ice');
+                    enemies.push({ x: 77 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 74 * TILE_SIZE, maxX: 82 * TILE_SIZE });
+                    portal = { x: 84 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+
+                } else if (archetype === 4) {
+                    // ARCHETYPE 4: ⏩ TURBO HIZ KONVEYÖRLERİ & TESTERE PİSTİ (High-Speed Boost Track)
+                    addGround(13, 12, 14, 5, 'ground', 'boost');
+                    addSaw(17, 11.8, 22, 11.8, 1.65, 22);
+                    enemies.push({ x: 24 * TILE_SIZE, y: 11 * TILE_SIZE, type: 'crawler', minX: 21 * TILE_SIZE, maxX: 26.5 * TILE_SIZE });
+                    addJumpPad(25.8, 12, -19.5);
+
+                    hazards.push({ x: 27 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 14 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(27, 14, 14, 3);
+                    addGround(29, 7.2, 9.5, 0.9, 'platform', 'boost');
+                    addLaserGate(34, 3.7, 3.5, 130, 60, 0);
+                    enemies.push({ x: 36 * TILE_SIZE, y: 6.2 * TILE_SIZE, type: 'sentinel', minX: 31 * TILE_SIZE, maxX: 38 * TILE_SIZE });
+
+                    addGround(41, 11, 13, 6);
+                    checkpoints.push({ x: 42.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
+                    enemies.push({ x: 47 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 44 * TILE_SIZE, maxX: 52 * TILE_SIZE });
+
+                    // Second Turbo Track Over Lava
+                    hazards.push({ x: 54 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 20 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(54, 14, 20, 3);
+                    addGround(55, 9.5, 7.5, 0.9, 'platform', 'boost');
+                    addJumpPad(61.5, 9.5, -18.5);
+                    addSaw(64, 4.5, 64, 10.5, 1.7, 24);
+                    addGround(66, 6.8, 6.5, 0.9, 'platform', 'boost');
+
+                    addGround(74, 10, 14, 7, 'ground', 'boost');
+                    enemies.push({ x: 78 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 75 * TILE_SIZE, maxX: 83 * TILE_SIZE });
+                    enemies.push({ x: 81 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'sentinel', minX: 76 * TILE_SIZE, maxX: 84 * TILE_SIZE });
+                    portal = { x: 85 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+
+                } else if (archetype === 5) {
+                    // ARCHETYPE 5: 🧗 DİKEY KULELER & ÇİFT KATLI ASANSÖR KALELERİ (Vertical Tower & Moving Lifts)
+                    addGround(13, 12, 16, 5);
+                    // Twin Wall-Jump Chimneys + Wind Updraft Assist
+                    addGround(15, 3.5, 2, 8.5, 'wall');
+                    addGround(20, 2.5, 2, 7.5, 'wall');
+                    addWindZone(17, 3.5, 3, 8.5, 0, -0.48);
+                    addSaw(18.5, 9.5, 18.5, 4.5, 1.4, 19);
+
+                    // High Fortress Roof
+                    addGround(22, 4.5, 13, 1.0, 'platform', worldSurface);
+                    enemies.push({ x: 26 * TILE_SIZE, y: 3.5 * TILE_SIZE, type: 'golem', minX: 23 * TILE_SIZE, maxX: 33 * TILE_SIZE });
+                    enemies.push({ x: 31 * TILE_SIZE, y: 3.5 * TILE_SIZE, type: 'sentinel', minX: 25 * TILE_SIZE, maxX: 34 * TILE_SIZE });
+                    coins.push({ x: 28 * TILE_SIZE, y: 3.4 * TILE_SIZE, type: 'emerald' });
+
+                    // Lower Path Under Roof
+                    hazards.push({ x: 29 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 9 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(29, 14, 9, 3);
+
+                    // Checkpoint Bastion
+                    addGround(38, 11, 13, 6);
+                    checkpoints.push({ x: 39.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
+                    enemies.push({ x: 44 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'crawler', minX: 41 * TILE_SIZE, maxX: 49 * TILE_SIZE });
+
+                    // Moving Elevator Section
+                    hazards.push({ x: 51 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 21 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(51, 14, 21, 3);
+                    addMovingPlatform(52.5, 10.5, 52.5, 5.5, 3.4, 1.4);
+                    addGround(57.5, 5.5, 6.5, 0.9, 'platform');
+                    addLaserGate(60.5, 2.0, 3.5, 135, 65, 30);
+                    addMovingPlatform(65.5, 5.5, 70.5, 9.5, 3.4, 1.4);
+
+                    addGround(72, 10, 15, 7);
+                    enemies.push({ x: 76 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 73 * TILE_SIZE, maxX: 81 * TILE_SIZE });
+                    enemies.push({ x: 80 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'sentinel', minX: 75 * TILE_SIZE, maxX: 83 * TILE_SIZE });
+                    portal = { x: 84 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+
+                } else if (archetype === 6) {
+                    // ARCHETYPE 6: 🌀 ÇOK KATLI PORTAL LABİRENTİ (Multi-Deck Wormhole Maze)
+                    addGround(13, 12, 14, 5);
+                    addGround(15, 6.2, 13, 0.9, 'platform', worldSurface); // Upper deck 1
+                    addGround(26, 2, 2, 10, 'wall'); // Barrier wall
+
+                    teleporters.push({
+                        x1: 23.5 * TILE_SIZE, y1: 12 * TILE_SIZE - 56,
+                        x2: 16.5 * TILE_SIZE, y2: 6.2 * TILE_SIZE - 56,
+                        color: "#00f2fe"
+                    });
+                    enemies.push({ x: 21 * TILE_SIZE, y: 5.2 * TILE_SIZE, type: 'sentinel', minX: 18 * TILE_SIZE, maxX: 25 * TILE_SIZE });
+                    addJumpPad(24.5, 6.2, -18.5);
+
+                    // Bridge over barrier wall
+                    addGround(28, 4.5, 9, 0.9, 'platform');
+                    addLaserGate(32.5, 1.0, 3.5, 135, 60, 0);
+                    coins.push({ x: 34 * TILE_SIZE, y: 3.4 * TILE_SIZE, type: 'emerald' });
+
+                    // Checkpoint Bastion
+                    addGround(37, 11, 14, 6);
+                    checkpoints.push({ x: 38.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
+                    enemies.push({ x: 43 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 40 * TILE_SIZE, maxX: 49 * TILE_SIZE });
+
+                    // Second Wormhole Puzzle + Low Gravity
+                    addGround(50, 3, 2, 8, 'wall');
+                    teleporters.push({
+                        x1: 48 * TILE_SIZE, y1: 11 * TILE_SIZE - 56,
+                        x2: 53.5 * TILE_SIZE, y2: 8.5 * TILE_SIZE - 56,
+                        color: "#ff2a85"
+                    });
+                    gravityZones.push({ x: 52 * TILE_SIZE, y: 1 * TILE_SIZE, w: 19 * TILE_SIZE, h: 12 * TILE_SIZE });
+                    hazards.push({ x: 52 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 19 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(52, 14, 19, 3);
+                    addGround(52.5, 8.5, 6.5, 0.9, 'platform', worldSurface);
+                    addSaw(61.5, 4.5, 61.5, 10.5, 1.6, 24);
+                    addGround(64, 7.0, 5.5, 0.9, 'platform');
+
+                    addGround(71, 10, 15, 7);
+                    enemies.push({ x: 75 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 72 * TILE_SIZE, maxX: 80 * TILE_SIZE });
+                    enemies.push({ x: 79 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'sentinel', minX: 74 * TILE_SIZE, maxX: 83 * TILE_SIZE });
+                    portal = { x: 83.5 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+
+                } else {
+                    // ARCHETYPE 7: 🌌 SIFIR YERÇEKİMİ UZAY İSTASYONU & KOMBO MEKANİKLER (Space Anomaly Combo)
+                    gravityZones.push({ x: 13 * TILE_SIZE, y: 1 * TILE_SIZE, w: 23 * TILE_SIZE, h: 12 * TILE_SIZE });
+                    hazards.push({ x: 13 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 23 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(13, 14, 23, 3);
+
+                    addJumpPad(11.8, 12, -17.5);
+                    addGround(16, 8.8, 4.5, 0.9, 'platform', 'boost');
+                    addSaw(22, 4.0, 22, 10.5, 1.55, 24);
+                    addMovingPlatform(24, 7.5, 29, 5.5, 3.5, 1.35);
+                    addGround(31, 6.5, 4.5, 0.9, 'platform', 'ice');
+
+                    addGround(36, 11, 14, 6);
+                    checkpoints.push({ x: 37.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
+                    addLaserGate(41, 7.5, 3.5, 140, 65, 0);
+                    enemies.push({ x: 44 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 42 * TILE_SIZE, maxX: 49 * TILE_SIZE });
+
+                    // Second Section: Wind + Saws + Crumble Gauntlet
+                    hazards.push({ x: 50 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 22 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                    addGround(50, 14, 22, 3);
+                    addWindZone(51.5, 2.5, 5.5, 11.0, 0.08, -0.68);
+                    addGround(58, 6.2, 6.0, 0.9, 'platform', 'boost');
+                    enemies.push({ x: 60.5 * TILE_SIZE, y: 5.2 * TILE_SIZE, type: 'sentinel', minX: 58.5 * TILE_SIZE, maxX: 63.5 * TILE_SIZE });
+                    addCrumble(65.5, 8.0, 2.6);
+                    addCrumble(69.0, 9.2, 2.6);
+
+                    addGround(72, 10, 15, 7);
+                    enemies.push({ x: 76 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 73 * TILE_SIZE, maxX: 81 * TILE_SIZE });
+                    enemies.push({ x: 80 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'crawler', minX: 74 * TILE_SIZE, maxX: 83 * TILE_SIZE });
+                    portal = { x: 84 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
                 }
-
-                // Section 5: Low-Gravity Anomaly Canyon + Saws
-                gravityZones.push({ x: 56 * TILE_SIZE, y: 1 * TILE_SIZE, w: 16 * TILE_SIZE, h: 12 * TILE_SIZE });
-                hazards.push({ x: 56 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 16 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
-                addGround(56, 14, 16, 3);
-                addCrumble(58.5, 9.5, 2.5);
-                addSaw(63, 4.5, 63, 10.5, 1.6, 24);
-                addCrumble(66, 8.0, 2.5);
-                coins.push({ x: 67.2 * TILE_SIZE, y: 7.1 * TILE_SIZE, type: 'emerald' });
-
-                // Section 6: Final Citadel & Exit Portal
-                addGround(72, 10, 16, 7);
-                enemies.push({ x: 76 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 73.5 * TILE_SIZE, maxX: 81 * TILE_SIZE });
-                enemies.push({ x: 80.5 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'sentinel', minX: 76 * TILE_SIZE, maxX: 84 * TILE_SIZE });
-                enemies.push({ x: 78 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'crawler', minX: 74 * TILE_SIZE, maxX: 83 * TILE_SIZE });
-                coins.push({ x: 82 * TILE_SIZE, y: 9.1 * TILE_SIZE, type: 'emerald' });
-
-                portal = { x: 85 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
             }
             break;
         }
@@ -956,6 +1338,9 @@ function createLevelData(levelIndex) {
         checkpoints,
         teleporters,
         gravityZones,
+        jumpPads,
+        windZones,
+        laserGates,
         signs,
         portal,
         bossConfig

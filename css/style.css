@@ -474,7 +474,84 @@ html, body {
     -webkit-text-fill-color: transparent;
 }
 
-/* 40-Level Grid (10 Columns x 4 Rows) */
+/* 10 World / Action Zone Filter Bar + 100-Level Grid */
+.world-tabs-bar {
+    width: 100%;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding: 4px 2px;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+    flex-shrink: 0;
+}
+
+.world-tab-btn {
+    background: rgba(14, 19, 42, 0.88);
+    border: 1.5px solid rgba(0, 242, 254, 0.32);
+    color: #cbd5e1;
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    flex-shrink: 0;
+}
+
+.world-tab-btn:hover {
+    border-color: var(--neon-gold);
+    color: #ffffff;
+}
+
+.world-tab-btn.active {
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.28), rgba(181, 55, 242, 0.42));
+    border-color: var(--neon-cyan);
+    color: #ffffff;
+    box-shadow: 0 0 14px rgba(0, 242, 254, 0.45);
+}
+
+/* Feedback Modal Star & Category Chips */
+.feedback-star-btn {
+    width: 42px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(255, 209, 102, 0.35);
+    background: rgba(15, 23, 42, 0.85);
+    color: rgba(255, 255, 255, 0.25);
+    font-size: 22px;
+    cursor: pointer;
+    transition: all 0.14s ease;
+}
+
+.feedback-star-btn.active {
+    color: #ffd166;
+    border-color: #ffd166;
+    background: rgba(255, 209, 102, 0.16);
+    text-shadow: 0 0 10px rgba(255, 209, 102, 0.75);
+}
+
+.feedback-cat-chip {
+    background: rgba(15, 23, 42, 0.85);
+    border: 1.5px solid rgba(0, 242, 254, 0.3);
+    color: #cbd5e1;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.14s ease;
+}
+
+.feedback-cat-chip.active {
+    background: rgba(0, 242, 254, 0.22);
+    border-color: #00f2fe;
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.35);
+}
+
+/* 100-Level Grid (10 Columns) */
 .world-map-grid {
     width: 100%;
     display: grid;

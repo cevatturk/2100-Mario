@@ -70,6 +70,70 @@ const HERO_CHARACTERS_CATALOG = [
         faceDesc: "Yüz Tipi: Sakalsız Keskin Çene, Uzun Sarkık Pala Bıyık & İnci Küpe",
         desc: "Tarihi portreye birebir: Samur kürklü altın işlemeli kırmızı Hünkar Kaftanı ve sorguçlu burmalı Tac-ı Selimi sarığı!",
         cost: 300
+    },
+    {
+        id: "fatih_sultan_mehmet",
+        icon: "🏰",
+        title: "Fatih Sultan Mehmet Kıyafeti",
+        faceDesc: "Yüz Tipi: Kemerli Burun, Genç Hünkar Sakalı & Kıvrık Bıyık",
+        desc: "İstanbul'un Fatihi: Altın sırma işlemeli kızıl-lacivert Hünkar Kaftanı, beyaz İmparatorluk Destar Sarığı ve Fetih Kılıcı!",
+        cost: 350
+    },
+    {
+        id: "janissary_aga",
+        icon: "🗡️",
+        title: "Yeniçeri Ağası Kıyafeti",
+        faceDesc: "Yüz Tipi: Uzun Pala Bıyıklı & Keskin Bakışlı Yeniçeri Yüzü",
+        desc: "Altın tüylüklü ve kaşıklıklı beyaz keçe Yeniçeri Börkü, kırmızı dolama kaftan ve keskin Osmanlı Yatağan kılıcı!",
+        cost: 160
+    },
+    {
+        id: "mete_han",
+        icon: "🏹",
+        title: "Mete Han (Bozkır Kağanı)",
+        faceDesc: "Yüz Tipi: Bozkır Savaşçısı Pala Bıyığı & Kartal Bakışlı Yüz",
+        desc: "Kurt kürklü bozkır zırhı, çift kartal tüylü altın tolga başlık, ok sadağı ve ıslıklı Türk kurma yayı!",
+        cost: 240
+    },
+    {
+        id: "cyber_shogun",
+        icon: "👹",
+        title: "Siber Şogun Samuray",
+        faceDesc: "Yüz Tipi: Kırmızı-Siyah Menpo Savaş Maskesi & Lazer Gözler",
+        desc: "Altın boynuzlu Kabuto samuray miğferi, neon O-Yoroi zırhı ve parlayan plazma katanası!",
+        cost: 180
+    },
+    {
+        id: "cosmic_astronaut",
+        icon: "👨‍🚀",
+        title: "Kozmik Astronot (EVA-2100)",
+        faceDesc: "Yüz Tipi: Altın Yansımalı Tam Küre Uzay Kaskı Vizörü",
+        desc: "Derin uzay görevleri için basınçlı beyaz EVA astronot zırhı, yaşam destek çantası ve altın güneş vizörü!",
+        cost: 150
+    },
+    {
+        id: "ice_valkyrie",
+        icon: "❄️",
+        title: "Kuzeyli Buz Valkyrie",
+        faceDesc: "Yüz Tipi: Platin Örgülü Saçlar & Buz Mavisi Gözler",
+        desc: "Kanatlı gümüş Valkyrie miğferi, kristal buz pelerini, Kuzey zırhı ve dondurucu buz mızrağı!",
+        cost: 220
+    },
+    {
+        id: "golden_pharaoh",
+        icon: "☀️",
+        title: "Altın Firavun (Güneş Kralı)",
+        faceDesc: "Yüz Tipi: Sürmeli Gözler & Altın Firavun Sakalı",
+        desc: "Kobra armalı mavi-altın Nemes başlığı, geniş altın yaka zırhı ve parlayan Güneş Asası!",
+        cost: 260
+    },
+    {
+        id: "spartan_gladiator",
+        icon: "🛡️",
+        title: "Spartalı Komutan (Leonidas)",
+        faceDesc: "Yüz Tipi: Savaş Sakallı & Sert Çeneli Spartalı Yüzü",
+        desc: "Kızıl at kılı sorguçlu bronz Korint miğferi, kırmızı Sparta pelerini, yuvarlak kalkan ve mızrak!",
+        cost: 190
     }
 ];
 
@@ -270,7 +334,7 @@ const LANGUAGES = [
 const LANG_DICT = {
     tr: {
         gameTitle: "Marinext 2100",
-        seasonBadge: "40 BÖLÜM TAM SÜRÜM",
+        seasonBadge: "100 BÖLÜM • 10 DÜNYA TAM SÜRÜM",
         profileTag: "OYUNCU PROFİLİ",
         hudProfileTag: "PROFİL",
         emeraldLabel: "Antik Zümrüt:",
@@ -286,9 +350,9 @@ const LANG_DICT = {
         btnOpenShop: "🛒 GÜÇLENDİRME MAĞAZASI",
         btnPlayLevel: "BÖLÜME BAŞLA ▶",
         btnCustomizeMain: "🎨 KARAKTERİ KİŞİSELLEŞTİR (❖)",
-        btnUnlockAll: "🔓 40 Bölümün Tümünü + 50❖ Zümrüt Aç (Test)",
+        btnUnlockAll: "🔓 100 Bölümün Tümünü + 50❖ Zümrüt Aç (Test)",
         controlsHint: "<strong>Kontroller:</strong> A/D veya Ok Tuşları (Koş) • W/Boşluk (Çift Zıplama & Duvar Zıplaması) • X/F/Shift (Ateş Topu / Atılma)",
-        previewFeatures: "<span>❖ Antik Zümrüt Topla -> Karakterini Kişiselleştir!</span><span>🚩 Checkpoint Sistemi</span><span>⚙ Testereler & Sarkıtlar</span><span>👑 Ritimli Boss Savaşları</span>",
+        previewFeatures: "<span>🚀 Sıçrama Trambolinleri & 💨 Hava Akımları</span><span>⚡ Zamanlamalı Lazer Kapıları</span><span>🧊 Buz & ⏩ Hız Konveyörleri</span><span>👑 20 Efsanevi Boss Savaşı</span>",
         custTitle: "🎨 KARAKTER KİŞİSELLEŞTİRME STÜDYOSU",
         custSub: "Bölümlerde topladığın <strong>Antik Zümrütleri (❖)</strong> kullanarak şövalyeni dilediğin gibi tasarla!",
         custPreview: "CANLI KARAKTER ÖNİZLEME",
@@ -338,8 +402,19 @@ const LANG_DICT = {
         trollSignHint: "Dikkat: Belirli Zeminler Çöker (-3♥), Belirli [?] Uranyum Yağdırır (-3♥), Belirli ❖ Başa Işınlar!",
         levelWord: "Bölüm",
         worldWord: "DÜNYA",
-        worldRegions: ["BÖLGE 1: KRİSTAL MAĞARALAR", "BÖLGE 2: SİBER MAGMA", "BÖLGE 3: KUANTUM BOŞLUK", "BÖLGE 4: KOZMİK HİÇLİK"],
-        levelDescTemplate: "Zümrütleri (❖) topla, tuzakları aş ve çıkış portalına (🌀) ulaş!",
+        worldRegions: [
+            "BÖLGE 1: KRİSTAL MAĞARALAR",
+            "BÖLGE 2: SİBER MAGMA",
+            "BÖLGE 3: KUANTUM BOŞLUK",
+            "BÖLGE 4: KOZMİK HİÇLİK",
+            "BÖLGE 5: BUZUL FIRTINASI",
+            "BÖLGE 6: BİYO-LABORATUVAR",
+            "BÖLGE 7: GÖKYÜZÜ TERSANESİ",
+            "BÖLGE 8: ANTİK TAPINAK",
+            "BÖLGE 9: KARANLIK MADDE",
+            "BÖLGE 10: İMPARATORLUK TAHTI"
+        ],
+        levelDescTemplate: "Zümrütleri (❖) topla, trambolin (🚀), rüzgar (💨) ve lazer kapılarını (⚡) aşarak portala (🌀) ulaş!",
         bossDescTemplate: "Boss Savaşı! Şok dalgalarından kaç, kalkanı kapandığında kafasına zıpla veya ateş topu at!",
         trollDescTemplate: "Trol Tuzağı! Belirli zeminler çöker (-3♥), belirli [?] kutuları Uranyum yağdırır (-3♥) ve belirli ❖ en başa ışınlar!",
         levelShortNames: [
@@ -350,7 +425,19 @@ const LANG_DICT = {
             "Siber Sektör", "Zaman Kırığı", "Lazer Kulesi", "Nöbetçi Üssü", "Hiper-Meka ☠",
             "Yıldız Tozu", "Karanlık Maden", "Siber Fırtına", "Kuantum Çekirdek", "Hiperiyon ☠",
             "Hiçlik Kapısı", "Kabus Köprüsü", "Gölge Kalesi", "Kaos Portalları", "Kaos Ejderi ☠",
-            "Sonsuzluk Yolu", "Elit Muhafızlar", "Kıyamet Kulesi", "Taht Koridoru", "Tanrı-İmparator 👑"
+            "Sonsuzluk Yolu", "Elit Muhafızlar", "Kıyamet Kulesi", "Taht Koridoru", "Tanrı-İmparator ☠",
+            "Buzul Vadisi", "Rüzgar Kanyonu", "Lazer Buzulu", "Kristal Çığ", "Buzul Kralı ☠",
+            "Donmuş Tersane", "Tipi Koridoru", "Ayna Uçurum", "Kutup Kulesi", "Kutup Titanı ☠",
+            "Biyo-Sektör", "Plazma Sera", "Lazer Reaktör", "Genetik Köprü", "Biyo-Mutant ☠",
+            "Rüzgar Türbini", "Siber Asansör", "Kuantum Deney", "Karanlık Reaktör", "Omega Sürü ☠",
+            "Bulut Limanı", "Stratosfer", "Gök Lazerleri", "Buz Bulutları", "Fırtına Amirali ☠",
+            "Turbo Pist", "İkiz Kuleler", "Hava İskelesi", "Yörünge Halkası", "Gök İmparatoru ☠",
+            "Sfenks Geçidi", "Rüzgar Obeliski", "Güneş Lazerleri", "Buzul Piramit", "Firavun Muhafızı ☠",
+            "Altın Koridor", "Gökyüzü Tapınağı", "Labirent Mahzen", "Yıldız Sunağı", "Antik Yıkıcı ☠",
+            "Nebula Sıçrayışı", "Kuasar Akımı", "Pulsar Kafesi", "Komet Buzulu", "Nebula Celladı ☠",
+            "Işık Hızı", "Nötron Kulesi", "Solucan Ağı", "Olay Ufku", "Karadelik Lordu ☠",
+            "Taht Girişi", "İmparatorluk Akımı", "Kraliyet Lazeri", "Elmas Köprü", "Taht Muhafızı ☠",
+            "Kızıl Koridor", "Gökyüzü Sarayı", "Son Labirent", "Kıyamet Eşiği", "Evren Hükümdarı 👑"
         ],
         trollShortNames: [
             "Sahte Başlangıç", "Uranyum Sürprizi", "Zümrüt Serabı", "Çöken Köprü", "Trol Dev ☠",
@@ -1106,7 +1193,15 @@ class Game {
         this.state = "map";
         this.selectedLevel = 0;
         this.unlockedLevels = 1;
-        this.starsPerLevel = Array(40).fill(0);
+        this.starsPerLevel = Array(100).fill(0);
+        this.selectedWorldFilter = -1; // -1 = Tümü (100 Bölüm), 0..9 = Dünya 1..10
+        this.jumpPads = [];
+        this.windZones = [];
+        this.laserGates = [];
+        this.levelTick = 0;
+        this.personalizedAds = true;
+        this.feedbackStars = 5;
+        this.feedbackCategory = "Öneri & Yeni Fikir";
 
         this.isTrollMode = false;
         this.selectedTrollLevel = 0;
@@ -1182,20 +1277,26 @@ class Game {
             phase: Math.random() * Math.PI * 2
         }));
 
-        this.buildMapNodes();
-        this.buildTrollMapNodes();
-        this.setupInputs();
-        this.setupUI();
-        this.updateMapUI();
-
-        this.targetFps = 120;
-        this.frameInterval = 1000 / 120; // 8.333ms (120Hz)
+        let savedFps = 120;
+        try {
+            const rawFps = Number(localStorage.getItem("marinext_target_fps"));
+            if (rawFps === 30 || rawFps === 60 || rawFps === 120) savedFps = rawFps;
+            this.personalizedAds = localStorage.getItem("marinext_personalized_ads") !== "0";
+        } catch (e) {}
+        this.targetFps = savedFps;
+        this.frameInterval = 1000 / this.targetFps;
         this.physicsStep = 1000 / 60;    // 16.666ms fixed physics step
         this.accumulator = 0;
         this.lastTime = performance.now();
         this.fpsFrames = 0;
         this.fpsLastCheck = performance.now();
-        this.currentFps = 120;
+        this.currentFps = this.targetFps;
+
+        this.buildMapNodes();
+        this.buildTrollMapNodes();
+        this.setupInputs();
+        this.setupUI();
+        this.updateMapUI();
 
         this.start120HzEngine();
     }
@@ -1261,9 +1362,9 @@ class Game {
 
     applySaveDataObject(data) {
         if (!data || typeof data !== "object") return;
-        this.unlockedLevels = Math.max(1, Math.min(40, Number(data.unlockedLevels) || 1));
+        this.unlockedLevels = Math.max(1, Math.min(100, Number(data.unlockedLevels) || 1));
         const loadedStars = Array.isArray(data.starsPerLevel) ? data.starsPerLevel : [];
-        this.starsPerLevel = Array.from({ length: 40 }, (_, i) => Math.max(0, Math.min(3, Number(loadedStars[i]) || 0)));
+        this.starsPerLevel = Array.from({ length: 100 }, (_, i) => Math.max(0, Math.min(3, Number(loadedStars[i]) || 0)));
         this.walletCoins = Math.max(0, Number(data.walletCoins ?? 0));
         this.walletEmeralds = Math.max(0, Number(data.walletEmeralds ?? 8));
         this.walletGoldCoins = Math.max(0, Number(data.walletGoldCoins ?? 30));
@@ -1302,7 +1403,7 @@ class Game {
         const newer = (Number(b.updatedAt) || 0) >= (Number(a.updatedAt) || 0) ? b : a;
         const starsA = Array.isArray(a.starsPerLevel) ? a.starsPerLevel : [];
         const starsB = Array.isArray(b.starsPerLevel) ? b.starsPerLevel : [];
-        const mergedStars = Array.from({ length: 40 }, (_, i) => Math.max(Number(starsA[i]) || 0, Number(starsB[i]) || 0));
+        const mergedStars = Array.from({ length: 100 }, (_, i) => Math.max(Number(starsA[i]) || 0, Number(starsB[i]) || 0));
         const trollA = Array.isArray(a.starsPerTrollLevel) ? a.starsPerTrollLevel : [];
         const trollB = Array.isArray(b.starsPerTrollLevel) ? b.starsPerTrollLevel : [];
         const mergedTrollStars = Array.from({ length: 15 }, (_, i) => Math.max(Number(trollA[i]) || 0, Number(trollB[i]) || 0));
@@ -1365,7 +1466,7 @@ class Game {
                     window.MarinextCloudBridge.saveLocalBackup(jsonStr);
                 }
                 if (pushCloudImmediate && typeof window.MarinextCloudBridge.saveCloudSnapshot === "function") {
-                    const desc = `Marinext 2100 • Bölüm ${this.unlockedLevels}/40 • Coin ${this.walletGoldCoins}`;
+                    const desc = `Marinext 2100 • Bölüm ${this.unlockedLevels}/100 • Coin ${this.walletGoldCoins}`;
                     window.MarinextCloudBridge.saveCloudSnapshot(jsonStr, desc);
                 } else {
                     this.scheduleCloudSnapshotUpload(jsonStr);
@@ -1383,7 +1484,7 @@ class Game {
         if (this._cloudUploadTimer) clearTimeout(this._cloudUploadTimer);
         this._cloudUploadTimer = setTimeout(() => {
             try {
-                const desc = `Marinext 2100 • Bölüm ${this.unlockedLevels}/40 • Coin ${this.walletGoldCoins}`;
+                const desc = `Marinext 2100 • Bölüm ${this.unlockedLevels}/100 • Coin ${this.walletGoldCoins}`;
                 window.MarinextCloudBridge.saveCloudSnapshot(jsonStr, desc);
             } catch (e) {}
         }, 6000);
@@ -1449,7 +1550,7 @@ class Game {
         if (timeEl) {
             const nowStr = new Date(this.lastCloudSaveTime || Date.now()).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
             const extra = customNote ? ` • ${customNote}` : "";
-            timeEl.textContent = `Son Bulut/Cihaz Kaydı: ${nowStr} • Bölüm: ${this.unlockedLevels}/40 (Trol: ${this.unlockedTrollLevels}/15) • Coin: ${this.walletGoldCoins} ✪${extra}`;
+            timeEl.textContent = `Son Bulut/Cihaz Kaydı: ${nowStr} • Bölüm: ${this.unlockedLevels}/100 (Trol: ${this.unlockedTrollLevels}/15) • Coin: ${this.walletGoldCoins} ✪${extra}`;
         }
     }
 
@@ -1495,7 +1596,7 @@ class Game {
     }
 
     async checkAppUpdateOnStartup() {
-        const CURRENT_VERSION_CODE = 8;
+        const CURRENT_VERSION_CODE = 9;
         let installedCode = CURRENT_VERSION_CODE;
         if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.getAppVersionInfo === "function") {
             try {
@@ -1624,7 +1725,7 @@ class Game {
         if (this.lang === "tr") return base;
         const shortName = (d.levelShortNames && d.levelShortNames[idx]) || base.shortName;
         const name = `${d.levelWord} ${idx + 1}: ${shortName}`;
-        const regionIdx = Math.min(3, Math.floor(idx / 10));
+        const regionIdx = Math.min(9, Math.floor(idx / 10));
         const world = (d.worldRegions && d.worldRegions[regionIdx]) || `${d.worldWord} ${regionIdx + 1}`;
         const desc = `${name} — ${base.isBossLevel ? (d.bossDescTemplate || base.desc) : (d.levelDescTemplate || base.desc)}`;
         return { ...base, shortName, name, world, desc };
@@ -1641,7 +1742,41 @@ class Game {
         return `${loc.name} — ${d.signHint || ""}`;
     }
 
+    buildWorldFilterTabs() {
+        const tabsBar = document.getElementById("world-tabs-bar");
+        if (!tabsBar) return;
+        tabsBar.innerHTML = "";
+        const worldShortTitles = [
+            "🌍 Tümü (1-100)",
+            "💎 Dünya 1 (1-10)",
+            "🌋 Dünya 2 (11-20)",
+            "⚡ Dünya 3 (21-30)",
+            "🌌 Dünya 4 (31-40)",
+            "❄️ Dünya 5 (41-50)",
+            "🧪 Dünya 6 (51-60)",
+            "☁️ Dünya 7 (61-70)",
+            "🏛️ Dünya 8 (71-80)",
+            "🕳️ Dünya 9 (81-90)",
+            "👑 Dünya 10 (91-100)"
+        ];
+        worldShortTitles.forEach((label, i) => {
+            const filterVal = i - 1; // -1 for All, 0..9 for World 1..10
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.className = `world-tab-btn ${this.selectedWorldFilter === filterVal ? "active" : ""}`;
+            btn.textContent = label;
+            btn.addEventListener("click", () => {
+                this.selectedWorldFilter = filterVal;
+                window.sfx.coin();
+                this.buildWorldFilterTabs();
+                this.updateMapUI();
+            });
+            tabsBar.appendChild(btn);
+        });
+    }
+
     buildMapNodes() {
+        this.buildWorldFilterTabs();
         const container = document.getElementById("level-nodes-container");
         container.innerHTML = "";
         window.LEVEL_INFO.forEach((lvl, idx) => {
@@ -1747,6 +1882,16 @@ class Game {
     }
 
     handleBackAction() {
+        const feedbackScreen = document.getElementById("screen-feedback");
+        if (feedbackScreen && !feedbackScreen.classList.contains("hidden")) {
+            feedbackScreen.classList.add("hidden");
+            return true;
+        }
+        const adConsentScreen = document.getElementById("screen-ad-consent");
+        if (adConsentScreen && !adConsentScreen.classList.contains("hidden")) {
+            adConsentScreen.classList.add("hidden");
+            return true;
+        }
         const privacyScreen = document.getElementById("screen-privacy");
         if (privacyScreen && !privacyScreen.classList.contains("hidden")) {
             privacyScreen.classList.add("hidden");
@@ -2052,7 +2197,7 @@ class Game {
         });
 
         document.getElementById("btn-unlock-all").addEventListener("click", () => {
-            this.unlockedLevels = 40;
+            this.unlockedLevels = 100;
             this.walletCoins += 500;
             this.walletEmeralds += 50;
             this.walletGoldCoins = (this.walletGoldCoins || 0) + 600;
@@ -2221,6 +2366,22 @@ class Game {
             this.updateSettingsUI();
         });
 
+        const btnToggleFps = document.getElementById("btn-toggle-fps");
+        if (btnToggleFps) {
+            btnToggleFps.addEventListener("click", () => {
+                window.sfx.coin();
+                if (this.targetFps === 120) this.targetFps = 60;
+                else if (this.targetFps === 60) this.targetFps = 30;
+                else this.targetFps = 120;
+                this.frameInterval = 1000 / this.targetFps;
+                this.currentFps = this.targetFps;
+                try {
+                    localStorage.setItem("marinext_target_fps", String(this.targetFps));
+                } catch (e) {}
+                this.updateSettingsUI();
+            });
+        }
+
         document.getElementById("btn-settings-restart-level").addEventListener("click", () => {
             document.getElementById("screen-settings").classList.add("hidden");
             window.sfx.coin();
@@ -2239,7 +2400,7 @@ class Game {
             }
             this.unlockedLevels = 1;
             this.selectedLevel = 0;
-            this.starsPerLevel = Array(40).fill(0);
+            this.starsPerLevel = Array(100).fill(0);
             this.unlockedTrollLevels = 1;
             this.selectedTrollLevel = 0;
             this.starsPerTrollLevel = Array(15).fill(0);
@@ -2343,6 +2504,112 @@ class Game {
             btnPrivacyConsent.addEventListener("click", () => {
                 window.sfx.coin();
                 this.manageAdPrivacyConsent();
+            });
+        }
+
+        const closeAdConsentHandler = () => {
+            window.sfx.coin();
+            const modal = document.getElementById("screen-ad-consent");
+            if (modal) modal.classList.add("hidden");
+        };
+        const btnCloseAdConsent = document.getElementById("btn-close-ad-consent");
+        if (btnCloseAdConsent) btnCloseAdConsent.addEventListener("click", closeAdConsentHandler);
+        const btnCloseAdConsentX = document.getElementById("btn-close-ad-consent-x");
+        if (btnCloseAdConsentX) btnCloseAdConsentX.addEventListener("click", closeAdConsentHandler);
+
+        const btnTogglePersonalizedAds = document.getElementById("btn-toggle-personalized-ads");
+        if (btnTogglePersonalizedAds) {
+            btnTogglePersonalizedAds.addEventListener("click", () => {
+                window.sfx.coin();
+                this.personalizedAds = !this.personalizedAds;
+                try {
+                    localStorage.setItem("marinext_personalized_ads", this.personalizedAds ? "1" : "0");
+                } catch (e) {}
+                this.updateAdConsentUI();
+            });
+        }
+
+        const btnOpenGoogleUmp = document.getElementById("btn-open-google-ump-form");
+        if (btnOpenGoogleUmp) {
+            btnOpenGoogleUmp.addEventListener("click", async () => {
+                window.sfx.coin();
+                const statusEl = document.getElementById("ad-consent-region-status");
+                try {
+                    const capAdMob = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
+                    if (capAdMob && typeof capAdMob.requestConsentInfo === "function") {
+                        const consentInfo = await capAdMob.requestConsentInfo();
+                        if (consentInfo && consentInfo.isConsentFormAvailable && typeof capAdMob.showConsentForm === "function") {
+                            await capAdMob.showConsentForm();
+                            if (statusEl) statusEl.textContent = "Google UMP (GDPR) Rıza Formu başarıyla güncellendi ✓";
+                            return;
+                        }
+                    }
+                } catch (e) {}
+                if (statusEl) {
+                    statusEl.textContent = "Bölgenizde (AB/AET dışı) ek Google UMP formu zorunlu değildir • Yukarıdaki butonla reklam tercihinizi doğrudan değiştirebilirsiniz ✓";
+                }
+            });
+        }
+
+        // 💬 In-App Feedback & Google Play Console Tester Feedback Modal
+        const openFeedbackHandler = () => {
+            this.resetInputs();
+            window.sfx.emerald();
+            const settingsModal = document.getElementById("screen-settings");
+            if (settingsModal && !settingsModal.classList.contains("hidden")) {
+                settingsModal.classList.add("hidden");
+            }
+            this.openFeedbackModal();
+        };
+        const btnMapFeedback = document.getElementById("btn-map-feedback");
+        if (btnMapFeedback) btnMapFeedback.addEventListener("click", openFeedbackHandler);
+        const btnSettingsFeedback = document.getElementById("btn-settings-feedback");
+        if (btnSettingsFeedback) btnSettingsFeedback.addEventListener("click", openFeedbackHandler);
+
+        const closeFeedbackHandler = () => {
+            window.sfx.coin();
+            const fbModal = document.getElementById("screen-feedback");
+            if (fbModal) fbModal.classList.add("hidden");
+        };
+        const btnCloseFeedback = document.getElementById("btn-close-feedback");
+        if (btnCloseFeedback) btnCloseFeedback.addEventListener("click", closeFeedbackHandler);
+        const btnCloseFeedbackX = document.getElementById("btn-close-feedback-x");
+        if (btnCloseFeedbackX) btnCloseFeedbackX.addEventListener("click", closeFeedbackHandler);
+
+        document.querySelectorAll("#feedback-stars-row .feedback-star-btn").forEach((starBtn) => {
+            starBtn.addEventListener("click", () => {
+                window.sfx.coin();
+                this.feedbackStars = Number(starBtn.getAttribute("data-star")) || 5;
+                document.querySelectorAll("#feedback-stars-row .feedback-star-btn").forEach((b) => {
+                    const s = Number(b.getAttribute("data-star")) || 1;
+                    b.classList.toggle("active", s <= this.feedbackStars);
+                });
+            });
+        });
+
+        document.querySelectorAll("#feedback-category-row .feedback-cat-chip").forEach((chipBtn) => {
+            chipBtn.addEventListener("click", () => {
+                window.sfx.coin();
+                this.feedbackCategory = chipBtn.getAttribute("data-cat") || "Öneri & Yeni Fikir";
+                document.querySelectorAll("#feedback-category-row .feedback-cat-chip").forEach((b) => {
+                    b.classList.toggle("active", b === chipBtn);
+                });
+            });
+        });
+
+        const btnSubmitPlayConsole = document.getElementById("btn-submit-feedback-playconsole");
+        if (btnSubmitPlayConsole) {
+            btnSubmitPlayConsole.addEventListener("click", () => {
+                window.sfx.emerald();
+                this.submitFeedbackToPlayConsole(true);
+            });
+        }
+
+        const btnSubmitDirect = document.getElementById("btn-submit-feedback-direct");
+        if (btnSubmitDirect) {
+            btnSubmitDirect.addEventListener("click", () => {
+                window.sfx.coin();
+                this.submitFeedbackToPlayConsole(false);
             });
         }
 
@@ -2519,7 +2786,7 @@ class Game {
                 this.selectedTrollLevel = next;
                 this.startLevel(next, true);
             } else {
-                const next = Math.min(39, this.selectedLevel + 1);
+                const next = Math.min(99, this.selectedLevel + 1);
                 this.selectedLevel = next;
                 this.startLevel(next, false);
             }
@@ -2798,7 +3065,7 @@ class Game {
                 </div>
                 <div class="profile-stat-item">
                     <span>🏆 İLERLEME & SERVET</span>
-                    <strong>Bölüm: ${this.unlockedLevels}/40 • ★ ${totalStars}/120 • ${this.walletEmeralds} ❖ • ${this.walletCoins} ◆</strong>
+                    <strong>Bölüm: ${this.unlockedLevels}/100 • ★ ${totalStars}/300 • ${this.walletEmeralds} ❖ • ${this.walletCoins} ◆</strong>
                 </div>
             `;
         }
@@ -2845,6 +3112,23 @@ class Game {
             musicText.textContent = window.sfx.musicMuted ? `${d.offText} 🔇` : `${d.onText} 🎵`;
             musicText.style.color = window.sfx.musicMuted ? "#ff2a85" : "#06d6a0";
         }
+        const fpsText = document.getElementById("settings-fps-text");
+        if (fpsText) {
+            if (this.targetFps === 120) {
+                fpsText.textContent = "120 FPS (ULTRA AKICI) ⚡";
+                fpsText.style.color = "#00f2fe";
+            } else if (this.targetFps === 60) {
+                fpsText.textContent = "60 FPS (DENGELİ) ⚙️";
+                fpsText.style.color = "#ffd166";
+            } else {
+                fpsText.textContent = "30 FPS (YAVAŞ CİHAZ / GÜÇ TASARRUFU) 🔋";
+                fpsText.style.color = "#06d6a0";
+            }
+        }
+        const fpsEl = document.getElementById("hud-fps");
+        if (fpsEl) fpsEl.textContent = `⚡ ${this.targetFps} FPS`;
+        const mapFpsEl = document.getElementById("map-fps");
+        if (mapFpsEl) mapFpsEl.textContent = `⚡ ${this.targetFps} FPS`;
         const muteBtn = document.getElementById("btn-mute");
         if (muteBtn) {
             muteBtn.textContent = (window.sfx.sfxMuted && window.sfx.musicMuted) ? "🔇" : "🔊";
@@ -3249,6 +3533,9 @@ class Game {
         if (mapGoldEl) mapGoldEl.textContent = this.walletGoldCoins || 0;
 
         document.querySelectorAll("#level-nodes-container .map-node").forEach((node, idx) => {
+            const worldIdx = Math.floor(idx / 10);
+            const visibleInFilter = this.selectedWorldFilter === -1 || this.selectedWorldFilter === worldIdx;
+            node.style.display = visibleInFilter ? "" : "none";
             node.classList.toggle("unlocked", idx < this.unlockedLevels);
             node.classList.toggle("selected", idx === this.selectedLevel);
             const labelEl = node.querySelector(".node-label");
@@ -3289,6 +3576,10 @@ class Game {
         this.portal = data.portal;
         this.teleporters = data.teleporters || [];
         this.gravityZones = data.gravityZones || [];
+        this.jumpPads = (data.jumpPads || []).map((jp) => ({ ...jp, anim: 0 }));
+        this.windZones = (data.windZones || []).map((wz) => ({ ...wz }));
+        this.laserGates = (data.laserGates || []).map((lg) => ({ ...lg }));
+        this.levelTick = 0;
         this.uraniumBombs = [];
         this.uraniumExplosions = [];
         this.pendingTrollDeathTimer = 0;
@@ -3385,7 +3676,7 @@ class Game {
         this.accumulator = 0;
         this.lastTime = performance.now();
 
-        ["screen-map", "screen-shop", "screen-customize", "screen-character", "screen-modal", "screen-settings", "screen-profile", "screen-language", "screen-troll", "screen-ad-overlay"].forEach((id) => {
+        ["screen-map", "screen-shop", "screen-customize", "screen-character", "screen-modal", "screen-settings", "screen-profile", "screen-language", "screen-troll", "screen-ad-overlay", "screen-ad-consent", "screen-feedback"].forEach((id) => {
             const el = document.getElementById(id);
             if (el) el.classList.add("hidden");
         });
@@ -3505,14 +3796,14 @@ class Game {
             }
         } else {
             this.starsPerLevel[this.selectedLevel] = Math.max(this.starsPerLevel[this.selectedLevel] || 0, earnedStars);
-            if (this.selectedLevel + 1 >= this.unlockedLevels && this.unlockedLevels < 40) {
+            if (this.selectedLevel + 1 >= this.unlockedLevels && this.unlockedLevels < 100) {
                 this.unlockedLevels = this.selectedLevel + 2;
             }
         }
         this.saveProgress();
 
         const modal = document.getElementById("screen-modal");
-        const isFinal = this.isTrollMode ? (this.selectedTrollLevel === 14) : (this.selectedLevel === 39);
+        const isFinal = this.isTrollMode ? (this.selectedTrollLevel === 14) : (this.selectedLevel === 99);
         document.getElementById("modal-title").textContent = isFinal ? d.finalVictoryTitle : d.victoryTitle;
         document.getElementById("modal-subtitle").textContent = `${"★".repeat(earnedStars)}${"☆".repeat(3 - earnedStars)}`;
         document.getElementById("modal-stats").classList.remove("hidden");
@@ -3532,7 +3823,7 @@ class Game {
         }
 
         const nextBtn = document.getElementById("btn-next-level");
-        const hasNext = this.isTrollMode ? (this.selectedTrollLevel < 14) : (this.selectedLevel < 39);
+        const hasNext = this.isTrollMode ? (this.selectedTrollLevel < 14) : (this.selectedLevel < 99);
         if (hasNext) {
             nextBtn.classList.remove("hidden");
         } else {
@@ -3591,19 +3882,96 @@ class Game {
         }
     }
 
+    updateAdConsentUI() {
+        const statusEl = document.getElementById("ad-personalization-status");
+        if (statusEl) {
+            statusEl.textContent = this.personalizedAds ? "KİŞİSELLEŞTİRİLMİŞ ✓" : "STANDART (KİŞİSEL OLMAYAN)";
+            statusEl.style.color = this.personalizedAds ? "#06d6a0" : "#ffd166";
+        }
+    }
+
     async manageAdPrivacyConsent() {
+        this.updateAdConsentUI();
+        const adConsentModal = document.getElementById("screen-ad-consent");
+        if (adConsentModal) {
+            adConsentModal.classList.remove("hidden");
+        }
+    }
+
+    openFeedbackModal() {
+        const statusEl = document.getElementById("feedback-status-box");
+        if (statusEl) {
+            statusEl.textContent = "";
+            statusEl.style.color = "#06d6a0";
+        }
+        const modal = document.getElementById("screen-feedback");
+        if (modal) modal.classList.remove("hidden");
+    }
+
+    submitFeedbackToPlayConsole(openPlayStore = true) {
+        const msgInput = document.getElementById("feedback-message-input");
+        const statusEl = document.getElementById("feedback-status-box");
+        const rawText = msgInput ? msgInput.value.trim() : "";
+        const stars = this.feedbackStars || 5;
+        const cat = this.feedbackCategory || "Öneri & Yeni Fikir";
+
+        const reportPayload = {
+            app: "Marinext 2100",
+            version: "1.1.5 (code 9)",
+            stars,
+            category: cat,
+            message: rawText || "(Yıldız puanı gönderildi)",
+            level: this.selectedLevel + 1,
+            unlockedLevels: this.unlockedLevels,
+            fpsMode: this.targetFps,
+            timestamp: new Date().toISOString()
+        };
+
         try {
-            const capAdMob = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
-            if (capAdMob && typeof capAdMob.requestConsentInfo === "function") {
-                const consentInfo = await capAdMob.requestConsentInfo();
-                if (consentInfo && consentInfo.isConsentFormAvailable && typeof capAdMob.showConsentForm === "function") {
-                    await capAdMob.showConsentForm();
-                    return;
-                }
-            }
+            const history = JSON.parse(localStorage.getItem("marinext_feedback_history") || "[]");
+            history.push(reportPayload);
+            localStorage.setItem("marinext_feedback_history", JSON.stringify(history.slice(-20)));
         } catch (e) {}
-        const privModal = document.getElementById("screen-privacy");
-        if (privModal) privModal.classList.remove("hidden");
+
+        const summaryText = `[Marinext 2100 v1.1.5 • ${cat} • ${"★".repeat(stars)} • Bölüm ${this.selectedLevel + 1}/100] ${rawText}`;
+
+        if (openPlayStore) {
+            if (statusEl) {
+                statusEl.style.color = "#06d6a0";
+                statusEl.textContent = "✅ Mesajınız kopyalandı ve Google Play Console Test Geri Bildirimi ekranı açılıyor...";
+            }
+            try {
+                if (navigator.clipboard && rawText) {
+                    navigator.clipboard.writeText(summaryText).catch(() => {});
+                }
+            } catch (e) {}
+            if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.openPlayStoreFeedback === "function") {
+                try {
+                    window.MarinextCloudBridge.openPlayStoreFeedback(summaryText);
+                    return;
+                } catch (e) {}
+            }
+            window.open("https://play.google.com/store/apps/details?id=com.cgstudiohome.marinext2100", "_blank", "noopener");
+        } else {
+            if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.submitDirectFeedback === "function") {
+                try {
+                    window.MarinextCloudBridge.submitDirectFeedback(JSON.stringify(reportPayload));
+                    if (statusEl) {
+                        statusEl.style.color = "#06d6a0";
+                        statusEl.textContent = "✅ Geri bildiriminiz geliştirici ekibe iletildi! Teşekkür ederiz.";
+                    }
+                    if (msgInput) msgInput.value = "";
+                    return;
+                } catch (e) {}
+            }
+            const subject = encodeURIComponent(`Marinext 2100 Geri Bildirim (${cat} - ${stars} Yıldız)`);
+            const body = encodeURIComponent(`${summaryText}\n\nCihaz FPS Modu: ${this.targetFps} FPS\nAçık Bölüm: ${this.unlockedLevels}/100`);
+            window.open(`mailto:cevatturk06@gmail.com?subject=${subject}&body=${body}`, "_self");
+            if (statusEl) {
+                statusEl.style.color = "#06d6a0";
+                statusEl.textContent = "✅ Geri bildirim raporu hazırlandı! Teşekkür ederiz.";
+            }
+        }
     }
 
     isNativeAndroid() {
@@ -3921,8 +4289,9 @@ class Game {
     }
 
     spawnParticles(x, y, count, color, speed = 3) {
-        const maxTotalParticles = 45;
-        const allowed = Math.min(count, 16);
+        const isLowPower = this.targetFps === 30;
+        const maxTotalParticles = isLowPower ? 18 : 45;
+        const allowed = isLowPower ? Math.min(Math.ceil(count * 0.45), 6) : Math.min(count, 16);
         for (let i = 0; i < allowed; i++) {
             if (this.particles.length >= maxTotalParticles) {
                 this.particles.shift();
@@ -4013,6 +4382,8 @@ class Game {
 
         if (this.state !== "playing") return;
 
+        this.levelTick = (this.levelTick || 0) + 1;
+
         if (this.player) {
             this.player.prevX = this.player.x;
             this.player.prevY = this.player.y;
@@ -4059,6 +4430,53 @@ class Game {
         }
 
         this.player.update(this.input, this.solids, this.movingPlatforms, activeCrumbles, this);
+
+        // 🚀 JUMP PADS (Zıplama Trambolinleri)
+        if (this.jumpPads && this.player) {
+            for (const jp of this.jumpPads) {
+                if (jp.anim > 0) jp.anim--;
+                if (this.player.intersects(jp) && this.player.vy >= -2 && jp.anim <= 4) {
+                    this.player.vy = jp.boostVy || -19.5;
+                    this.player.onGround = false;
+                    this.player.jumpsLeft = this.player.maxJumps;
+                    jp.anim = 14;
+                    window.sfx.wallJump();
+                    this.spawnParticles(jp.x + jp.w / 2, jp.y, 14, "#06d6a0", 4.5);
+                    this.floatingTexts.push(new window.FloatingText(jp.x + jp.w / 2, jp.y - 12, "🚀 SÜPER TRAMBOLİN!", "#06d6a0"));
+                }
+            }
+        }
+
+        // 💨 WIND / UPDRAFT ZONES (Dikey Hava Akımları)
+        if (this.windZones && this.player) {
+            for (const wz of this.windZones) {
+                if (this.player.intersects(wz)) {
+                    this.player.vy = Math.max(-9.8, this.player.vy + (wz.forceY || -0.62));
+                    this.player.vx += (wz.forceX || 0);
+                    this.player.jumpsLeft = Math.max(1, this.player.jumpsLeft);
+                }
+            }
+        }
+
+        // ⚡ LASER GATES (Zamanlamalı Lazer Kapıları)
+        if (this.laserGates && this.player) {
+            for (const lg of this.laserGates) {
+                const period = lg.period || 110;
+                const onDur = lg.onDuration || 55;
+                const cycle = (this.levelTick + (lg.phase || 0)) % period;
+                lg.active = cycle < onDur;
+                lg.warning = !lg.active && cycle > period - 24;
+                if (lg.active && this.player.intersects(lg)) {
+                    const wasVuln = this.player.invulnTimer <= 0;
+                    this.player.vy = -8.5;
+                    this.player.takeDamage(this);
+                    if (wasVuln) {
+                        this.spawnParticles(lg.x + lg.w / 2, this.player.y + 20, 14, "#ff0055", 4.5);
+                        this.floatingTexts.push(new window.FloatingText(lg.x + lg.w / 2, this.player.y - 12, "⚡ LAZER KAPISI!", "#ff0055"));
+                    }
+                }
+            }
+        }
 
         // 😡 TROLL TRAP #1: Specific Collapsing Trap Floors (Yer bir anda çöküp 3 kalp götürür!)
         if (this.isTrollMode && this.player) {
@@ -4549,10 +4967,25 @@ class Game {
         const h = this.canvas.height;
         const camYOffset = -(this.camera.y || 0) * 0.22;
 
+        const worldIdx = Math.min(9, Math.max(0, Math.floor((this.selectedLevel || 0) / 10)));
+        const worldPalettes = [
+            ["#05060f", "#0c1026", "#160d29", "rgba(0, 242, 254, 0.35)"],   // Bölge 1: Kristal
+            ["#06141f", "#0a2239", "#132e42", "rgba(144, 224, 239, 0.38)"], // Bölge 2: Buzul
+            ["#0d061a", "#1b0b2e", "#2d124d", "rgba(181, 55, 242, 0.36)"],  // Bölge 3: Gölge
+            ["#1a0808", "#2d0c0e", "#451411", "rgba(255, 109, 0, 0.38)"],   // Bölge 4: Magma
+            ["#041418", "#072a30", "#0b3d42", "rgba(6, 214, 160, 0.36)"],   // Bölge 5: Siber
+            ["#140f04", "#281e08", "#3d2c0d", "rgba(255, 209, 102, 0.36)"], // Bölge 6: Çöl
+            ["#06071b", "#101238", "#1d1852", "rgba(114, 9, 183, 0.38)"],   // Bölge 7: Kozmik
+            ["#05190d", "#0b2e18", "#124224", "rgba(112, 224, 0, 0.35)"],   // Bölge 8: Biyo-Zehir
+            ["#081326", "#11284c", "#1d3d70", "rgba(76, 201, 240, 0.38)"],  // Bölge 9: Gökyüzü
+            ["#160419", "#2b0830", "#480ca8", "rgba(247, 37, 133, 0.40)"]   // Bölge 10: İmparatorluk
+        ];
+        const pal = worldPalettes[worldIdx] || worldPalettes[0];
+
         const grad = ctx.createLinearGradient(0, 0, 0, h);
-        grad.addColorStop(0, "#05060f");
-        grad.addColorStop(0.6, "#0c1026");
-        grad.addColorStop(1, "#160d29");
+        grad.addColorStop(0, pal[0]);
+        grad.addColorStop(0.6, pal[1]);
+        grad.addColorStop(1, pal[2]);
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
 
@@ -4577,7 +5010,7 @@ class Game {
         for (const sp of this.bgSpores) {
             const sx = ((sp.x - this.camera.x * 0.45) % w + w) % w;
             const sy = ((sp.y + camYOffset * 1.4) % h + h) % h;
-            ctx.fillStyle = "rgba(0, 242, 254, 0.35)";
+            ctx.fillStyle = pal[3];
             ctx.beginPath();
             ctx.arc(sx + Math.sin(sp.phase) * 8, sy, sp.r, 0, Math.PI * 2);
             ctx.fill();
@@ -5000,6 +5433,38 @@ class Game {
             ctx.restore();
         }
 
+        // 💨 Draw Wind / Updraft Zones
+        if (this.windZones) {
+            const wt = performance.now() * 0.005;
+            for (const wz of this.windZones) {
+                if (wz.x + wz.w < viewMinX || wz.x > viewMaxX) continue;
+                ctx.save();
+                const wGrad = ctx.createLinearGradient(0, wz.y + wz.h, 0, wz.y);
+                wGrad.addColorStop(0, "rgba(0, 242, 254, 0.28)");
+                wGrad.addColorStop(0.5, "rgba(144, 224, 239, 0.14)");
+                wGrad.addColorStop(1, "rgba(0, 242, 254, 0.03)");
+                ctx.fillStyle = wGrad;
+                ctx.fillRect(wz.x, wz.y, wz.w, wz.h);
+
+                ctx.strokeStyle = "rgba(144, 224, 239, 0.5)";
+                ctx.lineWidth = 2;
+                for (let s = 0; s < 4; s++) {
+                    const sx = wz.x + 16 + (s * (wz.w - 32)) / 3;
+                    const progress = ((wt * 1.4 + s * 0.27) % 1);
+                    const sy = wz.y + wz.h - progress * wz.h;
+                    ctx.beginPath();
+                    ctx.moveTo(sx, sy);
+                    ctx.lineTo(sx, Math.max(wz.y, sy - 34));
+                    ctx.stroke();
+                }
+                ctx.fillStyle = "rgba(144, 224, 239, 0.78)";
+                ctx.font = "bold 11px sans-serif";
+                ctx.textAlign = "center";
+                ctx.fillText("💨 HAVA AKIMI", wz.x + wz.w / 2, wz.y + wz.h - 10);
+                ctx.restore();
+            }
+        }
+
         for (const sg of this.signs) {
             if (sg.x + 260 < viewMinX || sg.x - 260 > viewMaxX) continue;
             const signTxt = this.getLocalizedSignText(sg);
@@ -5030,8 +5495,10 @@ class Game {
         for (const s of this.solids) {
             if (s.x + s.w < viewMinX || s.x > viewMaxX) continue;
             ctx.save();
-            ctx.fillStyle = "#0b0e1f";
-            ctx.strokeStyle = s.type === "wall" ? "#b537f2" : themeColor;
+            const isIce = s.surfaceType === "ice";
+            const isBoost = s.surfaceType === "boost";
+            ctx.fillStyle = isIce ? "#0a2239" : (isBoost ? "#191528" : "#0b0e1f");
+            ctx.strokeStyle = s.type === "wall" ? "#b537f2" : (isIce ? "#90e0ef" : (isBoost ? "#ffd166" : themeColor));
             ctx.lineWidth = 2.5;
             ctx.beginPath();
             ctx.roundRect(s.x, s.y, s.w, s.h, 6);
@@ -5039,8 +5506,78 @@ class Game {
             ctx.stroke();
 
             ctx.fillStyle = ctx.strokeStyle;
-            ctx.fillRect(s.x + 2, s.y, s.w - 4, 4);
+            ctx.fillRect(s.x + 2, s.y, s.w - 4, isIce || isBoost ? 6 : 4);
+            if (isIce) {
+                ctx.fillStyle = "rgba(255, 255, 255, 0.55)";
+                ctx.fillRect(s.x + 8, s.y + 1, Math.max(12, s.w - 16), 2);
+            } else if (isBoost) {
+                ctx.fillStyle = "#06d6a0";
+                ctx.font = "bold 11px sans-serif";
+                ctx.textAlign = "center";
+                for (let bx = s.x + 28; bx < s.x + s.w - 20; bx += 56) {
+                    ctx.fillText("»»»", bx, s.y + 16);
+                }
+            }
             ctx.restore();
+        }
+
+        // 🚀 Draw Jump Pads (Trambolinler)
+        if (this.jumpPads) {
+            for (const jp of this.jumpPads) {
+                if (jp.x + jp.w < viewMinX || jp.x > viewMaxX) continue;
+                ctx.save();
+                const lift = jp.anim > 0 ? Math.sin((jp.anim / 14) * Math.PI) * 8 : 0;
+                ctx.fillStyle = "#1e293b";
+                ctx.fillRect(jp.x + 4, jp.y + 6, jp.w - 8, jp.h - 6);
+                ctx.fillStyle = "#06d6a0";
+                ctx.strokeStyle = "#ffffff";
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.roundRect(jp.x, jp.y - lift, jp.w, 8, 4);
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        // ⚡ Draw Timed Laser Gates (Lazer Kapıları)
+        if (this.laserGates) {
+            for (const lg of this.laserGates) {
+                if (lg.x + lg.w < viewMinX || lg.x > viewMaxX) continue;
+                ctx.save();
+                ctx.fillStyle = "#1e293b";
+                ctx.strokeStyle = "#ff0055";
+                ctx.lineWidth = 2;
+                ctx.fillRect(lg.x - 4, lg.y, lg.w + 8, 12);
+                ctx.strokeRect(lg.x - 4, lg.y, lg.w + 8, 12);
+                ctx.fillRect(lg.x - 4, lg.y + lg.h - 12, lg.w + 8, 12);
+                ctx.strokeRect(lg.x - 4, lg.y + lg.h - 12, lg.w + 8, 12);
+
+                if (lg.active) {
+                    ctx.strokeStyle = "#ff0055";
+                    ctx.lineWidth = 8;
+                    ctx.beginPath();
+                    ctx.moveTo(lg.x + lg.w / 2, lg.y + 12);
+                    ctx.lineTo(lg.x + lg.w / 2, lg.y + lg.h - 12);
+                    ctx.stroke();
+
+                    ctx.strokeStyle = "#ffffff";
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+                    ctx.moveTo(lg.x + lg.w / 2, lg.y + 12);
+                    ctx.lineTo(lg.x + lg.w / 2, lg.y + lg.h - 12);
+                    ctx.stroke();
+                } else if (lg.warning) {
+                    ctx.strokeStyle = "rgba(255, 0, 85, 0.55)";
+                    ctx.setLineDash([6, 6]);
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(lg.x + lg.w / 2, lg.y + 12);
+                    ctx.lineTo(lg.x + lg.w / 2, lg.y + lg.h - 12);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
         }
 
         for (const mp of this.movingPlatforms) {
@@ -5301,17 +5838,19 @@ class Game {
 
     start120HzEngine() {
         let midFrameTimer = null;
+        let lastRenderTime = performance.now();
 
         const stepEngine = (now) => {
             if (!now) now = performance.now();
             let dt = now - this.lastTime;
             this.lastTime = now;
-            if (dt > 50) dt = this.physicsStep;
+            if (dt > 65) dt = this.physicsStep * 2;
             if (dt < 0) dt = 0;
 
             this.accumulator += dt;
             let steps = 0;
-            while (this.accumulator >= this.physicsStep && steps < 3) {
+            const maxSteps = this.targetFps === 30 ? 4 : 3;
+            while (this.accumulator >= this.physicsStep && steps < maxSteps) {
                 this.update();
                 this.accumulator -= this.physicsStep;
                 steps++;
@@ -5322,8 +5861,8 @@ class Game {
 
             this.fpsFrames++;
             if (now - this.fpsLastCheck >= 500) {
-                const measured = Math.round((this.fpsFrames * 1000) / (now - this.fpsLastCheck));
-                this.currentFps = Math.min(120, Math.max(120, measured));
+                const target = this.targetFps || 120;
+                this.currentFps = target;
                 this.fpsFrames = 0;
                 this.fpsLastCheck = now;
                 const fpsEl = document.getElementById("hud-fps");
@@ -5338,11 +5877,23 @@ class Game {
                 clearTimeout(midFrameTimer);
                 midFrameTimer = null;
             }
-            stepEngine(now);
-            midFrameTimer = setTimeout(() => {
-                midFrameTimer = null;
-                stepEngine(performance.now());
-            }, 8);
+            const target = this.targetFps || 120;
+            if (target === 30) {
+                if (now - lastRenderTime >= 31) {
+                    lastRenderTime = now;
+                    stepEngine(now);
+                }
+            } else if (target === 60) {
+                lastRenderTime = now;
+                stepEngine(now);
+            } else {
+                lastRenderTime = now;
+                stepEngine(now);
+                midFrameTimer = setTimeout(() => {
+                    midFrameTimer = null;
+                    stepEngine(performance.now());
+                }, 8);
+            }
             requestAnimationFrame(rafLoop);
         };
         requestAnimationFrame(rafLoop);

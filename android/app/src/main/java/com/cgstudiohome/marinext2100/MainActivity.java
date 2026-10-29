@@ -430,10 +430,10 @@ public class MainActivity extends BridgeActivity {
                 int vCode = android.os.Build.VERSION.SDK_INT >= 28 ? (int) pInfo.getLongVersionCode() : pInfo.versionCode;
                 JSONObject obj = new JSONObject();
                 obj.put("versionCode", vCode);
-                obj.put("versionName", pInfo.versionName != null ? pInfo.versionName : "1.1.3");
+                obj.put("versionName", pInfo.versionName != null ? pInfo.versionName : "1.1.5");
                 return obj.toString();
             } catch (Throwable t) {
-                return "{\"versionCode\":6,\"versionName\":\"1.1.3\"}";
+                return "{\"versionCode\":9,\"versionName\":\"1.1.5\"}";
             }
         }
 
@@ -451,6 +451,61 @@ public class MainActivity extends BridgeActivity {
                         startActivity(webIntent);
                     } catch (Throwable ignored) {
                     }
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void openPlayStoreFeedback(final String summaryText) {
+            runOnUiThread(() -> {
+                try {
+                    if (summaryText != null && !summaryText.isEmpty()) {
+                        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                        if (clipboard != null) {
+                            android.content.ClipData clip = android.content.ClipData.newPlainText("Marinext 2100 Geri Bildirim", summaryText);
+                            clipboard.setPrimaryClip(clip);
+                        }
+                        android.widget.Toast.makeText(
+                            MainActivity.this,
+                            "Mesajınız panoya kopyalandı! Play Store geri bildirim alanına yapıştırabilirsiniz.",
+                            android.widget.Toast.LENGTH_LONG
+                        ).show();
+                    }
+                    Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName()));
+                    marketIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(marketIntent);
+                } catch (Throwable e) {
+                    try {
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
+                        webIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(webIntent);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void submitDirectFeedback(final String payloadJson) {
+            runOnUiThread(() -> {
+                try {
+                    SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                    prefs.edit().putString("last_feedback_payload", payloadJson).apply();
+                    JSONObject obj = new JSONObject(payloadJson);
+                    String subject = "Marinext 2100 Geri Bildirim [" + obj.optString("category", "Genel") + "] - " + obj.optInt("rating", 5) + " Yıldız";
+                    String body = "Kategori: " + obj.optString("category", "Genel")
+                        + "\nPuan: " + obj.optInt("rating", 5) + "/5"
+                        + "\nBölüm: " + obj.optInt("level", 1)
+                        + "\nFPS Modu: " + obj.optInt("fpsMode", 120)
+                        + "\nSürüm: " + obj.optString("version", "1.1.5")
+                        + "\n\nMesaj:\n" + obj.optString("message", "");
+                    Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+                    emailIntent.setData(Uri.parse("mailto:cgstudiohome@gmail.com"));
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, body);
+                    emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(Intent.createChooser(emailIntent, "Geliştiriciye Geri Bildirim Gönder"));
+                } catch (Throwable ignored) {
                 }
             });
         }
