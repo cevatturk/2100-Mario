@@ -1231,69 +1231,265 @@ class Game {
 
     loadProgress() {
         try {
+            let localObj = null;
             const raw = localStorage.getItem("shadow_jumper_save_v3");
             if (raw) {
-                const data = JSON.parse(raw);
-                this.unlockedLevels = data.unlockedLevels || 1;
-                const loadedStars = data.starsPerLevel || [];
-                this.starsPerLevel = Array.from({ length: 40 }, (_, i) => loadedStars[i] || 0);
-                this.walletCoins = data.walletCoins ?? 0;
-                this.walletEmeralds = data.walletEmeralds ?? 8;
-                this.walletGoldCoins = data.walletGoldCoins ?? 30;
-                this.ownedCharacters = data.ownedCharacters || ["default"];
-                this.equippedHeroChar = data.equippedHeroChar || "default";
-                this.ownedItems = data.ownedItems || ["skin_cyan", "helmet_crest", "gear_katana", "visor_slit", "aura_none", "cape_pink"];
-                this.equippedSkin = data.equippedSkin || "cyan";
-                this.equippedHelmet = data.equippedHelmet || "crest";
-                this.equippedBackGear = data.equippedBackGear || "katana";
-                this.equippedVisor = data.equippedVisor || "slit";
-                this.equippedAura = data.equippedAura || "none";
-                this.equippedCape = data.equippedCape || "#ff2a85";
-                this.playerName = data.playerName || "Gölge Şövalye";
-                this.selectedAvatarId = data.selectedAvatarId || "av_1";
-                if (data.langManual === true && data.lang && LANG_DICT[data.lang]) {
-                    this.langAuto = false;
-                    this.lang = data.lang;
-                } else {
-                    this.langAuto = true;
-                    this.lang = this.detectDeviceLanguage();
-                }
-                this.unlockedTrollLevels = data.unlockedTrollLevels || 1;
-                const loadedTrollStars = data.starsPerTrollLevel || [];
-                this.starsPerTrollLevel = Array.from({ length: 15 }, (_, i) => loadedTrollStars[i] || 0);
+                try {
+                    localObj = JSON.parse(raw);
+                } catch (e) {}
             }
+            let nativeObj = null;
+            if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.loadLocalBackup === "function") {
+                try {
+                    const nativeRaw = window.MarinextCloudBridge.loadLocalBackup();
+                    if (nativeRaw && nativeRaw.length > 2) {
+                        nativeObj = JSON.parse(nativeRaw);
+                    }
+                } catch (e) {}
+            }
+            const data = this.mergeCloudSaveObjects(localObj, nativeObj);
+            if (data) {
+                this.applySaveDataObject(data);
+            }
+        } catch (e) {
+            // Ignore storage errors
+        }
+        this.setupCloudBridgeCallbacks();
+    }
+
+    applySaveDataObject(data) {
+        if (!data || typeof data !== "object") return;
+        this.unlockedLevels = Math.max(1, Math.min(40, Number(data.unlockedLevels) || 1));
+        const loadedStars = Array.isArray(data.starsPerLevel) ? data.starsPerLevel : [];
+        this.starsPerLevel = Array.from({ length: 40 }, (_, i) => Math.max(0, Math.min(3, Number(loadedStars[i]) || 0)));
+        this.walletCoins = Math.max(0, Number(data.walletCoins ?? 0));
+        this.walletEmeralds = Math.max(0, Number(data.walletEmeralds ?? 8));
+        this.walletGoldCoins = Math.max(0, Number(data.walletGoldCoins ?? 30));
+        this.ownedCharacters = Array.isArray(data.ownedCharacters) && data.ownedCharacters.length > 0
+            ? Array.from(new Set(["default", ...data.ownedCharacters]))
+            : ["default"];
+        this.equippedHeroChar = data.equippedHeroChar || "default";
+        const defaultItems = ["skin_cyan", "helmet_crest", "gear_katana", "visor_slit", "aura_none", "cape_pink"];
+        this.ownedItems = Array.isArray(data.ownedItems) && data.ownedItems.length > 0
+            ? Array.from(new Set([...defaultItems, ...data.ownedItems]))
+            : defaultItems;
+        this.equippedSkin = data.equippedSkin || "cyan";
+        this.equippedHelmet = data.equippedHelmet || "crest";
+        this.equippedBackGear = data.equippedBackGear || "katana";
+        this.equippedVisor = data.equippedVisor || "slit";
+        this.equippedAura = data.equippedAura || "none";
+        this.equippedCape = data.equippedCape || "#ff2a85";
+        this.playerName = data.playerName || "Gölge Şövalye";
+        this.selectedAvatarId = data.selectedAvatarId || "av_1";
+        if (data.langManual === true && data.lang && LANG_DICT[data.lang]) {
+            this.langAuto = false;
+            this.lang = data.lang;
+        } else {
+            this.langAuto = true;
+            this.lang = this.detectDeviceLanguage();
+        }
+        this.unlockedTrollLevels = Math.max(1, Math.min(15, Number(data.unlockedTrollLevels) || 1));
+        const loadedTrollStars = Array.isArray(data.starsPerTrollLevel) ? data.starsPerTrollLevel : [];
+        this.starsPerTrollLevel = Array.from({ length: 15 }, (_, i) => Math.max(0, Math.min(3, Number(loadedTrollStars[i]) || 0)));
+    }
+
+    mergeCloudSaveObjects(a, b) {
+        if (!a && !b) return null;
+        if (!a) return b;
+        if (!b) return a;
+        const newer = (Number(b.updatedAt) || 0) >= (Number(a.updatedAt) || 0) ? b : a;
+        const starsA = Array.isArray(a.starsPerLevel) ? a.starsPerLevel : [];
+        const starsB = Array.isArray(b.starsPerLevel) ? b.starsPerLevel : [];
+        const mergedStars = Array.from({ length: 40 }, (_, i) => Math.max(Number(starsA[i]) || 0, Number(starsB[i]) || 0));
+        const trollA = Array.isArray(a.starsPerTrollLevel) ? a.starsPerTrollLevel : [];
+        const trollB = Array.isArray(b.starsPerTrollLevel) ? b.starsPerTrollLevel : [];
+        const mergedTrollStars = Array.from({ length: 15 }, (_, i) => Math.max(Number(trollA[i]) || 0, Number(trollB[i]) || 0));
+        const chars = Array.from(new Set(["default", ...(a.ownedCharacters || []), ...(b.ownedCharacters || [])]));
+        const items = Array.from(new Set([
+            "skin_cyan", "helmet_crest", "gear_katana", "visor_slit", "aura_none", "cape_pink",
+            ...(a.ownedItems || []),
+            ...(b.ownedItems || [])
+        ]));
+        return {
+            ...newer,
+            unlockedLevels: Math.max(Number(a.unlockedLevels) || 1, Number(b.unlockedLevels) || 1),
+            starsPerLevel: mergedStars,
+            unlockedTrollLevels: Math.max(Number(a.unlockedTrollLevels) || 1, Number(b.unlockedTrollLevels) || 1),
+            starsPerTrollLevel: mergedTrollStars,
+            walletCoins: Math.max(Number(a.walletCoins ?? 0), Number(b.walletCoins ?? 0)),
+            walletEmeralds: Math.max(Number(a.walletEmeralds ?? 8), Number(b.walletEmeralds ?? 8)),
+            walletGoldCoins: Math.max(Number(a.walletGoldCoins ?? 30), Number(b.walletGoldCoins ?? 30)),
+            ownedCharacters: chars,
+            ownedItems: items,
+            updatedAt: Math.max(Number(a.updatedAt) || 0, Number(b.updatedAt) || 0, Date.now())
+        };
+    }
+
+    buildSavePayloadObject() {
+        return {
+            appId: "com.cgstudiohome.marinext2100",
+            schemaVersion: 3,
+            updatedAt: Date.now(),
+            unlockedLevels: this.unlockedLevels,
+            starsPerLevel: this.starsPerLevel,
+            walletCoins: this.walletCoins,
+            walletEmeralds: this.walletEmeralds,
+            walletGoldCoins: this.walletGoldCoins,
+            ownedCharacters: this.ownedCharacters,
+            equippedHeroChar: this.equippedHeroChar,
+            ownedItems: this.ownedItems,
+            equippedSkin: this.equippedSkin,
+            equippedHelmet: this.equippedHelmet,
+            equippedBackGear: this.equippedBackGear,
+            equippedVisor: this.equippedVisor,
+            equippedAura: this.equippedAura,
+            equippedCape: this.equippedCape,
+            playerName: this.playerName,
+            selectedAvatarId: this.selectedAvatarId,
+            lang: this.lang,
+            langManual: !this.langAuto,
+            unlockedTrollLevels: this.unlockedTrollLevels,
+            starsPerTrollLevel: this.starsPerTrollLevel
+        };
+    }
+
+    saveProgress(pushCloudImmediate = false) {
+        try {
+            const payloadObj = this.buildSavePayloadObject();
+            const jsonStr = JSON.stringify(payloadObj);
+            localStorage.setItem("shadow_jumper_save_v3", jsonStr);
+            if (window.MarinextCloudBridge) {
+                if (typeof window.MarinextCloudBridge.saveLocalBackup === "function") {
+                    window.MarinextCloudBridge.saveLocalBackup(jsonStr);
+                }
+                if (pushCloudImmediate && typeof window.MarinextCloudBridge.saveCloudSnapshot === "function") {
+                    const desc = `Marinext 2100 • Bölüm ${this.unlockedLevels}/40 • Coin ${this.walletGoldCoins}`;
+                    window.MarinextCloudBridge.saveCloudSnapshot(jsonStr, desc);
+                } else {
+                    this.scheduleCloudSnapshotUpload(jsonStr);
+                }
+            }
+            this.lastCloudSaveTime = Date.now();
+            this.updateCloudStatusUI();
         } catch (e) {
             // Ignore storage errors
         }
     }
 
-    saveProgress() {
-        try {
-            localStorage.setItem("shadow_jumper_save_v3", JSON.stringify({
-                unlockedLevels: this.unlockedLevels,
-                starsPerLevel: this.starsPerLevel,
-                walletCoins: this.walletCoins,
-                walletEmeralds: this.walletEmeralds,
-                walletGoldCoins: this.walletGoldCoins,
-                ownedCharacters: this.ownedCharacters,
-                equippedHeroChar: this.equippedHeroChar,
-                ownedItems: this.ownedItems,
-                equippedSkin: this.equippedSkin,
-                equippedHelmet: this.equippedHelmet,
-                equippedBackGear: this.equippedBackGear,
-                equippedVisor: this.equippedVisor,
-                equippedAura: this.equippedAura,
-                equippedCape: this.equippedCape,
-                playerName: this.playerName,
-                selectedAvatarId: this.selectedAvatarId,
-                lang: this.lang,
-                langManual: !this.langAuto,
-                unlockedTrollLevels: this.unlockedTrollLevels,
-                starsPerTrollLevel: this.starsPerTrollLevel
-            }));
-        } catch (e) {
-            // Ignore storage errors
+    scheduleCloudSnapshotUpload(jsonStr) {
+        if (!window.MarinextCloudBridge || typeof window.MarinextCloudBridge.saveCloudSnapshot !== "function") return;
+        if (this._cloudUploadTimer) clearTimeout(this._cloudUploadTimer);
+        this._cloudUploadTimer = setTimeout(() => {
+            try {
+                const desc = `Marinext 2100 • Bölüm ${this.unlockedLevels}/40 • Coin ${this.walletGoldCoins}`;
+                window.MarinextCloudBridge.saveCloudSnapshot(jsonStr, desc);
+            } catch (e) {}
+        }, 6000);
+    }
+
+    setupCloudBridgeCallbacks() {
+        this.playGamesAuthed = false;
+        this.playGamesPlayerName = "";
+        this.playGamesPlayerId = "";
+        this.lastCloudSaveTime = Date.now();
+
+        window.onMarinextPlayGamesAuth = (authed, playerName, playerId, statusMsg) => {
+            this.playGamesAuthed = !!authed;
+            if (playerName) {
+                this.playGamesPlayerName = playerName;
+                if (!this.playerName || this.playerName === "Gölge Şövalye") {
+                    this.playerName = playerName.slice(0, 24);
+                    this.updateProfileDisplay();
+                }
+            }
+            if (playerId) this.playGamesPlayerId = playerId;
+            this.updateCloudStatusUI(statusMsg);
+        };
+
+        window.onMarinextCloudSnapshotLoaded = (cloudJsonStr, sourceLabel) => {
+            if (!cloudJsonStr || cloudJsonStr.length < 3) return;
+            try {
+                const cloudData = JSON.parse(cloudJsonStr);
+                const currentData = this.buildSavePayloadObject();
+                const merged = this.mergeCloudSaveObjects(currentData, cloudData);
+                if (merged) {
+                    this.applySaveDataObject(merged);
+                    const mergedStr = JSON.stringify(merged);
+                    localStorage.setItem("shadow_jumper_save_v3", mergedStr);
+                    if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.saveLocalBackup === "function") {
+                        window.MarinextCloudBridge.saveLocalBackup(mergedStr);
+                    }
+                    this.buildMapNodes();
+                    this.buildTrollMapNodes();
+                    this.updateMapUI();
+                    this.updateProfileDisplay();
+                    this.updateCloudStatusUI(`${sourceLabel || "Google Drive"} senkronize edildi ✓`);
+                }
+            } catch (e) {}
+        };
+    }
+
+    updateCloudStatusUI(customNote = "") {
+        const badge = document.getElementById("cloud-status-badge");
+        const timeEl = document.getElementById("cloud-sync-time");
+        if (badge) {
+            if (this.playGamesAuthed) {
+                const pName = this.playGamesPlayerName ? ` (${this.playGamesPlayerName})` : "";
+                badge.textContent = `🎮 Play Games & GDrive: BAĞLI${pName}`;
+                badge.style.borderColor = "#34d399";
+                badge.style.color = "#6ee7b7";
+            } else {
+                badge.textContent = "☁️ Google Drive Yedek: AKTİF";
+                badge.style.borderColor = "#00f2fe";
+                badge.style.color = "#00f2fe";
+            }
         }
+        if (timeEl) {
+            const nowStr = new Date(this.lastCloudSaveTime || Date.now()).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+            const extra = customNote ? ` • ${customNote}` : "";
+            timeEl.textContent = `Son Bulut/Cihaz Kaydı: ${nowStr} • Bölüm: ${this.unlockedLevels}/40 (Trol: ${this.unlockedTrollLevels}/15) • Coin: ${this.walletGoldCoins} ✪${extra}`;
+        }
+    }
+
+    triggerManualCloudSync() {
+        this.saveProgress(true);
+        if (window.MarinextCloudBridge) {
+            try {
+                if (typeof window.MarinextCloudBridge.signInPlayGames === "function") {
+                    window.MarinextCloudBridge.signInPlayGames(true);
+                }
+                if (typeof window.MarinextCloudBridge.loadCloudSnapshot === "function") {
+                    window.MarinextCloudBridge.loadCloudSnapshot();
+                }
+                this.updateCloudStatusUI("Play Games & Google Drive senkronize ediliyor...");
+                return;
+            } catch (e) {}
+        }
+        this.updateCloudStatusUI("Cihaz & Tarayıcı Bulut Kaydı Güncellendi ✓");
+    }
+
+    exportCloudSaveToDrive() {
+        this.saveProgress(true);
+        const payloadStr = JSON.stringify(this.buildSavePayloadObject(), null, 2);
+        if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.shareBackupToDrive === "function") {
+            try {
+                window.MarinextCloudBridge.shareBackupToDrive(payloadStr);
+                this.updateCloudStatusUI("Google Drive paylaşım ekranı açıldı ✓");
+                return;
+            } catch (e) {}
+        }
+        try {
+            const blob = new Blob([payloadStr], { type: "application/json;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "Marinext-2100-GoogleDrive-Yedek.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+            this.updateCloudStatusUI("Yedek dosyası indirildi (Google Drive'a yükleyebilirsiniz) ✓");
+        } catch (e) {}
     }
 
     getPlayerUpgrades() {
@@ -1854,6 +2050,9 @@ class Game {
             try {
                 localStorage.removeItem("shadow_jumper_save_v3");
                 localStorage.removeItem("shadow_jumper_audio_v1");
+                if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.clearLocalBackup === "function") {
+                    window.MarinextCloudBridge.clearLocalBackup();
+                }
             } catch (e) {
                 // Ignore storage errors
             }
@@ -1884,12 +2083,61 @@ class Game {
             this.equippedCape = "#ff2a85";
             this.playerName = "Gölge Şövalye";
             this.selectedAvatarId = "av_1";
-            this.saveProgress();
+            this.saveProgress(true);
             this.updateProfileDisplay();
             window.sfx.powerUpSpawn();
             document.getElementById("screen-settings").classList.add("hidden");
             this.showMapScreen();
         });
+
+        const btnSettingsCloudSync = document.getElementById("btn-settings-cloud-sync");
+        if (btnSettingsCloudSync) {
+            btnSettingsCloudSync.addEventListener("click", () => {
+                window.sfx.coin();
+                document.getElementById("screen-settings").classList.add("hidden");
+                this.openProfileModal();
+                this.triggerManualCloudSync();
+            });
+        }
+
+        const btnCloudSyncNow = document.getElementById("btn-cloud-sync-now");
+        if (btnCloudSyncNow) {
+            btnCloudSyncNow.addEventListener("click", () => {
+                window.sfx.powerUpSpawn();
+                this.triggerManualCloudSync();
+            });
+        }
+
+        const btnCloudExportDrive = document.getElementById("btn-cloud-export-drive");
+        if (btnCloudExportDrive) {
+            btnCloudExportDrive.addEventListener("click", () => {
+                window.sfx.coin();
+                this.exportCloudSaveToDrive();
+            });
+        }
+
+        const btnCloudImportDrive = document.getElementById("btn-cloud-import-drive");
+        const inputCloudImportFile = document.getElementById("input-cloud-import-file");
+        if (btnCloudImportDrive && inputCloudImportFile) {
+            btnCloudImportDrive.addEventListener("click", () => {
+                window.sfx.coin();
+                inputCloudImportFile.value = "";
+                inputCloudImportFile.click();
+            });
+            inputCloudImportFile.addEventListener("change", (ev) => {
+                const file = ev.target && ev.target.files && ev.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    const text = String(reader.result || "");
+                    if (window.onMarinextCloudSnapshotLoaded) {
+                        window.onMarinextCloudSnapshotLoaded(text, "Google Drive Yedek Dosyası");
+                        window.sfx.powerUpSpawn();
+                    }
+                };
+                reader.readAsText(file);
+            });
+        }
 
         const btnOpenPrivacy = document.getElementById("btn-open-privacy");
         if (btnOpenPrivacy) {
@@ -2318,6 +2566,7 @@ class Game {
 
     openProfileModal() {
         this.updateProfileDisplay();
+        this.updateCloudStatusUI();
 
         const nameInput = document.getElementById("profile-name-input");
         if (nameInput) {

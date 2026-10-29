@@ -5,4 +5,5 @@
     <string name="package_name">com.cgstudiohome.marinext2100</string>
     <string name="custom_url_scheme">com.cgstudiohome.marinext2100</string>
     <string name="admob_app_id">ca-app-pub-1366538011855586~4280227520</string>
+    <string name="game_services_project_id" translatable="false">428022752000</string>
 </resources>

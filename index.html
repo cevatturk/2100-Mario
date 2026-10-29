@@ -379,6 +379,9 @@
                     <button id="btn-settings-reset-all" class="secondary-btn" style="padding: 13px 18px; font-size: 15px; border-color: rgba(255, 42, 133, 0.65); color: #ff2a85;">
                         ⚠️ Tüm Oyun İlerlemesini Sıfırla (Reset)
                     </button>
+                    <button id="btn-settings-cloud-sync" type="button" class="secondary-btn" style="padding: 12px 18px; font-size: 14.5px; border-color: rgba(16, 185, 129, 0.65); color: #34d399; text-align: center;">
+                        🎮 Google Play Games &amp; Google Drive Bulut Kayıt
+                    </button>
                     <button id="btn-open-privacy" type="button" class="secondary-btn" style="padding: 12px 18px; font-size: 14.5px; border-color: rgba(0, 242, 254, 0.5); color: #00f2fe; text-align: center;">
                         🛡️ Gizlilik Politikası / Privacy Policy
                     </button>
@@ -400,10 +403,10 @@
                 <p style="color: #94a3b8; font-size: 12.5px; margin-bottom: 14px;">Geliştirici: <strong>CG Studio Home</strong> | Paket: <code>com.cgstudiohome.marinext2100</code> | İletişim: <code>info@erpdanisman.com</code></p>
                 <div style="color: #e2e8f0; font-size: 13.5px; line-height: 1.6; display: flex; flex-direction: column; gap: 10px;">
                     <div style="background: rgba(0, 242, 254, 0.08); border-left: 3px solid #00f2fe; padding: 10px 12px; border-radius: 6px;">
-                        <strong>🇹🇷 Türkçe Özet:</strong> <strong>Marinext 2100</strong> kişisel kimlik verilerinizi (ad, telefon, adres vb.) doğrudan toplamaz. Oyun ilerlemeniz yalnızca cihazınızın yerel hafızasında (<code>localStorage</code>) saklanır ve <em>Ayarlar &gt; Tüm Oyun İlerlemesini Sıfırla</em> butonuyla istediğiniz an tamamen silinebilir. Oyunu ücretsiz sunmak için kullanılan <strong>Google AdMob</strong> SDK'sı; reklam gösterimi, sıklık sınırı ve sahtekarlık önleme amacıyla cihazın Reklam Kimliğini (AAID) ve yaklaşık konum/tanı verilerini Google Gizlilik Politikası kapsamında işleyebilir.
+                        <strong>🇹🇷 Türkçe Özet:</strong> <strong>Marinext 2100</strong> kişisel iletişim verilerinizi (telefon, ev adresi vb.) toplamaz. Oyun ilerlemeniz cihaz hafızasında ve dilerseniz <strong>Google Play Games Services (Play Oyunlar Profili)</strong> ile kendi <strong>Google Drive (Kaydedilen Oyunlar &amp; Android Otomatik Yedekleme)</strong> alanınızda güvenle saklanır; böylece cihaz değiştirdiğinizde kaldığınız yerden devam edebilirsiniz. Verilerinizi <em>Ayarlar &gt; Tüm Oyun İlerlemesini Sıfırla</em> butonuyla istediğiniz an tamamen silebilirsiniz. Oyunu ücretsiz sunmak için kullanılan <strong>Google AdMob</strong> SDK'sı; reklam gösterimi, sıklık sınırı ve sahtekarlık önleme amacıyla cihazın Reklam Kimliğini (AAID) ve yaklaşık konum/tanı verilerini Google Gizlilik Politikası kapsamında işleyebilir.
                     </div>
                     <div style="background: rgba(255, 209, 102, 0.08); border-left: 3px solid #ffd166; padding: 10px 12px; border-radius: 6px;">
-                        <strong>🇬🇧 English Summary:</strong> <strong>Marinext 2100</strong> (developed by <strong>CG Studio Home</strong>) does not directly collect personally identifiable information. All game progress is stored locally on your device and can be erased at any time via <em>Settings &gt; Reset All Game Progress</em>. We use <strong>Google AdMob</strong> to serve optional rewarded ads and frequency-capped interstitial ads, which may process your device's Advertising ID, coarse location, and diagnostics in accordance with Google's Privacy Policy.
+                        <strong>🇬🇧 English Summary:</strong> <strong>Marinext 2100</strong> (developed by <strong>CG Studio Home</strong>) stores your game progress locally and optionally syncs it with your personal <strong>Google Drive</strong> via <strong>Google Play Games Services (Saved Games &amp; Android Auto-Backup)</strong> so you can continue seamlessly across devices. You can erase all progress at any time via <em>Settings &gt; Reset All Game Progress</em>. We use <strong>Google AdMob</strong> to serve optional rewarded ads and frequency-capped interstitial ads, which may process your device's Advertising ID, coarse location, and diagnostics in accordance with Google's Privacy Policy.
                     </div>
                     <p style="font-size: 12.5px; color: #cbd5e1;">
                         🌐 Resmi Web Gizlilik Politikası Adresi: <strong style="color:#00f2fe;">https://cevatturk.github.io/2100-Mario/privacy-policy.html</strong><br>
@@ -455,6 +458,29 @@
                 <div class="profile-name-section">
                     <label class="profile-name-label" id="profile-name-label" for="profile-name-input">✏️ KARAKTER İSMİ (İSTEDİĞİN GİBİ YAZ)</label>
                     <input type="text" id="profile-name-input" class="profile-name-input" maxlength="24" value="Gölge Şövalye" placeholder="Karakter ismini yaz..." />
+                </div>
+
+                <!-- 2.5 Google Play Games & Google Drive Bulut Kayıt Kutusu -->
+                <div id="profile-cloud-box" class="profile-attributes-box" style="border-color: rgba(16, 185, 129, 0.55); background: rgba(6, 78, 59, 0.22); margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;">
+                        <div class="profile-section-title" id="profile-cloud-title" style="color: #34d399; margin-bottom: 0;">🎮 GOOGLE PLAY GAMES &amp; GOOGLE DRIVE BULUT KAYIT</div>
+                        <span id="cloud-status-badge" style="font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: rgba(16, 185, 129, 0.2); border: 1px solid #34d399; color: #6ee7b7;">☁️ Google Drive Yedek: AKTİF</span>
+                    </div>
+                    <p id="cloud-sync-time" style="font-size: 11.5px; color: #cbd5e1; margin: 0 0 8px 0; text-align: left;">
+                        İlerlemeniz (40 Kampanya + 15 Trol Bölümü, Coin, Zümrüt, Kristal ve Karakterler) otomatik olarak cihazınıza ve Google Drive bulut yedeğinize kaydedilir.
+                    </p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button type="button" id="btn-cloud-sync-now" class="secondary-btn" style="flex: 1; min-width: 150px; padding: 8px 10px; font-size: 12px; border-color: #34d399; color: #6ee7b7; background: rgba(16, 185, 129, 0.16);">
+                            🎮 Play Games Bağlan &amp; Senkronize Et
+                        </button>
+                        <button type="button" id="btn-cloud-export-drive" class="secondary-btn" style="flex: 1; min-width: 140px; padding: 8px 10px; font-size: 12px; border-color: #00f2fe; color: #00f2fe;">
+                            ☁️ Google Drive'a Yedek Kaydet
+                        </button>
+                        <button type="button" id="btn-cloud-import-drive" class="secondary-btn" style="flex: 1; min-width: 140px; padding: 8px 10px; font-size: 12px; border-color: #ffd166; color: #ffd166;">
+                            📂 Yedekten Geri Yükle
+                        </button>
+                        <input type="file" id="input-cloud-import-file" accept=".json,application/json,text/plain" style="display: none;" />
+                    </div>
                 </div>
 
                 <!-- 3. Onun Altında Karakter Özellikleri -->
