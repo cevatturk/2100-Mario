@@ -457,25 +457,27 @@ function createLevelData(levelIndex) {
         });
     };
 
-    const addJumpPad = (gx, gy, boostVy = -19.5) => {
+    const addJumpPad = (gx, gy, boostVy = -25.8) => {
         jumpPads.push({
             x: gx * TILE_SIZE,
-            y: gy * TILE_SIZE - 16,
-            w: 44,
-            h: 16,
-            boostVy,
+            y: gy * TILE_SIZE - 22,
+            w: 58,
+            h: 22,
+            boostVy: Math.min(boostVy, -24.8),
             anim: 0
         });
     };
 
-    const addWindZone = (gx, gy, gw, gh, forceX = 0, forceY = -0.62) => {
+    const addWindZone = (gx, gy, gw, gh, forceX = 0.22, forceY = -0.74, fanSide = null) => {
+        const resolvedFanSide = fanSide || (Math.abs(forceX) >= 0.28 && Math.abs(forceY) < 0.25 ? (forceX > 0 ? 'left' : 'right') : 'bottom');
         windZones.push({
             x: gx * TILE_SIZE,
             y: gy * TILE_SIZE,
             w: gw * TILE_SIZE,
             h: gh * TILE_SIZE,
             forceX,
-            forceY
+            forceY,
+            fanSide: resolvedFanSide
         });
     };
 
@@ -545,6 +547,7 @@ function createLevelData(levelIndex) {
             enemies.push({ x: 29 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'slime', minX: 25 * TILE_SIZE, maxX: 34 * TILE_SIZE });
 
             addGround(28, 8, 5, 1, 'platform');
+            addJumpPad(26.2, 11, -25.8);
             mysteryBlocks.push({ x: 30 * TILE_SIZE, y: 5 * TILE_SIZE, content: 'speed' });
             coins.push({ x: 30 * TILE_SIZE + 24, y: 7.1 * TILE_SIZE, type: 'emerald' });
 
@@ -1062,17 +1065,19 @@ function createLevelData(levelIndex) {
                     portal = { x: 85 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
 
                 } else if (archetype === 1) {
-                    // ARCHETYPE 1: 💨 FIRTINA RÜZGAR TÜNELİ & SÜZÜLÜŞ VADİSİ (Updraft Wind Currents)
+                    // ARCHETYPE 1: 💨 FIRTINA RÜZGAR TÜNELİ & SÜZÜLÜŞ VADİSİ (Updraft & Directional Wind Turbine Fans)
                     hazards.push({ x: 13 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 22 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
                     addGround(13, 14, 22, 3);
 
-                    addWindZone(14.5, 3, 5.5, 10.5, 0.08, -0.68);
+                    addWindZone(14.5, 3, 5.5, 10.5, 0.24, -0.74, 'bottom');
                     addGround(20.5, 6.2, 5.5, 0.9, 'platform');
                     enemies.push({ x: 22.5 * TILE_SIZE, y: 5.2 * TILE_SIZE, type: 'sentinel', minX: 21 * TILE_SIZE, maxX: 25.5 * TILE_SIZE });
                     addSaw(27, 4.0, 27, 11.0, 1.55, 24);
 
-                    addWindZone(28.5, 2.5, 5.5, 11.0, 0.08, -0.72);
+                    addWindZone(28.5, 2.5, 5.5, 11.0, 0.26, -0.76, 'bottom');
                     addGround(35, 11, 14, 6, 'ground', worldSurface);
+                    // Horizontal Wind Turbine Fan pushing the player across the checkpoint bridge!
+                    addWindZone(37.5, 6.5, 8.5, 4.5, 0.42, -0.08, 'left');
                     checkpoints.push({ x: 36.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
                     enemies.push({ x: 41 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 38 * TILE_SIZE, maxX: 47 * TILE_SIZE });
                     enemies.push({ x: 45 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'crawler', minX: 39 * TILE_SIZE, maxX: 48 * TILE_SIZE });
@@ -1080,7 +1085,7 @@ function createLevelData(levelIndex) {
                     // Second Wind Canyon with Laser Gate & High Platforms
                     hazards.push({ x: 49 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 23 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
                     addGround(49, 14, 23, 3);
-                    addWindZone(50.5, 2, 6.0, 11.5, 0.1, -0.7);
+                    addWindZone(50.5, 2, 6.0, 11.5, 0.26, -0.76, 'bottom');
                     addGround(57, 5.5, 7.5, 0.9, 'platform', worldSurface);
                     addLaserGate(60.5, 2.0, 3.5, 140, 65, 0);
                     enemies.push({ x: 62 * TILE_SIZE, y: 4.5 * TILE_SIZE, type: 'sentinel', minX: 58 * TILE_SIZE, maxX: 64 * TILE_SIZE });

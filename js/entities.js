@@ -1163,6 +1163,7 @@ class Player {
         this.invulnTimer = 0;
         this.fireCooldown = 0;
         this.teleportCooldown = 0;
+        this.springBoostTimer = 0;
 
         this.trail = [];
         this.animTime = 0;
@@ -1217,6 +1218,7 @@ class Player {
         if (this.invulnTimer > 0) this.invulnTimer--;
         if (this.fireCooldown > 0) this.fireCooldown--;
         if (this.teleportCooldown > 0) this.teleportCooldown--;
+        if (this.springBoostTimer > 0) this.springBoostTimer--;
         if (this.speedTimer > 0) this.speedTimer--;
         if (this.coyoteTimer > 0) this.coyoteTimer--;
         if (this.wallCoyoteTimer > 0) this.wallCoyoteTimer--;
@@ -1317,7 +1319,7 @@ class Player {
             }
         }
 
-        if (!input.jumpHeld && this.vy < -5.0) {
+        if (!input.jumpHeld && this.vy < -5.0 && (this.springBoostTimer || 0) <= 0) {
             this.vy *= 0.75;
         }
 
@@ -1334,6 +1336,8 @@ class Player {
         let grav;
         if (this.inLowGravity) {
             grav = this.vy < 0 ? 0.42 : 0.58;
+        } else if ((this.springBoostTimer || 0) > 0 && this.vy < 0) {
+            grav = 0.46;
         } else {
             grav = this.vy < 0 ? 0.66 : 0.96;
         }

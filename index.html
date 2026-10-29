@@ -165,25 +165,27 @@
                     <!-- Dynamically populated 100 level nodes -->
                 </div>
 
-                <div class="level-preview-card" id="level-info-box">
-                    <div class="preview-header">
-                        <span class="world-tag" id="preview-world">DÜNYA 1</span>
-                        <h3 id="preview-title">Bölüm 1: Kristal Mağaralar</h3>
+                <div class="map-bottom-dock">
+                    <div class="level-preview-card" id="level-info-box">
+                        <div class="preview-header">
+                            <span class="world-tag" id="preview-world">DÜNYA 1</span>
+                            <h3 id="preview-title">Bölüm 1: Kristal Mağaralar</h3>
+                        </div>
+                        <p id="preview-desc">Karanlık mağaralarda çift zıplama ve duvardan zıplama yeteneklerini keşfet.</p>
+                        <div class="mechanics-list" id="preview-features">
+                            <span>🚀 Sıçrama Trambolinleri &amp; 💨 Hava Akımları</span>
+                            <span>⚡ Zamanlamalı Lazer Kapıları</span>
+                            <span>🧊 Buz &amp; ⏩ Hız Konveyörleri</span>
+                            <span>👑 20 Efsanevi Boss Savaşı</span>
+                        </div>
                     </div>
-                    <p id="preview-desc">Karanlık mağaralarda çift zıplama ve duvardan zıplama yeteneklerini keşfet.</p>
-                    <div class="mechanics-list" id="preview-features">
-                        <span>🚀 Sıçrama Trambolinleri &amp; 💨 Hava Akımları</span>
-                        <span>⚡ Zamanlamalı Lazer Kapıları</span>
-                        <span>🧊 Buz &amp; ⏩ Hız Konveyörleri</span>
-                        <span>👑 20 Efsanevi Boss Savaşı</span>
-                    </div>
-                </div>
 
-                <div class="map-actions">
-                    <button id="btn-play-level" class="primary-btn">BÖLÜME BAŞLA ▶</button>
-                    <button id="btn-character-main" class="customize-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047; color: #fff;">👤 KARAKTER DEĞİŞTİR (✪ COİN)</button>
-                    <button id="btn-customize-main" class="customize-btn">🎨 KARAKTERİ KİŞİSELLEŞTİR (❖)</button>
-                    <button id="btn-unlock-all" class="secondary-btn hidden" style="display:none;" title="Geliştirici Test Butonu">🔓 100 Bölüm + 500✪ Coin + 50❖ Zümrüt Aç</button>
+                    <div class="map-actions">
+                        <button id="btn-play-level" class="primary-btn">BÖLÜME BAŞLA ▶</button>
+                        <button id="btn-character-main" class="customize-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047; color: #fff;">👤 KARAKTER DEĞİŞTİR (✪ COİN)</button>
+                        <button id="btn-customize-main" class="customize-btn">🎨 KARAKTERİ KİŞİSELLEŞTİR (❖)</button>
+                        <button id="btn-unlock-all" class="secondary-btn hidden" style="display:none;" title="Geliştirici Test Butonu">🔓 100 Bölüm + 500✪ Coin + 50❖ Zümrüt Aç</button>
+                    </div>
                 </div>
 
                 <div class="controls-hint">
@@ -552,36 +554,41 @@
                 <!-- Sağ Üst Çarpı (✕) Kapatma Butonu -->
                 <button id="btn-close-profile-x" class="modal-close-x" title="Profil Menüsünden Çık (ESC)">✕</button>
 
-                <!-- 1. İlk Profil Fotoğrafı -->
-                <div class="profile-top-avatar-wrap">
-                    <div class="profile-hero-square" id="profile-hero-avatar">⚔️</div>
-                    <span class="profile-avatar-title-badge" id="profile-hero-title">Siber Şövalye</span>
-                </div>
+                <!-- 1 & 2. Kompakt Üst Bar: Profil Fotoğrafı + Karakter İsmi + Kaydet Butonu -->
+                <div class="profile-compact-top-row">
+                    <div class="profile-top-avatar-wrap">
+                        <div class="profile-hero-square" id="profile-hero-avatar">⚔️</div>
+                        <span class="profile-avatar-title-badge" id="profile-hero-title">Siber Şövalye</span>
+                    </div>
 
-                <!-- 2. Sonra Karakter İsmi -->
-                <div class="profile-name-section">
-                    <label class="profile-name-label" id="profile-name-label" for="profile-name-input">✏️ KARAKTER İSMİ (İSTEDİĞİN GİBİ YAZ)</label>
-                    <input type="text" id="profile-name-input" class="profile-name-input" maxlength="24" value="Gölge Şövalye" placeholder="Karakter ismini yaz..." />
+                    <div class="profile-name-section">
+                        <label class="profile-name-label" id="profile-name-label" for="profile-name-input">✏️ KARAKTER İSMİ (İSTEDİĞİN GİBİ YAZ)</label>
+                        <input type="text" id="profile-name-input" class="profile-name-input" maxlength="24" value="Gölge Şövalye" placeholder="Karakter ismini yaz..." />
+                    </div>
+
+                    <button id="btn-close-profile" class="primary-btn profile-save-top-btn">
+                        PROFİLİ KAYDET VE ÇIK ✓
+                    </button>
                 </div>
 
                 <!-- 2.5 Google Play Games & Google Drive Bulut Kayıt Kutusu -->
-                <div id="profile-cloud-box" class="profile-attributes-box" style="border-color: rgba(16, 185, 129, 0.55); background: rgba(6, 78, 59, 0.22); margin-bottom: 10px;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 6px;">
+                <div id="profile-cloud-box" class="profile-attributes-box" style="border-color: rgba(16, 185, 129, 0.55); background: rgba(6, 78, 59, 0.22); margin-bottom: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 4px;">
                         <div class="profile-section-title" id="profile-cloud-title" style="color: #34d399; margin-bottom: 0;">🎮 GOOGLE PLAY GAMES &amp; GOOGLE DRIVE BULUT KAYIT</div>
-                        <span id="cloud-status-badge" style="font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: rgba(16, 185, 129, 0.2); border: 1px solid #34d399; color: #6ee7b7;">☁️ Google Drive Yedek: AKTİF</span>
+                        <span id="cloud-status-badge" style="font-size: 10.5px; font-weight: 800; padding: 2px 8px; border-radius: 999px; background: rgba(16, 185, 129, 0.2); border: 1px solid #34d399; color: #6ee7b7;">☁️ Google Drive Yedek: AKTİF</span>
                     </div>
-                    <p id="cloud-sync-time" style="font-size: 11.5px; color: #cbd5e1; margin: 0 0 8px 0; text-align: left;">
+                    <p id="cloud-sync-time" class="profile-cloud-desc" style="font-size: 11px; color: #cbd5e1; margin: 0 0 6px 0; text-align: left;">
                         İlerlemeniz (100 Kampanya + 15 Trol Bölümü, Coin, Zümrüt, Kristal ve Karakterler) otomatik olarak cihazınıza ve Google Drive bulut yedeğinize kaydedilir.
                     </p>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <button type="button" id="btn-cloud-sync-now" class="secondary-btn" style="flex: 1; min-width: 150px; padding: 8px 10px; font-size: 12px; border-color: #34d399; color: #6ee7b7; background: rgba(16, 185, 129, 0.16);">
-                            🎮 Play Games Bağlan &amp; Senkronize Et
+                    <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+                        <button type="button" id="btn-cloud-sync-now" class="secondary-btn" style="flex: 1; min-width: 135px; padding: 6px 8px; font-size: 11.5px; border-color: #34d399; color: #6ee7b7; background: rgba(16, 185, 129, 0.16);">
+                            🎮 Play Games Senkronize Et
                         </button>
-                        <button type="button" id="btn-cloud-export-drive" class="secondary-btn" style="flex: 1; min-width: 140px; padding: 8px 10px; font-size: 12px; border-color: #00f2fe; color: #00f2fe;">
-                            ☁️ Google Drive'a Yedek Kaydet
+                        <button type="button" id="btn-cloud-export-drive" class="secondary-btn" style="flex: 1; min-width: 125px; padding: 6px 8px; font-size: 11.5px; border-color: #00f2fe; color: #00f2fe;">
+                            ☁️ Drive'a Yedek Kaydet
                         </button>
-                        <button type="button" id="btn-cloud-import-drive" class="secondary-btn" style="flex: 1; min-width: 140px; padding: 8px 10px; font-size: 12px; border-color: #ffd166; color: #ffd166;">
-                            📂 Yedekten Geri Yükle
+                        <button type="button" id="btn-cloud-import-drive" class="secondary-btn" style="flex: 1; min-width: 120px; padding: 6px 8px; font-size: 11.5px; border-color: #ffd166; color: #ffd166;">
+                            📂 Yedekten Yükle
                         </button>
                         <input type="file" id="input-cloud-import-file" accept=".json,application/json,text/plain" style="display: none;" />
                     </div>
@@ -602,10 +609,6 @@
                         <!-- 30 distinct profile pictures populated by game.js -->
                     </div>
                 </div>
-
-                <button id="btn-close-profile" class="primary-btn" style="width: 100%; max-width: 320px; padding: 10px 20px; font-size: 13.5px;">
-                    PROFİLİ KAYDET VE ÇIK ✕
-                </button>
             </div>
         </div>
 

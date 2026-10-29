@@ -430,10 +430,10 @@ public class MainActivity extends BridgeActivity {
                 int vCode = android.os.Build.VERSION.SDK_INT >= 28 ? (int) pInfo.getLongVersionCode() : pInfo.versionCode;
                 JSONObject obj = new JSONObject();
                 obj.put("versionCode", vCode);
-                obj.put("versionName", pInfo.versionName != null ? pInfo.versionName : "1.1.6");
+                obj.put("versionName", pInfo.versionName != null ? pInfo.versionName : "1.1.7");
                 return obj.toString();
             } catch (Throwable t) {
-                return "{\"versionCode\":10,\"versionName\":\"1.1.6\"}";
+                return "{\"versionCode\":11,\"versionName\":\"1.1.7\"}";
             }
         }
 

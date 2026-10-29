@@ -1194,7 +1194,8 @@ class Game {
         this.selectedLevel = 0;
         this.unlockedLevels = 1;
         this.starsPerLevel = Array(100).fill(0);
-        this.selectedWorldFilter = -1; // -1 = Tümü (100 Bölüm), 0..9 = Dünya 1..10
+        this.selectedWorldFilter = 0; // Default to World 1 (1-10) so 10 nodes fit in a single compact row without scrolling; -1 = Tümü (1-100)
+        this.realPlayGamesLeaderboardEntries = [];
         this.jumpPads = [];
         this.windZones = [];
         this.laserGates = [];
@@ -1369,6 +1370,10 @@ class Game {
     applySaveDataObject(data) {
         if (!data || typeof data !== "object") return;
         this.unlockedLevels = Math.max(1, Math.min(100, Number(data.unlockedLevels) || 1));
+        this.selectedLevel = Math.max(0, Math.min(99, this.unlockedLevels - 1));
+        if (this.selectedWorldFilter >= 0) {
+            this.selectedWorldFilter = Math.min(9, Math.floor(this.selectedLevel / 10));
+        }
         const loadedStars = Array.isArray(data.starsPerLevel) ? data.starsPerLevel : [];
         this.starsPerLevel = Array.from({ length: 100 }, (_, i) => Math.max(0, Math.min(3, Number(loadedStars[i]) || 0)));
         this.walletCoins = Math.max(0, Number(data.walletCoins ?? 0));
@@ -1549,6 +1554,20 @@ class Game {
                 }
             } catch (e) {}
         };
+
+        window.onMarinextLeaderboardLoaded = (entriesJsonStr) => {
+            if (!entriesJsonStr) return;
+            try {
+                const parsed = JSON.parse(entriesJsonStr);
+                if (Array.isArray(parsed)) {
+                    this.realPlayGamesLeaderboardEntries = parsed;
+                    const lbScreen = document.getElementById("screen-leaderboard");
+                    if (lbScreen && !lbScreen.classList.contains("hidden")) {
+                        this.renderLeaderboardUI();
+                    }
+                }
+            } catch (e) {}
+        };
     }
 
     updateCloudStatusUI(customNote = "") {
@@ -1615,7 +1634,7 @@ class Game {
     }
 
     async checkAppUpdateOnStartup() {
-        const CURRENT_VERSION_CODE = 10;
+        const CURRENT_VERSION_CODE = 11;
         let installedCode = CURRENT_VERSION_CODE;
         if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.getAppVersionInfo === "function") {
             try {
@@ -2003,6 +2022,7 @@ class Game {
                 if (window.sfx && typeof window.sfx.resumeAudio === "function") {
                     window.sfx.resumeAudio();
                 }
+                this.checkAppUpdateOnStartup();
             }
         });
         // Prevent Android long-press contextmenu from interrupting held touch buttons!
@@ -4094,51 +4114,45 @@ class Game {
     }
 
     getLeaderboardCompetitors(category = "score", scope = "global") {
-        const roster = [
-            { name: "Fatih_Han_1453", avatar: "👑", heroTitle: "Fatih Sultan Mehmet", country: "🇹🇷", score: 268400, progress: 100, emerald: 2450, speedrun: 14120 },
-            { name: "Kaan_CyberNinja", avatar: "🥷", heroTitle: "Siber Şogun", country: "🇹🇷", score: 244800, progress: 96, emerald: 2180, speedrun: 14680 },
-            { name: "AetherValkyrie", avatar: "❄️", heroTitle: "Buzul Valkür", country: "🇩🇪", score: 229500, progress: 92, emerald: 1990, speedrun: 15150 },
-            { name: "MeteHan_Bozkir", avatar: "🏹", heroTitle: "Mete Han", country: "🇹🇷", score: 214200, progress: 88, emerald: 1840, speedrun: 15640 },
-            { name: "Cosmic_Orion99", avatar: "👨‍🚀", heroTitle: "Kozmik Astronot", country: "🇺🇸", score: 198600, progress: 82, emerald: 1690, speedrun: 16190 },
-            { name: "Yeniceri_Serdar", avatar: "⚔️", heroTitle: "Yeniçeri Ağası", country: "🇹🇷", score: 181400, progress: 75, emerald: 1520, speedrun: 16820 },
-            { name: "ShadowSamurai_JP", avatar: "👹", heroTitle: "Siber Şogun", country: "🇯🇵", score: 164900, progress: 68, emerald: 1380, speedrun: 17450 },
-            { name: "Spartan_Ares", avatar: "🛡️", heroTitle: "Spartalı Gladyatör", country: "🇬🇷", score: 148200, progress: 61, emerald: 1240, speedrun: 18120 },
-            { name: "Zeynep_Star2100", avatar: "🌟", heroTitle: "Buzul Valkür", country: "🇹🇷", score: 131500, progress: 54, emerald: 1110, speedrun: 18940 },
-            { name: "GoldenPharaoh_EG", avatar: "🐍", heroTitle: "Altın Firavun", country: "🇪🇬", score: 114800, progress: 47, emerald: 970, speedrun: 19780 },
-            { name: "Burak_TurboFPS", avatar: "⚡", heroTitle: "Gölge Şövalye", country: "🇹🇷", score: 96400, progress: 40, emerald: 840, speedrun: 20650 },
-            { name: "NeoMatrix_KR", avatar: "🤖", heroTitle: "Kozmik Astronot", country: "🇰🇷", score: 79200, progress: 33, emerald: 710, speedrun: 21580 },
-            { name: "Emre_KristalAvci", avatar: "💎", heroTitle: "Yeniçeri Ağası", country: "🇹🇷", score: 62500, progress: 26, emerald: 590, speedrun: 22640 },
-            { name: "Luna_ShadowWalker", avatar: "🌙", heroTitle: "Gölge Şövalye", country: "🇫🇷", score: 46800, progress: 19, emerald: 460, speedrun: 23890 },
-            { name: "Arda_2100Pro", avatar: "🔥", heroTitle: "Fatih Sultan Mehmet", country: "🇹🇷", score: 32400, progress: 13, emerald: 340, speedrun: 25420 },
-            { name: "Efe_CyberKnight", avatar: "🗡️", heroTitle: "Gölge Şövalye", country: "🇹🇷", score: 19800, progress: 8, emerald: 230, speedrun: 27850 },
-            { name: "Mert_SpeedRunner", avatar: "🚀", heroTitle: "Mete Han", country: "🇹🇷", score: 11200, progress: 4, emerald: 150, speedrun: 31200 },
-            { name: "Can_AetherHero", avatar: "🛡️", heroTitle: "Gölge Şövalye", country: "🇹🇷", score: 5400, progress: 2, emerald: 95, speedrun: 35600 }
-        ];
-
-        const scopeMult = scope === "weekly" ? 0.62 : (scope === "tr" ? 0.88 : 1.0);
-        const filtered = scope === "tr" ? roster.filter((r) => r.country === "🇹🇷") : roster;
-
-        const entries = filtered.map((r) => ({
-            isMe: false,
-            name: r.name,
-            avatar: r.avatar,
-            heroTitle: r.heroTitle,
-            country: r.country,
-            score: Math.round(r.score * scopeMult),
-            progress: Math.max(1, Math.min(100, Math.round(r.progress * (scope === "weekly" ? 0.75 : 1)))),
-            emerald: Math.round(r.emerald * scopeMult),
-            speedrun: Math.round(r.speedrun * (scope === "weekly" ? 1.08 : 1.0))
-        }));
-
+        // SADECE MARINEXT 2100 GERÇEK OYUNCULARI (Sahte/Bot İsimler Kaldırıldı!)
+        const entries = [];
         const myMetrics = this.getPlayerLeaderboardMetrics();
         const avObj = (typeof PROFILE_AVATARS !== "undefined" && PROFILE_AVATARS.find((a) => a.id === this.selectedAvatarId)) || { icon: "⚔️" };
-        const heroObj = (typeof HERO_CHARACTERS_CATALOG !== "undefined" && HERO_CHARACTERS_CATALOG.find((h) => h.id === this.equippedHeroChar)) || { name: "Gölge Şövalye" };
+        const heroObj = (typeof HERO_CHARACTERS_CATALOG !== "undefined" && HERO_CHARACTERS_CATALOG.find((h) => h.id === this.equippedHeroChar)) || { title: "Siber Gölge Şövalye" };
+        const myDisplayName = (this.playGamesPlayerName && this.playGamesPlayerName.trim().length > 0)
+            ? this.playGamesPlayerName.trim()
+            : (this.playerName || "Gölge Şövalye");
 
+        // 1. Google Play Games üzerinden senkronize edilen gerçek Marinext 2100 oyuncuları
+        if (Array.isArray(this.realPlayGamesLeaderboardEntries)) {
+            for (const r of this.realPlayGamesLeaderboardEntries) {
+                if (!r || !r.name) continue;
+                if (
+                    (this.playGamesPlayerId && r.playerId && r.playerId === this.playGamesPlayerId) ||
+                    r.name.trim().toLowerCase() === myDisplayName.toLowerCase()
+                ) {
+                    continue;
+                }
+                entries.push({
+                    isMe: false,
+                    name: String(r.name).slice(0, 26),
+                    avatar: r.avatar || "🎮",
+                    heroTitle: r.heroTitle || "Marinext 2100 Oyuncusu",
+                    country: r.country || "🇹🇷",
+                    score: Math.max(0, Number(r.score) || 0),
+                    progress: Math.max(1, Math.min(100, Number(r.progress) || 1)),
+                    emerald: Math.max(0, Number(r.emerald) || 0),
+                    speedrun: Math.max(4000, Number(r.speedrun) || 25000)
+                });
+            }
+        }
+
+        // 2. Mevcut gerçek oyuncunun kendi canlı profili
         entries.push({
             isMe: true,
-            name: this.playerName || "Gölge Şövalye",
+            name: myDisplayName,
             avatar: avObj.icon || "⚔️",
-            heroTitle: heroObj.name || "Gölge Şövalye",
+            heroTitle: heroObj.title || heroObj.name || "Siber Gölge Şövalye",
             country: "🇹🇷",
             score: myMetrics.score,
             progress: myMetrics.progress,
@@ -4202,8 +4216,8 @@ class Game {
         const syncEl = document.getElementById("lb-sync-status");
         if (syncEl) {
             syncEl.textContent = this.playGamesAuthed
-                ? `● Google Play Games Bağlı (${this.playGamesPlayerName || this.playerName})`
-                : "● Hibrit Bulut & Play Games Tablosu Aktif";
+                ? `● Sadece Marinext 2100 Gerçek Oyuncuları (${list.length} Oyuncu) • Play Games Bağlı (${this.playGamesPlayerName || this.playerName})`
+                : `● Sadece Marinext 2100 Gerçek Oyuncuları (${list.length} Oyuncu • Simülasyon/Bot Yok)`;
         }
 
         // 1. Render Top 3 Podium
@@ -4226,7 +4240,7 @@ class Game {
             });
         }
 
-        // 2. Render Full Rankings List
+        // 2. Render Full Rankings List (Only Real Players of Marinext 2100)
         const rowsContainer = document.getElementById("lb-rows-container");
         if (rowsContainer) {
             rowsContainer.innerHTML = "";
@@ -4252,6 +4266,10 @@ class Game {
                 `;
                 rowsContainer.appendChild(row);
             });
+            const infoRow = document.createElement("div");
+            infoRow.style.cssText = "padding:8px 12px;margin-top:4px;border-radius:10px;background:rgba(0,242,254,0.06);border:1px dashed rgba(0,242,254,0.28);font-size:11px;color:#94a3b8;text-align:center;";
+            infoRow.innerHTML = "🎮 <strong>Sadece Marinext 2100 Gerçek Oyuncuları:</strong> Bu tabloda hiçbir bot veya sahte liste yer almaz. Yalnızca oyunu telefonuna yükleyip Google Play Games ile skor gönderen gerçek oyuncular sıralanır.";
+            rowsContainer.appendChild(infoRow);
         }
 
         // 3. Update Sticky Player Footer
@@ -4816,29 +4834,64 @@ class Game {
 
         this.player.update(this.input, this.solids, this.movingPlatforms, activeCrumbles, this);
 
-        // 🚀 JUMP PADS (Zıplama Trambolinleri)
+        // 🚀 SUPER TRAMPOLINES (Süper Hidrolik Yaylı Trambolinler — Yüksek İrtifa Fırlatma!)
         if (this.jumpPads && this.player) {
             for (const jp of this.jumpPads) {
                 if (jp.anim > 0) jp.anim--;
-                if (this.player.intersects(jp) && this.player.vy >= -2 && jp.anim <= 4) {
-                    this.player.vy = jp.boostVy || -19.5;
+                if (this.player.intersects(jp) && this.player.vy >= -3.5 && jp.anim <= 5) {
+                    const launchVy = Math.min(Number(jp.boostVy) || -25.8, -24.8);
+                    this.player.vy = launchVy;
+                    this.player.springBoostTimer = 28;
                     this.player.onGround = false;
                     this.player.jumpsLeft = this.player.maxJumps;
-                    jp.anim = 14;
+                    jp.anim = 22;
+                    this.shakeScreen(6);
                     window.sfx.wallJump();
-                    this.spawnParticles(jp.x + jp.w / 2, jp.y, 14, "#06d6a0", 4.5);
-                    this.floatingTexts.push(new window.FloatingText(jp.x + jp.w / 2, jp.y - 12, "🚀 SÜPER TRAMBOLİN!", "#06d6a0"));
+                    this.spawnParticles(jp.x + jp.w / 2, jp.y, 18, "#06d6a0", 5.8);
+                    this.spawnParticles(jp.x + jp.w / 2, jp.y - 6, 12, "#ffd166", 4.8);
+                    this.floatingTexts.push(new window.FloatingText(jp.x + jp.w / 2, jp.y - 18, "🚀 SÜPER TRAMBOLİN! YÜKSEK FIRLATMA!", "#06d6a0"));
                 }
             }
         }
 
-        // 💨 WIND / UPDRAFT ZONES (Dikey Hava Akımları)
+        // 🌀 INDUSTRIAL WIND TURBINE FANS & DIRECTIONAL AIRSTREAMS (Yönlü Rüzgar Fanları)
         if (this.windZones && this.player) {
             for (const wz of this.windZones) {
                 if (this.player.intersects(wz)) {
-                    this.player.vy = Math.max(-9.8, this.player.vy + (wz.forceY || -0.62));
-                    this.player.vx += (wz.forceX || 0);
+                    const fy = wz.forceY !== undefined ? wz.forceY : -0.68;
+                    const fx = wz.forceX !== undefined ? wz.forceX : 0;
+                    if (fy < 0) {
+                        this.player.vy = Math.max(-10.8, this.player.vy + fy);
+                    } else if (fy > 0) {
+                        this.player.vy = Math.min(11.5, this.player.vy + fy);
+                    }
+                    if (fx !== 0) {
+                        this.player.vx = Math.max(-8.8, Math.min(8.8, this.player.vx + fx));
+                    }
                     this.player.jumpsLeft = Math.max(1, this.player.jumpsLeft);
+                    if (this.levelTick % 5 === 0) {
+                        this.spawnParticles(
+                            this.player.x + this.player.w / 2,
+                            this.player.y + this.player.h / 2,
+                            1,
+                            "#00f2fe",
+                            2.4
+                        );
+                    }
+                    if (!wz._lastNoticeTick || (this.levelTick - wz._lastNoticeTick) > 95) {
+                        wz._lastNoticeTick = this.levelTick;
+                        const dirArrow = Math.abs(fx) >= 0.3 && Math.abs(fy) < 0.25
+                            ? (fx > 0 ? "🌀 RÜZGAR FANI SAĞA İTİYOR! >>>" : "<<< 🌀 RÜZGAR FANI SOLA İTİYOR!")
+                            : "🌀 RÜZGAR FANI YUKARI İTİYOR! ▲▲";
+                        this.floatingTexts.push(
+                            new window.FloatingText(
+                                this.player.x + this.player.w / 2,
+                                this.player.y - 16,
+                                dirArrow,
+                                "#00f2fe"
+                            )
+                        );
+                    }
                 }
             }
         }
@@ -5115,7 +5168,7 @@ class Game {
             const dx = (this.player.x + this.player.w / 2) - c.x;
             const dy = (this.player.y + this.player.h / 2) - c.y;
             const dist = Math.hypot(dx, dy);
-            if (this.player.hasMagnet && dist < 175 && dist > 5) {
+            if (this.player.hasMagnet && !c.isTrollTeleport && !c.isFakeEmerald && dist < 175 && dist > 5) {
                 c.x += (dx / dist) * 6.5;
                 c.y += (dy / dist) * 6.5;
             }
@@ -5818,34 +5871,177 @@ class Game {
             ctx.restore();
         }
 
-        // 💨 Draw Wind / Updraft Zones
+        // 🌀 Draw Industrial Wind Turbine Fans & Directional Airstream Zones (Rüzgar Fanları)
         if (this.windZones) {
-            const wt = performance.now() * 0.005;
+            const wt = performance.now() * 0.006;
+            const drawTurbineRotor = (cx, cy, radius, bladeAngle) => {
+                ctx.save();
+                ctx.translate(cx, cy);
+                // Outer armored fan ring
+                ctx.fillStyle = "#0f172a";
+                ctx.strokeStyle = "#00f2fe";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.arc(0, 0, radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // 6 Spinning Neon Turbine Blades
+                ctx.save();
+                ctx.rotate(bladeAngle);
+                for (let b = 0; b < 6; b++) {
+                    ctx.rotate(Math.PI / 3);
+                    ctx.fillStyle = b % 2 === 0 ? "#00f2fe" : "#38bdf8";
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.quadraticCurveTo(radius * 0.45, -radius * 0.28, radius * 0.86, -radius * 0.12);
+                    ctx.lineTo(radius * 0.86, radius * 0.16);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+                ctx.restore();
+
+                // Center Hub Cap
+                ctx.fillStyle = "#ffd166";
+                ctx.beginPath();
+                ctx.arc(0, 0, Math.max(4, radius * 0.24), 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            };
+
             for (const wz of this.windZones) {
                 if (wz.x + wz.w < viewMinX || wz.x > viewMaxX) continue;
                 ctx.save();
-                const wGrad = ctx.createLinearGradient(0, wz.y + wz.h, 0, wz.y);
-                wGrad.addColorStop(0, "rgba(0, 242, 254, 0.28)");
-                wGrad.addColorStop(0.5, "rgba(144, 224, 239, 0.14)");
-                wGrad.addColorStop(1, "rgba(0, 242, 254, 0.03)");
+                const fx = wz.forceX || 0;
+                const fy = wz.forceY !== undefined ? wz.forceY : -0.68;
+                const isHorizontalPrimary = wz.fanSide === "left" || wz.fanSide === "right" || (Math.abs(fx) >= 0.28 && Math.abs(fy) < 0.25);
+
+                // 1. Glowing Directional Wind Tunnel Background
+                let wGrad;
+                if (isHorizontalPrimary) {
+                    wGrad = fx >= 0
+                        ? ctx.createLinearGradient(wz.x, 0, wz.x + wz.w, 0)
+                        : ctx.createLinearGradient(wz.x + wz.w, 0, wz.x, 0);
+                } else {
+                    wGrad = ctx.createLinearGradient(0, wz.y + wz.h, 0, wz.y);
+                }
+                wGrad.addColorStop(0, "rgba(0, 242, 254, 0.36)");
+                wGrad.addColorStop(0.55, "rgba(56, 189, 248, 0.18)");
+                wGrad.addColorStop(1, "rgba(0, 242, 254, 0.04)");
                 ctx.fillStyle = wGrad;
                 ctx.fillRect(wz.x, wz.y, wz.w, wz.h);
 
-                ctx.strokeStyle = "rgba(144, 224, 239, 0.5)";
-                ctx.lineWidth = 2;
-                for (let s = 0; s < 4; s++) {
-                    const sx = wz.x + 16 + (s * (wz.w - 32)) / 3;
-                    const progress = ((wt * 1.4 + s * 0.27) % 1);
-                    const sy = wz.y + wz.h - progress * wz.h;
+                ctx.strokeStyle = "rgba(0, 242, 254, 0.45)";
+                ctx.setLineDash([10, 8]);
+                ctx.lineWidth = 1.8;
+                ctx.strokeRect(wz.x, wz.y, wz.w, wz.h);
+                ctx.setLineDash([]);
+
+                // 2. Animated Wind Stream Ribbons & Directional Arrows
+                ctx.strokeStyle = "rgba(186, 230, 253, 0.78)";
+                ctx.lineWidth = 2.4;
+                if (isHorizontalPrimary) {
+                    const dir = fx >= 0 ? 1 : -1;
+                    for (let r = 0; r < 4; r++) {
+                        const ry = wz.y + 22 + (r * Math.max(24, wz.h - 44)) / 3;
+                        const prog = (wt * 1.6 + r * 0.25) % 1;
+                        const rx = dir > 0
+                            ? wz.x + prog * (wz.w - 40)
+                            : wz.x + wz.w - prog * (wz.w - 40);
+                        ctx.beginPath();
+                        ctx.moveTo(rx, ry);
+                        ctx.lineTo(rx + dir * 42, ry);
+                        ctx.stroke();
+                    }
+                    // Bold directional chevrons showing exact push direction
+                    ctx.fillStyle = "#ffd166";
+                    ctx.font = "bold 13px sans-serif";
+                    ctx.textAlign = "center";
+                    const arrowStr = dir > 0 ? "🌀 RÜZGAR FANI İTİYOR >>>" : "<<< 🌀 RÜZGAR FANI İTİYOR";
+                    ctx.fillText(arrowStr, wz.x + wz.w / 2, wz.y + 22);
+                    ctx.fillStyle = "rgba(0, 242, 254, 0.9)";
+                    ctx.font = "bold 15px sans-serif";
+                    ctx.fillText(dir > 0 ? ">>>   >>>   >>>" : "<<<   <<<   <<<", wz.x + wz.w / 2, wz.y + wz.h / 2);
+
+                    // Side-Mounted Giant Industrial Wind Fan Unit
+                    const fanX = dir > 0 ? wz.x + 18 : wz.x + wz.w - 18;
+                    ctx.fillStyle = "#1e293b";
+                    ctx.strokeStyle = "#ffd166";
+                    ctx.lineWidth = 2.5;
                     ctx.beginPath();
-                    ctx.moveTo(sx, sy);
-                    ctx.lineTo(sx, Math.max(wz.y, sy - 34));
+                    ctx.roundRect(fanX - 16, wz.y + 8, 32, wz.h - 16, 8);
+                    ctx.fill();
                     ctx.stroke();
+
+                    const fanCount = Math.max(1, Math.min(3, Math.floor((wz.h - 20) / 56)));
+                    for (let f = 0; f < fanCount; f++) {
+                        const fyPos = wz.y + (wz.h / (fanCount + 1)) * (f + 1);
+                        drawTurbineRotor(fanX, fyPos, 18, wt * 4.5 * dir + f);
+                    }
+                } else {
+                    // Updraft + Diagonal Wind Stream Lines
+                    for (let s = 0; s < 5; s++) {
+                        const baseSx = wz.x + 20 + (s * Math.max(24, wz.w - 40)) / 4;
+                        const progress = (wt * 1.55 + s * 0.21) % 1;
+                        const sy = wz.y + wz.h - 32 - progress * (wz.h - 40);
+                        const driftX = fx * 95 * progress;
+                        ctx.beginPath();
+                        ctx.moveTo(baseSx + driftX, sy);
+                        ctx.lineTo(baseSx + driftX + fx * 28, Math.max(wz.y + 6, sy - 38));
+                        ctx.stroke();
+                    }
+
+                    // Bold Updraft + Side Push Chevrons inside the Wind Zone
+                    ctx.fillStyle = "rgba(0, 242, 254, 0.92)";
+                    ctx.font = "bold 14px sans-serif";
+                    ctx.textAlign = "center";
+                    const midChevron = fx > 0.12 ? "▲▲ SAĞA & YUKARI RÜZGAR İTİŞİ >>>" : (fx < -0.12 ? "<<< SOLA & YUKARI RÜZGAR İTİŞİ ▲▲" : "▲ ▲ ▲ YUKARI RÜZGAR İTİŞİ ▲ ▲ ▲");
+                    ctx.fillText(midChevron, wz.x + wz.w / 2, wz.y + Math.min(90, wz.h * 0.35));
+                    ctx.fillText("▲   ▲   ▲", wz.x + wz.w / 2, wz.y + Math.min(160, wz.h * 0.62));
+
+                    // Bottom-Mounted Giant Industrial Updraft Turbine Fan Housing
+                    const housingH = 30;
+                    const housingY = wz.y + wz.h - housingH;
+                    ctx.fillStyle = "#0f172a";
+                    ctx.strokeStyle = "#00f2fe";
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+                    ctx.roundRect(wz.x + 4, housingY, wz.w - 8, housingH, 8);
+                    ctx.fill();
+                    ctx.stroke();
+
+                    // Yellow hazard top rim on fan housing
+                    ctx.fillStyle = "#ffd166";
+                    ctx.fillRect(wz.x + 10, housingY, wz.w - 20, 4);
+
+                    // Spinning Turbine Rotors along the bottom fan deck
+                    const numFans = Math.max(2, Math.min(4, Math.floor(wz.w / 68)));
+                    for (let f = 0; f < numFans; f++) {
+                        const fanCx = wz.x + (wz.w / (numFans + 1)) * (f + 1);
+                        drawTurbineRotor(fanCx, housingY + housingH / 2 + 1, 13, wt * 4.8 + f * 0.9);
+                    }
+
+                    // If there is also horizontal wind push (fx !== 0), draw a Side Booster Fan on the source edge!
+                    if (Math.abs(fx) >= 0.06) {
+                        const sideX = fx > 0 ? wz.x + 14 : wz.x + wz.w - 14;
+                        const sideY = wz.y + wz.h * 0.52;
+                        ctx.fillStyle = "#1e293b";
+                        ctx.strokeStyle = "#ffd166";
+                        ctx.lineWidth = 2;
+                        ctx.beginPath();
+                        ctx.roundRect(sideX - 14, sideY - 34, 28, 68, 7);
+                        ctx.fill();
+                        ctx.stroke();
+                        drawTurbineRotor(sideX, sideY - 14, 12, wt * 4.6);
+                        drawTurbineRotor(sideX, sideY + 14, 12, -wt * 4.6);
+                    }
+
+                    // Clear Label Badge on the Fan Unit
+                    ctx.fillStyle = "#ffd166";
+                    ctx.font = "bold 11.5px sans-serif";
+                    ctx.textAlign = "center";
+                    ctx.fillText("🌀 DEV RÜZGAR FANI", wz.x + wz.w / 2, housingY - 6);
                 }
-                ctx.fillStyle = "rgba(144, 224, 239, 0.78)";
-                ctx.font = "bold 11px sans-serif";
-                ctx.textAlign = "center";
-                ctx.fillText("💨 HAVA AKIMI", wz.x + wz.w / 2, wz.y + wz.h - 10);
                 ctx.restore();
             }
         }
@@ -5906,21 +6102,75 @@ class Game {
             ctx.restore();
         }
 
-        // 🚀 Draw Jump Pads (Trambolinler)
+        // 🚀 Draw 3D Cyber-Hydraulic Super Trampolines (Süper Trambolinler)
         if (this.jumpPads) {
+            const jt = performance.now() * 0.006;
             for (const jp of this.jumpPads) {
                 if (jp.x + jp.w < viewMinX || jp.x > viewMaxX) continue;
                 ctx.save();
-                const lift = jp.anim > 0 ? Math.sin((jp.anim / 14) * Math.PI) * 8 : 0;
-                ctx.fillStyle = "#1e293b";
-                ctx.fillRect(jp.x + 4, jp.y + 6, jp.w - 8, jp.h - 6);
-                ctx.fillStyle = "#06d6a0";
-                ctx.strokeStyle = "#ffffff";
+                const padW = jp.w || 58;
+                const padH = jp.h || 22;
+                const bottomY = jp.y + padH;
+                const lift = jp.anim > 0 ? Math.sin((jp.anim / 22) * Math.PI) * 16 : Math.sin(jt) * 1.5;
+                const topPlateY = jp.y - lift;
+
+                // 1. Heavy Anchored Steel Base Plate
+                ctx.fillStyle = "#0f172a";
+                ctx.strokeStyle = "#38bdf8";
                 ctx.lineWidth = 2;
                 ctx.beginPath();
-                ctx.roundRect(jp.x, jp.y - lift, jp.w, 8, 4);
+                ctx.roundRect(jp.x + 2, bottomY - 7, padW - 4, 7, 3);
                 ctx.fill();
                 ctx.stroke();
+
+                // 2. Dual Glowing Zig-Zag Steel Coil Springs + Center Hydraulic Piston
+                ctx.fillStyle = "rgba(0, 242, 254, 0.35)";
+                ctx.fillRect(jp.x + padW / 2 - 4, topPlateY + 6, 8, Math.max(4, bottomY - 6 - (topPlateY + 6)));
+
+                ctx.strokeStyle = jp.anim > 0 ? "#ffd166" : "#00f2fe";
+                ctx.lineWidth = 2.6;
+                const springCols = [jp.x + 13, jp.x + padW - 13];
+                for (const sx of springCols) {
+                    const topSy = topPlateY + 7;
+                    const botSy = bottomY - 7;
+                    const span = Math.max(6, botSy - topSy);
+                    ctx.beginPath();
+                    ctx.moveTo(sx, botSy);
+                    ctx.lineTo(sx - 6, botSy - span * 0.25);
+                    ctx.lineTo(sx + 6, botSy - span * 0.5);
+                    ctx.lineTo(sx - 6, botSy - span * 0.75);
+                    ctx.lineTo(sx, topSy);
+                    ctx.stroke();
+                }
+
+                // 3. Curved Neon-Emerald & Gold Bounce Cushion
+                const padGrad = ctx.createLinearGradient(jp.x, topPlateY, jp.x + padW, topPlateY);
+                padGrad.addColorStop(0, "#059669");
+                padGrad.addColorStop(0.5, "#06d6a0");
+                padGrad.addColorStop(1, "#059669");
+                ctx.fillStyle = padGrad;
+                ctx.strokeStyle = jp.anim > 0 ? "#ffffff" : "#ffd166";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.roundRect(jp.x - 2, topPlateY, padW + 4, 10, 5);
+                ctx.fill();
+                ctx.stroke();
+
+                // Energy core stripe & upward launch chevron
+                ctx.fillStyle = "#ffd166";
+                ctx.font = "bold 9.5px sans-serif";
+                ctx.textAlign = "center";
+                ctx.fillText("▲ SÜPER ▲", jp.x + padW / 2, topPlateY - 4);
+
+                // Expanding shockwave ring when bouncing
+                if (jp.anim > 0) {
+                    const prog = 1 - jp.anim / 22;
+                    ctx.strokeStyle = `rgba(6, 214, 160, ${Math.max(0, 1 - prog)})`;
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+                    ctx.ellipse(jp.x + padW / 2, topPlateY, (padW * 0.55) + prog * 26, 6 + prog * 12, 0, 0, Math.PI * 2);
+                    ctx.stroke();
+                }
                 ctx.restore();
             }
         }
