@@ -327,14 +327,14 @@ const LANG_DICT = {
         btnResume: "DEVAM ET",
         btnNextLevel: "SONRAKİ BÖLÜM ▶",
         btnRestart: "BÖLÜMÜ BAŞTAN BAŞLAT ↻",
-        btnToMap: "HARİTAYA DÖN 🗺",
+        btnToMap: "BÖLÜMDEN ÇIK VE HARİTAYA DÖN 🗺",
         shadowMode: "Gölge Modu",
         checkpointActive: "🚩 Kayıt Noktası Aktif",
         lowGravityText: "🌌 DÜŞÜK YERÇEKİMİ ALANI",
         hitNowText: "🎯 ŞİMDİ VUR!",
         bossShieldText: "🛡 KALKAN AKTİF",
         bossVulnText: "🎯 KALKAN KAPANDI! ŞİMDİ VUR!",
-        signHint: "A/D: Koş • W/Boşluk: Çift Zıpla & Duvardan Sek • X/F: Ateş Topu / Atılma • ❖ Zümrütleri Topla!",
+        signHint: "A/D: Koş • W/Boşluk: Çift Zıpla & Duvardan Tırman • X/F: Ateş Topu • ❖ Zümrütleri Topla!",
         trollSignHint: "Dikkat: Belirli Zeminler Çöker (-3♥), Belirli [?] Uranyum Yağdırır (-3♥), Belirli ❖ Başa Işınlar!",
         levelWord: "Bölüm",
         worldWord: "DÜNYA",
@@ -418,7 +418,7 @@ const LANG_DICT = {
         btnResume: "ПРОДОЛЖИТЬ",
         btnNextLevel: "СЛЕДУЮЩИЙ УРОВЕНЬ ▶",
         btnRestart: "НАЧАТЬ ЗАНОВО ↻",
-        btnToMap: "НА КАРТУ 🗺",
+        btnToMap: "ВЫЙТИ ИЗ УРОВНЯ НА КАРТУ 🗺",
         shadowMode: "Режим Тени",
         checkpointActive: "🚩 Чекпоинт Активен",
         lowGravityText: "🌌 ЗОНА НИЗКОЙ ГРАВИТАЦИИ",
@@ -509,7 +509,7 @@ const LANG_DICT = {
         btnResume: "RESUME GAME",
         btnNextLevel: "NEXT LEVEL ▶",
         btnRestart: "RESTART LEVEL ↻",
-        btnToMap: "WORLD MAP 🗺",
+        btnToMap: "EXIT LEVEL & RETURN TO MAP 🗺",
         shadowMode: "Shadow Mode",
         checkpointActive: "🚩 Checkpoint Active",
         lowGravityText: "🌌 LOW GRAVITY ZONE",
@@ -600,7 +600,7 @@ const LANG_DICT = {
         btnResume: "RIPRENDI",
         btnNextLevel: "LIVELLO SUCCESSIVO ▶",
         btnRestart: "RIAVVIA LIVELLO ↻",
-        btnToMap: "TORNA ALLA MAPPA 🗺",
+        btnToMap: "ESCI DAL LIVELLO E TORNA ALLA MAPPA 🗺",
         shadowMode: "Modalità Ombra",
         checkpointActive: "🚩 Checkpoint Attivo",
         lowGravityText: "🌌 ZONA A BASSA GRAVITÀ",
@@ -691,7 +691,7 @@ const LANG_DICT = {
         btnResume: "CONTINUAR",
         btnNextLevel: "SIGUIENTE NIVEL ▶",
         btnRestart: "REINICIAR NIVEL ↻",
-        btnToMap: "VOLVER AL MAPA 🗺",
+        btnToMap: "SALIR DEL NIVEL Y VOLVER AL MAPA 🗺",
         shadowMode: "Modo Sombra",
         checkpointActive: "🚩 Punto de Control Activo",
         lowGravityText: "🌌 ZONA DE BAJA GRAVEDAD",
@@ -782,7 +782,7 @@ const LANG_DICT = {
         btnResume: "REPRENDRE",
         btnNextLevel: "NIVEAU SUIVANT ▶",
         btnRestart: "RECOMMENCER LE NIVEAU ↻",
-        btnToMap: "RETOUR À LA CARTE 🗺",
+        btnToMap: "QUITTER LE NIVEAU ET RETOUR À LA CARTE 🗺",
         shadowMode: "Mode Ombre",
         checkpointActive: "🚩 Point de Contrôle Actif",
         lowGravityText: "🌌 ZONE À FAIBLE GRAVITÉ",
@@ -873,7 +873,7 @@ const LANG_DICT = {
         btnResume: "계속하기",
         btnNextLevel: "다음 스테이지 ▶",
         btnRestart: "다시 시작 ↻",
-        btnToMap: "월드 맵 🗺",
+        btnToMap: "스테이지 나가기 및 월드 맵으로 🗺",
         shadowMode: "섀도우 모드",
         checkpointActive: "🚩 체크포인트 활성화",
         lowGravityText: "🌌 저중력 구역",
@@ -964,7 +964,7 @@ const LANG_DICT = {
         btnResume: "继续游戏",
         btnNextLevel: "下一关 ▶",
         btnRestart: "重新开始 ↻",
-        btnToMap: "返回地图 🗺",
+        btnToMap: "退出关卡并返回地图 🗺",
         shadowMode: "暗影模式",
         checkpointActive: "🚩 存档点已激活",
         lowGravityText: "🌌 低重力区域",
@@ -1055,7 +1055,7 @@ const LANG_DICT = {
         btnResume: "再開する",
         btnNextLevel: "次のステージ ▶",
         btnRestart: "最初からやり直す ↻",
-        btnToMap: "マップへ戻る 🗺",
+        btnToMap: "ステージを出てマップへ戻る 🗺",
         shadowMode: "シャドウモード",
         checkpointActive: "🚩 チェックポイント有効",
         lowGravityText: "🌌 低重力ゾーン",
@@ -1666,10 +1666,29 @@ class Game {
         this.input.jumpPressed = false;
         this.input.jumpHeld = false;
         this.input.firePressed = false;
+        if (this.activeTouches) this.activeTouches.clear();
+        if (this.keysHeld) {
+            this.keysHeld.left = false;
+            this.keysHeld.right = false;
+            this.keysHeld.jump = false;
+        }
+        this.activeMouseBtn = null;
         ["touch-left", "touch-right", "touch-jump", "touch-fire"].forEach((id) => {
             const el = document.getElementById(id);
             if (el) el.classList.remove("pressed");
         });
+        this.syncFireButtonUI();
+    }
+
+    syncFireButtonUI() {
+        const fireBtn = document.getElementById("touch-fire");
+        if (!fireBtn) return;
+        const canFire = Boolean(this.player && this.player.hasFire);
+        fireBtn.classList.toggle("fire-passive", !canFire);
+        fireBtn.setAttribute("aria-disabled", canFire ? "false" : "true");
+        if (!canFire) {
+            fireBtn.classList.remove("pressed");
+        }
     }
 
     handleBackAction() {
@@ -1732,6 +1751,10 @@ class Game {
     }
 
     setupInputs() {
+        this.activeTouches = new Map();
+        this.keysHeld = { left: false, right: false, jump: false };
+        this.activeMouseBtn = null;
+
         window.addEventListener("blur", () => {
             this.resetInputs();
             if (window.sfx && typeof window.sfx.suspendAudio === "function") {
@@ -1758,9 +1781,12 @@ class Game {
                 }
             }
         });
-        window.addEventListener("contextmenu", () => {
-            this.resetInputs();
-        });
+        // Prevent Android long-press contextmenu from interrupting held touch buttons!
+        window.addEventListener("contextmenu", (e) => {
+            if (e && typeof e.preventDefault === "function") {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
         // Android Hardware Back Button & Capacitor Back Event Compliance
         document.addEventListener("backbutton", (e) => {
@@ -1768,6 +1794,42 @@ class Game {
                 if (e && typeof e.preventDefault === "function") e.preventDefault();
             }
         }, false);
+
+        const syncInputState = () => {
+            let touchLeft = false;
+            let touchRight = false;
+            let touchJump = false;
+            let touchFire = false;
+
+            for (const role of this.activeTouches.values()) {
+                if (role === "left") touchLeft = true;
+                else if (role === "right") touchRight = true;
+                else if (role === "jump") touchJump = true;
+                else if (role === "fire") touchFire = true;
+            }
+
+            if (this.activeMouseBtn === "left") touchLeft = true;
+            else if (this.activeMouseBtn === "right") touchRight = true;
+            else if (this.activeMouseBtn === "jump") touchJump = true;
+            else if (this.activeMouseBtn === "fire") touchFire = true;
+
+            this.input.left = Boolean(touchLeft || this.keysHeld.left);
+            this.input.right = Boolean(touchRight || this.keysHeld.right);
+            this.input.jumpHeld = Boolean(touchJump || this.keysHeld.jump);
+
+            const leftBtn = document.getElementById("touch-left");
+            const rightBtn = document.getElementById("touch-right");
+            const jumpBtn = document.getElementById("touch-jump");
+            const fireBtn = document.getElementById("touch-fire");
+
+            if (leftBtn) leftBtn.classList.toggle("pressed", touchLeft);
+            if (rightBtn) rightBtn.classList.toggle("pressed", touchRight);
+            if (jumpBtn) jumpBtn.classList.toggle("pressed", touchJump);
+            if (fireBtn) {
+                const canFire = Boolean(this.player && this.player.hasFire);
+                fireBtn.classList.toggle("pressed", Boolean(touchFire && canFire));
+            }
+        };
 
         window.addEventListener("keydown", (e) => {
             if (document.activeElement && document.activeElement.tagName === "INPUT") {
@@ -1777,14 +1839,23 @@ class Game {
                 e.preventDefault();
             }
             if (this.state === "playing") {
-                if (e.code === "KeyA" || e.code === "ArrowLeft") this.input.left = true;
-                if (e.code === "KeyD" || e.code === "ArrowRight") this.input.right = true;
+                if (e.code === "KeyA" || e.code === "ArrowLeft") {
+                    this.keysHeld.left = true;
+                    syncInputState();
+                }
+                if (e.code === "KeyD" || e.code === "ArrowRight") {
+                    this.keysHeld.right = true;
+                    syncInputState();
+                }
                 if (e.code === "KeyW" || e.code === "ArrowUp" || e.code === "Space") {
                     if (!this.input.jumpHeld) this.input.jumpPressed = true;
-                    this.input.jumpHeld = true;
+                    this.keysHeld.jump = true;
+                    syncInputState();
                 }
                 if (e.code === "KeyX" || e.code === "KeyF" || e.code === "ShiftLeft" || e.code === "ShiftRight" || e.code === "KeyZ") {
-                    this.input.firePressed = true;
+                    if (this.player && this.player.hasFire) {
+                        this.input.firePressed = true;
+                    }
                 }
             }
             if (e.code === "Escape") {
@@ -1799,68 +1870,121 @@ class Game {
 
         window.addEventListener("keyup", (e) => {
             if (e.code === "KeyA" || e.code === "ArrowLeft" || e.key === "a" || e.key === "A" || e.key === "ArrowLeft") {
-                this.input.left = false;
+                this.keysHeld.left = false;
             }
             if (e.code === "KeyD" || e.code === "ArrowRight" || e.key === "d" || e.key === "D" || e.key === "ArrowRight") {
-                this.input.right = false;
+                this.keysHeld.right = false;
             }
             if (e.code === "KeyW" || e.code === "ArrowUp" || e.code === "Space" || e.key === "w" || e.key === "W" || e.key === "ArrowUp" || e.key === " ") {
-                this.input.jumpHeld = false;
+                this.keysHeld.jump = false;
             }
+            syncInputState();
         });
 
-        const bindTouchBtn = (id, onDown, onUp) => {
-            const btn = document.getElementById(id);
-            if (!btn) return;
-            const handleDown = (e) => {
-                e.preventDefault();
-                if (btn.setPointerCapture && e.pointerId !== undefined) {
-                    try { btn.setPointerCapture(e.pointerId); } catch (_) {}
+        // True Multi-Touch Controller (Independent tracking per touch.identifier so holding Right + tapping Jump never cancels Right)
+        const buttonRoleMap = [
+            { id: "touch-left", role: "left" },
+            { id: "touch-right", role: "right" },
+            { id: "touch-jump", role: "jump" },
+            { id: "touch-fire", role: "fire" }
+        ];
+
+        const triggerRoleDown = (role) => {
+            if (role === "jump") {
+                this.input.jumpPressed = true;
+            } else if (role === "fire") {
+                if (this.player && this.player.hasFire) {
+                    this.input.firePressed = true;
                 }
-                btn.classList.add("pressed");
-                onDown();
-            };
-            const handleUp = (e) => {
-                if (e && e.preventDefault) e.preventDefault();
-                btn.classList.remove("pressed");
-                if (onUp) onUp();
-            };
-            btn.addEventListener("pointerdown", handleDown);
-            btn.addEventListener("pointerup", handleUp);
-            btn.addEventListener("pointerleave", handleUp);
-            btn.addEventListener("pointercancel", handleUp);
-            btn.addEventListener("lostpointercapture", handleUp);
+            }
         };
 
-        bindTouchBtn("touch-left", () => { this.input.left = true; }, () => { this.input.left = false; });
-        bindTouchBtn("touch-right", () => { this.input.right = true; }, () => { this.input.right = false; });
-        bindTouchBtn(
-            "touch-jump",
-            () => {
-                this.input.jumpPressed = true;
-                this.input.jumpHeld = true;
-            },
-            () => {
-                this.input.jumpHeld = false;
-            }
-        );
-        bindTouchBtn("touch-fire", () => { this.input.firePressed = true; }, null);
+        buttonRoleMap.forEach(({ id, role }) => {
+            const btn = document.getElementById(id);
+            if (!btn) return;
 
-        window.addEventListener("pointerup", () => {
-            const leftBtn = document.getElementById("touch-left");
-            if (leftBtn && leftBtn.classList.contains("pressed")) {
-                leftBtn.classList.remove("pressed");
-                this.input.left = false;
+            btn.addEventListener("touchstart", (e) => {
+                if (e.cancelable) e.preventDefault();
+                e.stopPropagation();
+                if (role === "fire" && (!this.player || !this.player.hasFire)) {
+                    this.syncFireButtonUI();
+                    return;
+                }
+                for (let i = 0; i < e.changedTouches.length; i++) {
+                    const t = e.changedTouches[i];
+                    this.activeTouches.set(t.identifier, role);
+                }
+                triggerRoleDown(role);
+                syncInputState();
+            }, { passive: false });
+
+            // Desktop mouse fallback (only for mouse, never interferes with touch)
+            btn.addEventListener("mousedown", (e) => {
+                if (e.button !== 0) return;
+                e.preventDefault();
+                if (role === "fire" && (!this.player || !this.player.hasFire)) {
+                    this.syncFireButtonUI();
+                    return;
+                }
+                this.activeMouseBtn = role;
+                triggerRoleDown(role);
+                syncInputState();
+            });
+        });
+
+        const handleGlobalTouchMove = (e) => {
+            if (this.activeTouches.size === 0) return;
+            const leftEl = document.getElementById("touch-left");
+            const rightEl = document.getElementById("touch-right");
+            const leftRect = leftEl ? leftEl.getBoundingClientRect() : null;
+            const rightRect = rightEl ? rightEl.getBoundingClientRect() : null;
+
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const t = e.changedTouches[i];
+                const currentRole = this.activeTouches.get(t.identifier);
+                if (!currentRole) continue;
+
+                // Allow smooth thumb slide between Left and Right D-pad buttons while keeping held state even if thumb drifts slightly outside button bounds
+                if (currentRole === "left" || currentRole === "right") {
+                    if (leftRect && t.clientX >= leftRect.left - 12 && t.clientX <= leftRect.right + 8 && t.clientY >= leftRect.top - 24 && t.clientY <= leftRect.bottom + 24) {
+                        this.activeTouches.set(t.identifier, "left");
+                    } else if (rightRect && t.clientX >= rightRect.left - 8 && t.clientX <= rightRect.right + 12 && t.clientY >= rightRect.top - 24 && t.clientY <= rightRect.bottom + 24) {
+                        this.activeTouches.set(t.identifier, "right");
+                    }
+                }
             }
-            const rightBtn = document.getElementById("touch-right");
-            if (rightBtn && rightBtn.classList.contains("pressed")) {
-                rightBtn.classList.remove("pressed");
-                this.input.right = false;
+            syncInputState();
+        };
+
+        const handleGlobalTouchEnd = (e) => {
+            if (this.activeTouches.size === 0) return;
+            for (let i = 0; i < e.changedTouches.length; i++) {
+                const t = e.changedTouches[i];
+                this.activeTouches.delete(t.identifier);
             }
-            const jumpBtn = document.getElementById("touch-jump");
-            if (jumpBtn && jumpBtn.classList.contains("pressed")) {
-                jumpBtn.classList.remove("pressed");
-                this.input.jumpHeld = false;
+            // Reconcile against remaining active screen touches
+            if (e.touches) {
+                const stillAlive = new Set();
+                for (let i = 0; i < e.touches.length; i++) {
+                    stillAlive.add(e.touches[i].identifier);
+                }
+                for (const key of Array.from(this.activeTouches.keys())) {
+                    if (!stillAlive.has(key)) {
+                        this.activeTouches.delete(key);
+                    }
+                }
+            }
+            syncInputState();
+        };
+
+        window.addEventListener("touchmove", handleGlobalTouchMove, { passive: true });
+        window.addEventListener("touchend", handleGlobalTouchEnd, { passive: true });
+        window.addEventListener("touchcancel", handleGlobalTouchEnd, { passive: true });
+
+        window.addEventListener("mouseup", () => {
+            if (this.activeMouseBtn !== null) {
+                this.activeMouseBtn = null;
+                syncInputState();
             }
         });
     }
@@ -1971,6 +2095,7 @@ class Game {
                 this.player.hasMagnet = Boolean(upg.hasMagnet);
                 if (upg.startShield) this.player.hasShield = true;
                 if (upg.startFire) this.player.hasFire = true;
+                this.syncFireButtonUI();
             }
             if (this.state === "customizing_in_game") {
                 this.state = "playing";
@@ -3100,7 +3225,11 @@ class Game {
         }
         this.levelInfo = data.info;
         this.solids = data.solids;
-        this.hazards = data.hazards;
+        this.hazards = (data.hazards || []).map((hz, idx) => ({
+            ...hz,
+            hazardKind: hz.hazardKind || (idx % 2 === 1 ? "electric" : "lava"),
+            animSeed: idx * 1.73 + 0.4
+        }));
         this.signs = data.signs;
         this.portal = data.portal;
         this.teleporters = data.teleporters || [];
@@ -3763,6 +3892,7 @@ class Game {
     }
 
     updateHUD() {
+        this.syncFireButtonUI();
         const d = LANG_DICT[this.lang] || LANG_DICT.tr;
         const powerList = [];
         if (this.player.hasFire) powerList.push("🔥");
@@ -4085,8 +4215,22 @@ class Game {
 
         for (const hz of this.hazards) {
             if (this.player.intersects(hz)) {
-                this.player.vy = -11;
+                const wasVulnerable = this.player.invulnTimer <= 0;
+                this.player.vy = -11.5;
                 this.player.takeDamage(this);
+                if (wasVulnerable) {
+                    const cx = this.player.x + this.player.w / 2;
+                    const cy = this.player.y + this.player.h / 2;
+                    if (hz.hazardKind === "electric") {
+                        this.spawnParticles(cx, cy, 18, "#00f2fe", 5);
+                        this.spawnParticles(cx, cy, 10, "#ffd166", 4.5);
+                        this.floatingTexts.push(new window.FloatingText(cx, this.player.y - 14, "⚡ YÜKSEK VOLTAJ ELEKTRİK!", "#00f2fe"));
+                    } else {
+                        this.spawnParticles(cx, cy, 18, "#ff5400", 5);
+                        this.spawnParticles(cx, cy, 10, "#ffd166", 4.5);
+                        this.floatingTexts.push(new window.FloatingText(cx, this.player.y - 14, "🔥 KIZGIN LAV!", "#ff6d00"));
+                    }
+                }
             }
         }
 
@@ -4539,6 +4683,213 @@ class Game {
         ctx.restore();
     }
 
+    drawHazardZone(ctx, hz) {
+        const t = performance.now() * 0.004 + (hz.animSeed || 0);
+        ctx.save();
+
+        if (hz.hazardKind === "electric") {
+            // =========================================================================
+            // ⚡ HIGH-VOLTAGE ELECTRIC SHOCK PIT (Yüksek Voltaj Elektrik Çarpması Geçidi)
+            // =========================================================================
+            const glowGrad = ctx.createLinearGradient(0, hz.y - 26, 0, hz.y + hz.h);
+            glowGrad.addColorStop(0, "rgba(0, 242, 254, 0)");
+            glowGrad.addColorStop(0.28, "rgba(0, 242, 254, 0.22)");
+            glowGrad.addColorStop(0.55, "rgba(58, 12, 163, 0.78)");
+            glowGrad.addColorStop(1, "#050716");
+            ctx.fillStyle = glowGrad;
+            ctx.fillRect(hz.x, hz.y - 24, hz.w, hz.h + 24);
+
+            // Deep Plasma Trench Base
+            const baseGrad = ctx.createLinearGradient(0, hz.y, 0, hz.y + hz.h);
+            baseGrad.addColorStop(0, "#091e3a");
+            baseGrad.addColorStop(0.45, "#10002b");
+            baseGrad.addColorStop(1, "#03040c");
+            ctx.fillStyle = baseGrad;
+            ctx.fillRect(hz.x, hz.y + 4, hz.w, hz.h - 4);
+
+            // Pulsing Horizontal Energy Grid Bars inside Trench
+            ctx.strokeStyle = "rgba(0, 242, 254, 0.28)";
+            ctx.lineWidth = 1.5;
+            for (let gy = hz.y + 14; gy < hz.y + hz.h - 4; gy += 12) {
+                ctx.beginPath();
+                ctx.moveTo(hz.x + 6, gy);
+                ctx.lineTo(hz.x + hz.w - 6, gy);
+                ctx.stroke();
+            }
+
+            // Left & Right Metallic Tesla Coil Electrodes
+            const drawElectrode = (ex, isLeft) => {
+                ctx.fillStyle = "#1e293b";
+                ctx.strokeStyle = "#ffd166";
+                ctx.lineWidth = 1.8;
+                const ew = 10;
+                const rx = isLeft ? ex : ex - ew;
+                ctx.fillRect(rx, hz.y - 6, ew, Math.min(hz.h, 38));
+                ctx.strokeRect(rx, hz.y - 6, ew, Math.min(hz.h, 38));
+
+                // Glowing Tesla Orb
+                const orbX = isLeft ? ex + ew + 2 : ex - ew - 2;
+                const orbY = hz.y + 4;
+                ctx.fillStyle = "#00f2fe";
+                ctx.beginPath();
+                ctx.arc(orbX, orbY, 5 + Math.sin(t * 5) * 1.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = "#ffffff";
+                ctx.beginPath();
+                ctx.arc(orbX, orbY, 2.5, 0, Math.PI * 2);
+                ctx.fill();
+            };
+            drawElectrode(hz.x, true);
+            drawElectrode(hz.x + hz.w, false);
+
+            // Multi-layered Jagged Lightning Bolts Snapping Across the Pit
+            const segments = Math.max(5, Math.floor(hz.w / 22));
+            const stepX = hz.w / segments;
+
+            for (let arcIdx = 0; arcIdx < 3; arcIdx++) {
+                const baseY = hz.y + 2 + arcIdx * 8;
+                const phase = t * (4.2 + arcIdx * 1.3) + arcIdx * 2.1;
+
+                // Outer Cyan/Gold Plasma Glow
+                ctx.strokeStyle = arcIdx === 1 ? "#ffd166" : "#00f2fe";
+                ctx.lineWidth = arcIdx === 0 ? 3.4 : 2.4;
+                ctx.beginPath();
+                ctx.moveTo(hz.x + 6, baseY);
+                const pts = [];
+                for (let s = 1; s < segments; s++) {
+                    const px = hz.x + s * stepX;
+                    const jitter = Math.sin(phase + s * 2.9) * 8 + Math.cos(phase * 1.7 - s * 4.1) * 5;
+                    const py = baseY + jitter;
+                    pts.push({ x: px, y: py });
+                    ctx.lineTo(px, py);
+                }
+                ctx.lineTo(hz.x + hz.w - 6, baseY);
+                ctx.stroke();
+
+                // Inner White High-Voltage Core
+                ctx.strokeStyle = "#ffffff";
+                ctx.lineWidth = 1.3;
+                ctx.beginPath();
+                ctx.moveTo(hz.x + 6, baseY);
+                for (const pt of pts) {
+                    ctx.lineTo(pt.x, pt.y);
+                }
+                ctx.lineTo(hz.x + hz.w - 6, baseY);
+                ctx.stroke();
+            }
+
+            // Vertical Jumping Electric Sparks & Arcs
+            const sparkCount = Math.max(3, Math.floor(hz.w / 48));
+            for (let i = 0; i < sparkCount; i++) {
+                const sx = hz.x + 18 + ((i * 53 + Math.floor(t * 28)) % Math.max(24, hz.w - 36));
+                const sy = hz.y - 2 - ((t * 22 + i * 9) % 18);
+                ctx.strokeStyle = i % 2 === 0 ? "#00f2fe" : "#ffd166";
+                ctx.lineWidth = 1.8;
+                ctx.beginPath();
+                ctx.moveTo(sx, hz.y + 8);
+                ctx.lineTo(sx - 4, sy + 6);
+                ctx.lineTo(sx + 4, sy + 2);
+                ctx.lineTo(sx, sy - 4);
+                ctx.stroke();
+            }
+        } else {
+            // =========================================================================
+            // 🔥 REALISTIC BOILING FIERY MOLTEN LAVA (Gerçekçi Ateşli Kaynayan Lav)
+            // =========================================================================
+            // 1. Ambient Rising Heat & Fire Glow Above Lava Surface
+            const heatGrad = ctx.createLinearGradient(0, hz.y - 28, 0, hz.y + 12);
+            heatGrad.addColorStop(0, "rgba(255, 84, 0, 0)");
+            heatGrad.addColorStop(0.6, "rgba(255, 109, 0, 0.24)");
+            heatGrad.addColorStop(1, "rgba(255, 190, 11, 0.55)");
+            ctx.fillStyle = heatGrad;
+            ctx.fillRect(hz.x, hz.y - 26, hz.w, 38);
+
+            // 2. Animated Leaping Flame Tongues Along Lava Surface
+            const flameStep = 22;
+            for (let fx = hz.x + 6; fx < hz.x + hz.w - 8; fx += flameStep) {
+                const fPhase = t * 2.4 + fx * 0.09;
+                const flameH = 10 + Math.sin(fPhase) * 7 + Math.cos(fPhase * 1.6) * 4;
+                const sway = Math.sin(fPhase * 1.3) * 5;
+                const waveBaseY = hz.y + Math.sin(t * 1.8 + fx * 0.05) * 3;
+
+                // Outer Crimson-Orange Flame Tongue
+                ctx.fillStyle = "rgba(255, 72, 0, 0.88)";
+                ctx.beginPath();
+                ctx.moveTo(fx - 9, waveBaseY + 6);
+                ctx.quadraticCurveTo(fx - 4 + sway * 0.5, waveBaseY - flameH * 0.6, fx + sway, waveBaseY - flameH);
+                ctx.quadraticCurveTo(fx + 5 + sway * 0.5, waveBaseY - flameH * 0.5, fx + 9, waveBaseY + 6);
+                ctx.closePath();
+                ctx.fill();
+
+                // Inner Golden-Yellow Flame Core
+                ctx.fillStyle = "rgba(255, 224, 102, 0.92)";
+                ctx.beginPath();
+                ctx.moveTo(fx - 5, waveBaseY + 5);
+                ctx.quadraticCurveTo(fx + sway * 0.6, waveBaseY - flameH * 0.62, fx + 5, waveBaseY + 5);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            // 3. Undulating Molten Magma Pool Body
+            const lavaGrad = ctx.createLinearGradient(0, hz.y - 4, 0, hz.y + hz.h);
+            lavaGrad.addColorStop(0, "#fff3b0");
+            lavaGrad.addColorStop(0.12, "#ffbe0b");
+            lavaGrad.addColorStop(0.32, "#ff5400");
+            lavaGrad.addColorStop(0.68, "#d00000");
+            lavaGrad.addColorStop(1, "#2b0307");
+
+            ctx.fillStyle = lavaGrad;
+            ctx.beginPath();
+            ctx.moveTo(hz.x, hz.y + hz.h);
+            ctx.lineTo(hz.x, hz.y + 2);
+            const waveStep = 14;
+            for (let wx = hz.x; wx <= hz.x + hz.w; wx += waveStep) {
+                const clampedX = Math.min(wx, hz.x + hz.w);
+                const wy = hz.y + Math.sin(t * 2.1 + clampedX * 0.055) * 3.5 + Math.cos(t * 1.4 - clampedX * 0.09) * 2;
+                ctx.lineTo(clampedX, wy);
+            }
+            ctx.lineTo(hz.x + hz.w, hz.y + hz.h);
+            ctx.closePath();
+            ctx.fill();
+
+            // 4. White-Hot Incandescent Magma Crust Line
+            ctx.strokeStyle = "#fff3b0";
+            ctx.lineWidth = 2.8;
+            ctx.beginPath();
+            for (let wx = hz.x; wx <= hz.x + hz.w; wx += waveStep) {
+                const clampedX = Math.min(wx, hz.x + hz.w);
+                const wy = hz.y + Math.sin(t * 2.1 + clampedX * 0.055) * 3.5 + Math.cos(t * 1.4 - clampedX * 0.09) * 2;
+                if (wx === hz.x) ctx.moveTo(clampedX, wy);
+                else ctx.lineTo(clampedX, wy);
+            }
+            ctx.stroke();
+
+            // 5. Internal Glowing Magma Convection Veins & Bubbling Lava Blisters
+            const bubbleCount = Math.max(3, Math.floor(hz.w / 44));
+            for (let b = 0; b < bubbleCount; b++) {
+                const cycle = (t * 0.85 + b * 1.37) % 1;
+                const bx = hz.x + 16 + ((b * 47 + Math.sin(b * 3 + t) * 8) % Math.max(20, hz.w - 32));
+                const by = hz.y + hz.h - 6 - cycle * Math.max(12, hz.h - 10);
+                const br = 2.5 + Math.sin(cycle * Math.PI) * 3.5;
+
+                ctx.fillStyle = cycle > 0.78 ? "#fff3b0" : "#ff9e00";
+                ctx.beginPath();
+                ctx.arc(bx, by, br, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Rising Ember Spark Above Surface
+                const emberY = hz.y - 4 - ((t * 18 + b * 13) % 24);
+                const emberX = bx + Math.sin(t * 2 + b) * 6;
+                ctx.fillStyle = "#ffd166";
+                ctx.beginPath();
+                ctx.arc(emberX, emberY, 1.8, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        ctx.restore();
+    }
+
     draw(alpha = 1) {
         const ctx = this.ctx;
         this.drawBackground(ctx);
@@ -4596,14 +4947,7 @@ class Game {
 
         for (const hz of this.hazards) {
             if (hz.x + hz.w < viewMinX || hz.x > viewMaxX) continue;
-            ctx.save();
-            const lavaGrad = ctx.createLinearGradient(0, hz.y, 0, hz.y + hz.h);
-            lavaGrad.addColorStop(0, "#ff2a85");
-            lavaGrad.addColorStop(0.4, "#9b0047");
-            lavaGrad.addColorStop(1, "#2a0015");
-            ctx.fillStyle = lavaGrad;
-            ctx.fillRect(hz.x, hz.y, hz.w, hz.h);
-            ctx.restore();
+            this.drawHazardZone(ctx, hz);
         }
 
         const themeColor = this.levelInfo ? this.levelInfo.themeColor : "#00f2fe";

@@ -1154,6 +1154,8 @@ class Player {
 
         this.onGround = false;
         this.onWall = 0;
+        this.wallCoyoteTimer = 0;
+        this.lastWallDir = 0;
         this.inLowGravity = false;
         this.jumpsLeft = this.maxJumps;
         this.coyoteTimer = 0;
@@ -1173,6 +1175,9 @@ class Player {
             game.floatingTexts.push(new FloatingText(this.x + 16, this.y - 10, "AETHER KALKANI AKTİF!", "#00f2fe"));
         } else if (type === 'fire') {
             this.hasFire = true;
+            if (game && typeof game.syncFireButtonUI === "function") {
+                game.syncFireButtonUI();
+            }
             game.floatingTexts.push(new FloatingText(this.x + 16, this.y - 10, "PLAZMA KILICI & ATEŞ TOPU! (X / 🔥)", "#ff7b00"));
         } else if (type === 'speed') {
             this.speedTimer = 600;
@@ -1214,6 +1219,7 @@ class Player {
         if (this.teleportCooldown > 0) this.teleportCooldown--;
         if (this.speedTimer > 0) this.speedTimer--;
         if (this.coyoteTimer > 0) this.coyoteTimer--;
+        if (this.wallCoyoteTimer > 0) this.wallCoyoteTimer--;
         if (this.jumpBuffer > 0) this.jumpBuffer--;
 
         this.inLowGravity = false;
@@ -1224,8 +1230,29 @@ class Player {
             }
         }
 
+        const allSolids = [...solids, ...movingPlatforms, ...activeCrumbles, ...game.mysteryBlocks];
+
+        // Proactive wall proximity sensor (4px left/right) so wall climbing works reliably while holding left/right
+        if (!this.onGround) {
+            for (const s of allSolids) {
+                if (this.y + this.h - 4 > s.y && this.y + 4 < s.y + s.h) {
+                    if (Math.abs((this.x + this.w) - s.x) <= 4) {
+                        this.onWall = 1;
+                        this.lastWallDir = 1;
+                        this.wallCoyoteTimer = 9;
+                        break;
+                    } else if (Math.abs(this.x - (s.x + s.w)) <= 4) {
+                        this.onWall = -1;
+                        this.lastWallDir = -1;
+                        this.wallCoyoteTimer = 9;
+                        break;
+                    }
+                }
+            }
+        }
+
         const maxSpeed = (this.speedTimer > 0 ? 7.0 : 5.2) * this.speedMult;
-        const accel = (this.onGround ? 0.95 : 0.68) * this.speedMult;
+        const accel = (this.onGround ? 0.95 : 0.75) * this.speedMult;
         const friction = this.onGround ? 0.78 : 0.86;
 
         if (input.left) {
@@ -1245,6 +1272,7 @@ class Player {
         }
 
         const jumpForce = this.inLowGravity ? -12.8 : -14.2;
+        const activeWallDir = this.onWall !== 0 ? this.onWall : (this.wallCoyoteTimer > 0 ? this.lastWallDir : 0);
 
         if (this.jumpBuffer > 0) {
             if (this.coyoteTimer > 0) {
@@ -1255,21 +1283,24 @@ class Player {
                 this.jumpBuffer = 0;
                 window.sfx.jump();
                 game.spawnParticles(this.x + this.w / 2, this.y + this.h, 8, "#00f2fe", 3.5);
-            } else if (this.onWall !== 0 && !this.onGround) {
-                this.vy = -13.6;
-                this.vx = -this.onWall * 7.2;
-                this.facing = -this.onWall;
+            } else if (activeWallDir !== 0 && !this.onGround) {
+                const isClimbingSameWall = (activeWallDir === 1 && input.right) || (activeWallDir === -1 && input.left);
+                this.vy = isClimbingSameWall ? -14.2 : -13.6;
+                this.vx = isClimbingSameWall ? (-activeWallDir * 2.6) : (-activeWallDir * 6.8);
+                this.facing = isClimbingSameWall ? activeWallDir : -activeWallDir;
                 this.jumpsLeft = this.maxJumps - 1;
+                this.onWall = 0;
+                this.wallCoyoteTimer = 0;
                 this.jumpBuffer = 0;
                 window.sfx.wallJump();
                 game.spawnParticles(
-                    this.onWall === 1 ? this.x + this.w : this.x,
+                    activeWallDir === 1 ? this.x + this.w : this.x,
                     this.y + this.h / 2,
                     12,
                     "#b537f2",
                     4
                 );
-                game.floatingTexts.push(new FloatingText(this.x + this.w / 2, this.y, "Duvar Zıplaması!", "#e0aaff"));
+                game.floatingTexts.push(new FloatingText(this.x + this.w / 2, this.y, isClimbingSameWall ? "Duvar Tırmanışı!" : "Duvar Zıplaması!", "#e0aaff"));
             } else if (this.jumpsLeft > 0) {
                 this.vy = jumpForce * 0.94;
                 this.jumpsLeft--;
@@ -1290,10 +1321,6 @@ class Player {
                 game.fireballs.push(new Fireball(spawnX, this.y + this.h * 0.45, this.facing, false));
                 this.fireCooldown = 18;
                 window.sfx.fireball();
-            } else if (!this.hasFire && this.fireCooldown <= 0) {
-                this.vx = this.facing * 8.2;
-                this.fireCooldown = 32;
-                game.spawnParticles(this.x + this.w / 2, this.y + this.h / 2, 8, "#b537f2", 3.5);
             }
         }
 
@@ -1306,8 +1333,6 @@ class Player {
         const maxFall = (this.onWall !== 0 && this.vy > 0) ? 2.8 : (this.inLowGravity ? 8.5 : 13.8);
         this.vy = Math.min(this.vy + grav, maxFall);
 
-        const allSolids = [...solids, ...movingPlatforms, ...activeCrumbles, ...game.mysteryBlocks];
-
         this.x += this.vx;
         this.onWall = 0;
 
@@ -1316,9 +1341,13 @@ class Player {
                 if (this.vx > 0) {
                     this.x = s.x - this.w;
                     this.onWall = 1;
+                    this.lastWallDir = 1;
+                    this.wallCoyoteTimer = 9;
                 } else if (this.vx < 0) {
                     this.x = s.x + s.w;
                     this.onWall = -1;
+                    this.lastWallDir = -1;
+                    this.wallCoyoteTimer = 9;
                 }
                 this.vx = 0;
             }
