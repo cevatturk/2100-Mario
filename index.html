@@ -138,6 +138,7 @@
                     </div>
 
                     <div class="top-buttons-group">
+                        <button id="btn-map-leaderboard" class="customize-btn" style="background: linear-gradient(135deg, #eab308, #ca8a04); border-color: #fef08a; color: #0f172a; font-weight: 900; box-shadow: 0 0 16px rgba(234, 179, 8, 0.45);" title="Küresel & Play Games Liderlik Tablosu">🏆 LİDERLİK TABLOSU</button>
                         <button id="btn-open-character" class="customize-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047; color: #fff;">👤 KARAKTER DEĞİŞTİR (✪)</button>
                         <button id="btn-open-customize" class="customize-btn">🎨 KARAKTERİ KİŞİSELLEŞTİR</button>
                         <button id="btn-open-shop" class="shop-btn">🛒 GÜÇLENDİRME MAĞAZASI</button>
@@ -646,6 +647,82 @@
                     <button id="btn-close-troll" class="secondary-btn">
                         NORMAL HARİTAYA DÖN ✕
                     </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hybrid Neon Leaderboard & Google Play Games Rankings Modal (🏆) -->
+        <div id="screen-leaderboard" class="overlay-screen hidden" style="z-index: 9997; background: rgba(4, 6, 16, 0.94);">
+            <div class="modal-card leaderboard-modal-card" style="max-width: 780px; width: 96%; max-height: 92vh; overflow-y: auto; border: 2px solid #ffd166; box-shadow: 0 0 42px rgba(255, 209, 102, 0.28); text-align: left; position: relative; padding: 16px 18px;">
+                <button id="btn-close-leaderboard-x" class="modal-close-x" title="Kapat (ESC)">✕</button>
+
+                <!-- Header Row -->
+                <div style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px; padding-right:34px;">
+                    <div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <span style="font-size:24px;">🏆</span>
+                            <h2 id="lb-modal-title" style="color:#ffd166; font-size:20px; margin:0; letter-spacing:0.5px;">ŞAMPİYONLAR LİDERLİK TABLOSU</h2>
+                            <span id="lb-league-badge" style="background:linear-gradient(135deg,#f59e0b,#b45309); color:#fff; font-size:11px; font-weight:800; padding:3px 9px; border-radius:999px; border:1px solid #fef08a;">👑 ALTIN LİG</span>
+                        </div>
+                        <p id="lb-modal-subtitle" style="color:#94a3b8; font-size:12px; margin:3px 0 0 0;">
+                            4 profesyonel kategoride sıralamanı yükselt, lig ödüllerini topla ve Google Play Games küresel listesinde zirveye çık!
+                        </p>
+                    </div>
+                    <button id="btn-open-playgames-leaderboard" type="button" class="secondary-btn" style="padding:8px 13px; font-size:12px; font-weight:800; border-color:#06d6a0; color:#06d6a0; background:rgba(6,214,160,0.12); display:flex; align-items:center; gap:6px;">
+                        <span>🎮</span> <span id="lb-playgames-btn-text">Play Games Resmi Tablosu</span>
+                    </button>
+                </div>
+
+                <!-- 4 Professional Category Tabs -->
+                <div class="lb-category-tabs" id="lb-category-tabs">
+                    <button type="button" class="lb-cat-tab active" data-lb-cat="score">🏆 Skor Krallığı</button>
+                    <button type="button" class="lb-cat-tab" data-lb-cat="progress">⚔️ 100 Bölüm &amp; Boss</button>
+                    <button type="button" class="lb-cat-tab" data-lb-cat="emerald">❖ Zümrüt &amp; Hazine</button>
+                    <button type="button" class="lb-cat-tab" data-lb-cat="speedrun">⚡ Hız Rekoru (Speedrun)</button>
+                </div>
+
+                <!-- Scope / Region Filter Bar -->
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                    <div class="lb-scope-pills" id="lb-scope-pills">
+                        <button type="button" class="lb-scope-pill active" data-lb-scope="global">🌍 Küresel (Tüm Zamanlar)</button>
+                        <button type="button" class="lb-scope-pill" data-lb-scope="weekly">🔥 Haftalık Sezon</button>
+                        <button type="button" class="lb-scope-pill" data-lb-scope="tr">🇹🇷 Türkiye İlk 25</button>
+                    </div>
+                    <span id="lb-sync-status" style="font-size:11.5px; color:#06d6a0; font-weight:700;">● Play Games Senkronizasyonu Hazır</span>
+                </div>
+
+                <!-- Top 3 Podium Showcase -->
+                <div class="lb-podium-grid" id="lb-podium-container">
+                    <!-- Dynamically populated Top 3 Champions -->
+                </div>
+
+                <!-- Scrollable Leaderboard Table -->
+                <div class="lb-table-wrapper" id="lb-rows-container">
+                    <!-- Dynamically populated ranks #1..#25 -->
+                </div>
+
+                <!-- Sticky Player Live Rank & Milestone Reward Footer -->
+                <div class="lb-player-footer" id="lb-player-footer">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <div class="lb-rank-badge player-rank" id="lb-my-rank-num">#12</div>
+                        <div class="lb-avatar-box" id="lb-my-avatar">⚔️</div>
+                        <div>
+                            <div style="font-weight:800; color:#fff; font-size:13.5px;">
+                                <span id="lb-my-name">Gölge Şövalye</span>
+                                <span style="background:#00f2fe; color:#041418; font-size:10px; font-weight:900; padding:1px 6px; border-radius:99px; margin-left:5px;">SEN</span>
+                            </div>
+                            <div id="lb-my-target-hint" style="font-size:11.5px; color:#94a3b8;">Bir üst sıra için: +450 Puan</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                        <div style="text-align:right;">
+                            <div style="font-size:10.5px; color:#94a3b8; text-transform:uppercase;">SENİN DERECEN</div>
+                            <div id="lb-my-score-val" style="font-size:15px; font-weight:900; color:#ffd166;">0 PUAN</div>
+                        </div>
+                        <button id="btn-claim-lb-reward" type="button" class="primary-btn" style="padding:8px 13px; font-size:12px; background:linear-gradient(135deg,#06d6a0,#00b4d8); color:#041418;">
+                            🎁 Lig Ödülü Al
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

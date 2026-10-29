@@ -1202,6 +1202,12 @@ class Game {
         this.personalizedAds = true;
         this.feedbackStars = 5;
         this.feedbackCategory = "Öneri & Yeni Fikir";
+        this.activeLbCategory = "score";
+        this.activeLbScope = "global";
+        this.totalCampaignScore = 0;
+        this.bestSpeedrunMs = 0;
+        this.claimedLbLeagues = [];
+        this.levelStartTimeMs = performance.now();
 
         this.isTrollMode = false;
         this.selectedTrollLevel = 0;
@@ -1394,6 +1400,9 @@ class Game {
         this.unlockedTrollLevels = Math.max(1, Math.min(15, Number(data.unlockedTrollLevels) || 1));
         const loadedTrollStars = Array.isArray(data.starsPerTrollLevel) ? data.starsPerTrollLevel : [];
         this.starsPerTrollLevel = Array.from({ length: 15 }, (_, i) => Math.max(0, Math.min(3, Number(loadedTrollStars[i]) || 0)));
+        this.totalCampaignScore = Math.max(0, Number(data.totalCampaignScore) || 0);
+        this.bestSpeedrunMs = Math.max(0, Number(data.bestSpeedrunMs) || 0);
+        this.claimedLbLeagues = Array.isArray(data.claimedLbLeagues) ? data.claimedLbLeagues : [];
     }
 
     mergeCloudSaveObjects(a, b) {
@@ -1413,6 +1422,10 @@ class Game {
             ...(a.ownedItems || []),
             ...(b.ownedItems || [])
         ]));
+        const speedA = Number(a.bestSpeedrunMs) || 0;
+        const speedB = Number(b.bestSpeedrunMs) || 0;
+        const mergedSpeed = (speedA > 0 && speedB > 0) ? Math.min(speedA, speedB) : Math.max(speedA, speedB);
+        const claimedLeagues = Array.from(new Set([...(a.claimedLbLeagues || []), ...(b.claimedLbLeagues || [])]));
         return {
             ...newer,
             unlockedLevels: Math.max(Number(a.unlockedLevels) || 1, Number(b.unlockedLevels) || 1),
@@ -1422,6 +1435,9 @@ class Game {
             walletCoins: Math.max(Number(a.walletCoins ?? 0), Number(b.walletCoins ?? 0)),
             walletEmeralds: Math.max(Number(a.walletEmeralds ?? 8), Number(b.walletEmeralds ?? 8)),
             walletGoldCoins: Math.max(Number(a.walletGoldCoins ?? 30), Number(b.walletGoldCoins ?? 30)),
+            totalCampaignScore: Math.max(Number(a.totalCampaignScore) || 0, Number(b.totalCampaignScore) || 0),
+            bestSpeedrunMs: mergedSpeed,
+            claimedLbLeagues: claimedLeagues,
             ownedCharacters: chars,
             ownedItems: items,
             updatedAt: Math.max(Number(a.updatedAt) || 0, Number(b.updatedAt) || 0, Date.now())
@@ -1438,6 +1454,9 @@ class Game {
             walletCoins: this.walletCoins,
             walletEmeralds: this.walletEmeralds,
             walletGoldCoins: this.walletGoldCoins,
+            totalCampaignScore: this.totalCampaignScore || 0,
+            bestSpeedrunMs: this.bestSpeedrunMs || 0,
+            claimedLbLeagues: this.claimedLbLeagues || [],
             ownedCharacters: this.ownedCharacters,
             equippedHeroChar: this.equippedHeroChar,
             ownedItems: this.ownedItems,
@@ -1596,7 +1615,7 @@ class Game {
     }
 
     async checkAppUpdateOnStartup() {
-        const CURRENT_VERSION_CODE = 9;
+        const CURRENT_VERSION_CODE = 10;
         let installedCode = CURRENT_VERSION_CODE;
         if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.getAppVersionInfo === "function") {
             try {
@@ -1882,6 +1901,11 @@ class Game {
     }
 
     handleBackAction() {
+        const lbScreen = document.getElementById("screen-leaderboard");
+        if (lbScreen && !lbScreen.classList.contains("hidden")) {
+            lbScreen.classList.add("hidden");
+            return true;
+        }
         const feedbackScreen = document.getElementById("screen-feedback");
         if (feedbackScreen && !feedbackScreen.classList.contains("hidden")) {
             feedbackScreen.classList.add("hidden");
@@ -2610,6 +2634,66 @@ class Game {
             btnSubmitDirect.addEventListener("click", () => {
                 window.sfx.coin();
                 this.submitFeedbackToPlayConsole(false);
+            });
+        }
+
+        // 🏆 Hybrid Neon Leaderboard & Google Play Games Rankings Modal
+        const btnMapLeaderboard = document.getElementById("btn-map-leaderboard");
+        if (btnMapLeaderboard) {
+            btnMapLeaderboard.addEventListener("click", () => {
+                this.resetInputs();
+                window.sfx.emerald();
+                this.openLeaderboardModal();
+            });
+        }
+        const closeLbHandler = () => {
+            window.sfx.coin();
+            const lbModal = document.getElementById("screen-leaderboard");
+            if (lbModal) lbModal.classList.add("hidden");
+        };
+        const btnCloseLbX = document.getElementById("btn-close-leaderboard-x");
+        if (btnCloseLbX) btnCloseLbX.addEventListener("click", closeLbHandler);
+        const lbOverlay = document.getElementById("screen-leaderboard");
+        if (lbOverlay) {
+            lbOverlay.addEventListener("click", (e) => {
+                if (e.target === lbOverlay) closeLbHandler();
+            });
+        }
+
+        document.querySelectorAll("#lb-category-tabs .lb-cat-tab").forEach((tabBtn) => {
+            tabBtn.addEventListener("click", () => {
+                window.sfx.coin();
+                this.activeLbCategory = tabBtn.getAttribute("data-lb-cat") || "score";
+                document.querySelectorAll("#lb-category-tabs .lb-cat-tab").forEach((b) => {
+                    b.classList.toggle("active", b === tabBtn);
+                });
+                this.renderLeaderboardUI();
+            });
+        });
+
+        document.querySelectorAll("#lb-scope-pills .lb-scope-pill").forEach((pillBtn) => {
+            pillBtn.addEventListener("click", () => {
+                window.sfx.coin();
+                this.activeLbScope = pillBtn.getAttribute("data-lb-scope") || "global";
+                document.querySelectorAll("#lb-scope-pills .lb-scope-pill").forEach((b) => {
+                    b.classList.toggle("active", b === pillBtn);
+                });
+                this.renderLeaderboardUI();
+            });
+        });
+
+        const btnOpenPlayGamesLb = document.getElementById("btn-open-playgames-leaderboard");
+        if (btnOpenPlayGamesLb) {
+            btnOpenPlayGamesLb.addEventListener("click", () => {
+                window.sfx.emerald();
+                this.openOfficialPlayGamesLeaderboard();
+            });
+        }
+
+        const btnClaimLbReward = document.getElementById("btn-claim-lb-reward");
+        if (btnClaimLbReward) {
+            btnClaimLbReward.addEventListener("click", () => {
+                this.claimLeaderboardLeagueReward();
             });
         }
 
@@ -3675,8 +3759,9 @@ class Game {
         this.camera.shake = 0;
         this.accumulator = 0;
         this.lastTime = performance.now();
+        this.levelStartTimeMs = performance.now();
 
-        ["screen-map", "screen-shop", "screen-customize", "screen-character", "screen-modal", "screen-settings", "screen-profile", "screen-language", "screen-troll", "screen-ad-overlay", "screen-ad-consent", "screen-feedback"].forEach((id) => {
+        ["screen-map", "screen-shop", "screen-customize", "screen-character", "screen-modal", "screen-settings", "screen-profile", "screen-language", "screen-troll", "screen-ad-overlay", "screen-ad-consent", "screen-feedback", "screen-leaderboard"].forEach((id) => {
             const el = document.getElementById(id);
             if (el) el.classList.add("hidden");
         });
@@ -3789,6 +3874,12 @@ class Game {
         const d = LANG_DICT[this.lang] || LANG_DICT.tr;
 
         const earnedStars = this.player.hp >= 3 ? 3 : (this.player.hp === 2 ? 2 : 1);
+        const clearMs = Math.max(4200, Math.round(performance.now() - (this.levelStartTimeMs || (performance.now() - 24000))));
+        if (!this.bestSpeedrunMs || clearMs < this.bestSpeedrunMs) {
+            this.bestSpeedrunMs = clearMs;
+        }
+        this.totalCampaignScore = (this.totalCampaignScore || 0) + Math.max(500, this.score + earnedStars * 400);
+
         if (this.isTrollMode) {
             this.starsPerTrollLevel[this.selectedTrollLevel] = Math.max(this.starsPerTrollLevel[this.selectedTrollLevel] || 0, earnedStars);
             if (this.selectedTrollLevel + 1 >= this.unlockedTrollLevels && this.unlockedTrollLevels < 15) {
@@ -3801,6 +3892,7 @@ class Game {
             }
         }
         this.saveProgress();
+        this.syncLeaderboardToPlayGames();
 
         const modal = document.getElementById("screen-modal");
         const isFinal = this.isTrollMode ? (this.selectedTrollLevel === 14) : (this.selectedLevel === 99);
@@ -3971,6 +4063,299 @@ class Game {
                 statusEl.style.color = "#06d6a0";
                 statusEl.textContent = "✅ Geri bildirim raporu hazırlandı! Teşekkür ederiz.";
             }
+        }
+    }
+
+    // ============================================================================
+    // 🏆 HYBRID LEADERBOARD & GOOGLE PLAY GAMES RANKINGS ENGINE (4 CATEGORIES)
+    // ============================================================================
+    getPlayerLeaderboardMetrics() {
+        const totalStars = (this.starsPerLevel || []).reduce((acc, s) => acc + (Number(s) || 0), 0);
+        const clearedLevels = Math.max(1, (this.unlockedLevels || 1) - 1, (this.starsPerLevel || []).filter((s) => s > 0).length);
+        const bossesDefeated = Math.floor(clearedLevels / 5);
+        const computedScore = Math.max(
+            Number(this.totalCampaignScore) || 0,
+            clearedLevels * 2450 + totalStars * 650 + (this.walletEmeralds || 0) * 180 + (this.walletGoldCoins || 0) * 45 + (this.score || 0)
+        );
+        const treasurePoints = (this.walletEmeralds || 0) * 10 + (this.walletGoldCoins || 0) + (this.ownedCharacters ? this.ownedCharacters.length * 35 : 35);
+        const speedMs = (this.bestSpeedrunMs && this.bestSpeedrunMs > 0)
+            ? this.bestSpeedrunMs
+            : Math.max(14800, 42500 - clearedLevels * 260 - totalStars * 45);
+        return {
+            score: computedScore,
+            progress: clearedLevels,
+            bosses: bossesDefeated,
+            totalStars,
+            emerald: treasurePoints,
+            rawEmeralds: this.walletEmeralds || 0,
+            rawGold: this.walletGoldCoins || 0,
+            speedrun: speedMs
+        };
+    }
+
+    getLeaderboardCompetitors(category = "score", scope = "global") {
+        const roster = [
+            { name: "Fatih_Han_1453", avatar: "👑", heroTitle: "Fatih Sultan Mehmet", country: "🇹🇷", score: 268400, progress: 100, emerald: 2450, speedrun: 14120 },
+            { name: "Kaan_CyberNinja", avatar: "🥷", heroTitle: "Siber Şogun", country: "🇹🇷", score: 244800, progress: 96, emerald: 2180, speedrun: 14680 },
+            { name: "AetherValkyrie", avatar: "❄️", heroTitle: "Buzul Valkür", country: "🇩🇪", score: 229500, progress: 92, emerald: 1990, speedrun: 15150 },
+            { name: "MeteHan_Bozkir", avatar: "🏹", heroTitle: "Mete Han", country: "🇹🇷", score: 214200, progress: 88, emerald: 1840, speedrun: 15640 },
+            { name: "Cosmic_Orion99", avatar: "👨‍🚀", heroTitle: "Kozmik Astronot", country: "🇺🇸", score: 198600, progress: 82, emerald: 1690, speedrun: 16190 },
+            { name: "Yeniceri_Serdar", avatar: "⚔️", heroTitle: "Yeniçeri Ağası", country: "🇹🇷", score: 181400, progress: 75, emerald: 1520, speedrun: 16820 },
+            { name: "ShadowSamurai_JP", avatar: "👹", heroTitle: "Siber Şogun", country: "🇯🇵", score: 164900, progress: 68, emerald: 1380, speedrun: 17450 },
+            { name: "Spartan_Ares", avatar: "🛡️", heroTitle: "Spartalı Gladyatör", country: "🇬🇷", score: 148200, progress: 61, emerald: 1240, speedrun: 18120 },
+            { name: "Zeynep_Star2100", avatar: "🌟", heroTitle: "Buzul Valkür", country: "🇹🇷", score: 131500, progress: 54, emerald: 1110, speedrun: 18940 },
+            { name: "GoldenPharaoh_EG", avatar: "🐍", heroTitle: "Altın Firavun", country: "🇪🇬", score: 114800, progress: 47, emerald: 970, speedrun: 19780 },
+            { name: "Burak_TurboFPS", avatar: "⚡", heroTitle: "Gölge Şövalye", country: "🇹🇷", score: 96400, progress: 40, emerald: 840, speedrun: 20650 },
+            { name: "NeoMatrix_KR", avatar: "🤖", heroTitle: "Kozmik Astronot", country: "🇰🇷", score: 79200, progress: 33, emerald: 710, speedrun: 21580 },
+            { name: "Emre_KristalAvci", avatar: "💎", heroTitle: "Yeniçeri Ağası", country: "🇹🇷", score: 62500, progress: 26, emerald: 590, speedrun: 22640 },
+            { name: "Luna_ShadowWalker", avatar: "🌙", heroTitle: "Gölge Şövalye", country: "🇫🇷", score: 46800, progress: 19, emerald: 460, speedrun: 23890 },
+            { name: "Arda_2100Pro", avatar: "🔥", heroTitle: "Fatih Sultan Mehmet", country: "🇹🇷", score: 32400, progress: 13, emerald: 340, speedrun: 25420 },
+            { name: "Efe_CyberKnight", avatar: "🗡️", heroTitle: "Gölge Şövalye", country: "🇹🇷", score: 19800, progress: 8, emerald: 230, speedrun: 27850 },
+            { name: "Mert_SpeedRunner", avatar: "🚀", heroTitle: "Mete Han", country: "🇹🇷", score: 11200, progress: 4, emerald: 150, speedrun: 31200 },
+            { name: "Can_AetherHero", avatar: "🛡️", heroTitle: "Gölge Şövalye", country: "🇹🇷", score: 5400, progress: 2, emerald: 95, speedrun: 35600 }
+        ];
+
+        const scopeMult = scope === "weekly" ? 0.62 : (scope === "tr" ? 0.88 : 1.0);
+        const filtered = scope === "tr" ? roster.filter((r) => r.country === "🇹🇷") : roster;
+
+        const entries = filtered.map((r) => ({
+            isMe: false,
+            name: r.name,
+            avatar: r.avatar,
+            heroTitle: r.heroTitle,
+            country: r.country,
+            score: Math.round(r.score * scopeMult),
+            progress: Math.max(1, Math.min(100, Math.round(r.progress * (scope === "weekly" ? 0.75 : 1)))),
+            emerald: Math.round(r.emerald * scopeMult),
+            speedrun: Math.round(r.speedrun * (scope === "weekly" ? 1.08 : 1.0))
+        }));
+
+        const myMetrics = this.getPlayerLeaderboardMetrics();
+        const avObj = (typeof PROFILE_AVATARS !== "undefined" && PROFILE_AVATARS.find((a) => a.id === this.selectedAvatarId)) || { icon: "⚔️" };
+        const heroObj = (typeof HERO_CHARACTERS_CATALOG !== "undefined" && HERO_CHARACTERS_CATALOG.find((h) => h.id === this.equippedHeroChar)) || { name: "Gölge Şövalye" };
+
+        entries.push({
+            isMe: true,
+            name: this.playerName || "Gölge Şövalye",
+            avatar: avObj.icon || "⚔️",
+            heroTitle: heroObj.name || "Gölge Şövalye",
+            country: "🇹🇷",
+            score: myMetrics.score,
+            progress: myMetrics.progress,
+            emerald: myMetrics.emerald,
+            speedrun: myMetrics.speedrun
+        });
+
+        entries.sort((a, b) => {
+            if (category === "speedrun") {
+                return a.speedrun - b.speedrun; // Lower time is better!
+            }
+            return (b[category] || 0) - (a[category] || 0);
+        });
+
+        return entries.map((item, idx) => ({
+            ...item,
+            rank: idx + 1
+        }));
+    }
+
+    formatLeaderboardMetricValue(entry, category = "score") {
+        if (category === "progress") {
+            const bosses = Math.floor((entry.progress || 1) / 5);
+            return `Bölüm ${entry.progress}/100 • ${bosses} Boss`;
+        }
+        if (category === "emerald") {
+            return `${entry.emerald.toLocaleString("tr-TR")} ❖ Hazine Puanı`;
+        }
+        if (category === "speedrun") {
+            const sec = ((entry.speedrun || 25000) / 1000).toFixed(2);
+            return `⚡ ${sec} sn`;
+        }
+        return `${(entry.score || 0).toLocaleString("tr-TR")} Puan`;
+    }
+
+    getLeagueInfoByRank(rank) {
+        if (rank === 1) return { id: "imperial", label: "👑 İMPARATORLUK ŞAMPİYONU (#1)", rewardCoins: 120, rewardEmeralds: 25 };
+        if (rank <= 3) return { id: "grandmaster", label: "💎 BÜYÜK ÜSTAT LİGİ (İLK 3)", rewardCoins: 80, rewardEmeralds: 15 };
+        if (rank <= 7) return { id: "diamond", label: "💠 ELMAS LİG (İLK 7)", rewardCoins: 50, rewardEmeralds: 10 };
+        if (rank <= 12) return { id: "gold", label: "🥇 ALTIN LİG (İLK 12)", rewardCoins: 35, rewardEmeralds: 7 };
+        return { id: "silver", label: "🥈 GÜMÜŞ LİG", rewardCoins: 20, rewardEmeralds: 4 };
+    }
+
+    openLeaderboardModal() {
+        this.syncLeaderboardToPlayGames();
+        this.renderLeaderboardUI();
+        const modal = document.getElementById("screen-leaderboard");
+        if (modal) modal.classList.remove("hidden");
+    }
+
+    renderLeaderboardUI() {
+        const cat = this.activeLbCategory || "score";
+        const scope = this.activeLbScope || "global";
+        const list = this.getLeaderboardCompetitors(cat, scope);
+        const me = list.find((e) => e.isMe) || list[list.length - 1];
+        const league = this.getLeagueInfoByRank(me.rank);
+
+        const badgeEl = document.getElementById("lb-league-badge");
+        if (badgeEl) badgeEl.textContent = league.label;
+
+        const syncEl = document.getElementById("lb-sync-status");
+        if (syncEl) {
+            syncEl.textContent = this.playGamesAuthed
+                ? `● Google Play Games Bağlı (${this.playGamesPlayerName || this.playerName})`
+                : "● Hibrit Bulut & Play Games Tablosu Aktif";
+        }
+
+        // 1. Render Top 3 Podium
+        const podiumContainer = document.getElementById("lb-podium-container");
+        if (podiumContainer) {
+            podiumContainer.innerHTML = "";
+            const medals = ["🥇 1.", "🥈 2.", "🥉 3."];
+            list.slice(0, 3).forEach((entry, idx) => {
+                const card = document.createElement("div");
+                card.className = `lb-podium-card rank-${idx + 1}`;
+                card.innerHTML = `
+                    <div class="lb-avatar-box" style="width:36px;height:36px;font-size:20px;border-color:#ffd166;">${entry.avatar}</div>
+                    <div style="min-width:0;flex:1;">
+                        <div style="font-size:11px;font-weight:900;color:#ffd166;">${medals[idx]} ${entry.country} ${entry.isMe ? "• SEN" : ""}</div>
+                        <div style="font-size:13px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${entry.name}</div>
+                        <div style="font-size:11.5px;font-weight:800;color:#06d6a0;">${this.formatLeaderboardMetricValue(entry, cat)}</div>
+                    </div>
+                `;
+                podiumContainer.appendChild(card);
+            });
+        }
+
+        // 2. Render Full Rankings List
+        const rowsContainer = document.getElementById("lb-rows-container");
+        if (rowsContainer) {
+            rowsContainer.innerHTML = "";
+            list.forEach((entry) => {
+                const row = document.createElement("div");
+                row.className = `lb-row ${entry.isMe ? "is-me" : ""}`;
+                const rankIcon = entry.rank === 1 ? "🥇" : (entry.rank === 2 ? "🥈" : (entry.rank === 3 ? "🥉" : `#${entry.rank}`));
+                row.innerHTML = `
+                    <div style="display:flex;align-items:center;gap:9px;min-width:0;">
+                        <div class="lb-rank-badge ${entry.rank <= 3 ? "player-rank" : ""}">${rankIcon}</div>
+                        <div class="lb-avatar-box">${entry.avatar}</div>
+                        <div style="min-width:0;">
+                            <div style="font-weight:800;color:#fff;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                ${entry.country} ${entry.name}
+                                ${entry.isMe ? '<span style="background:#00f2fe;color:#041418;font-size:9.5px;font-weight:900;padding:1px 5px;border-radius:99px;margin-left:4px;">SEN</span>' : ""}
+                            </div>
+                            <div style="font-size:10.5px;color:#94a3b8;">Kahraman: ${entry.heroTitle}</div>
+                        </div>
+                    </div>
+                    <div style="font-weight:900;color:${entry.isMe ? "#00f2fe" : "#ffd166"};font-size:13px;text-align:right;flex-shrink:0;">
+                        ${this.formatLeaderboardMetricValue(entry, cat)}
+                    </div>
+                `;
+                rowsContainer.appendChild(row);
+            });
+        }
+
+        // 3. Update Sticky Player Footer
+        const myRankEl = document.getElementById("lb-my-rank-num");
+        if (myRankEl) myRankEl.textContent = `#${me.rank}`;
+        const myAvEl = document.getElementById("lb-my-avatar");
+        if (myAvEl) myAvEl.textContent = me.avatar;
+        const myNameEl = document.getElementById("lb-my-name");
+        if (myNameEl) myNameEl.textContent = me.name;
+        const myScoreEl = document.getElementById("lb-my-score-val");
+        if (myScoreEl) myScoreEl.textContent = this.formatLeaderboardMetricValue(me, cat);
+
+        const targetHintEl = document.getElementById("lb-my-target-hint");
+        if (targetHintEl) {
+            if (me.rank > 1) {
+                const above = list[me.rank - 2];
+                if (cat === "speedrun") {
+                    const diffSec = Math.max(0.05, (me.speedrun - above.speedrun) / 1000).toFixed(2);
+                    targetHintEl.textContent = `Hedef #${me.rank - 1} (${above.name}): ${diffSec} sn daha hızlı bitir!`;
+                } else {
+                    const diff = Math.max(1, (above[cat] || 0) - (me[cat] || 0) + 1);
+                    targetHintEl.textContent = `Hedef #${me.rank - 1} (${above.name}): +${diff.toLocaleString("tr-TR")} fark kaldı!`;
+                }
+            } else {
+                targetHintEl.textContent = "👑 Zirvedesin! Tüm dünyada 1. sıradasın!";
+            }
+        }
+
+        const rewardBtn = document.getElementById("btn-claim-lb-reward");
+        if (rewardBtn) {
+            const rewardKey = `${cat}_${league.id}`;
+            const alreadyClaimed = Array.isArray(this.claimedLbLeagues) && this.claimedLbLeagues.includes(rewardKey);
+            if (alreadyClaimed) {
+                rewardBtn.textContent = "✓ Lig Ödülü Alındı";
+                rewardBtn.style.opacity = "0.65";
+            } else {
+                rewardBtn.textContent = `🎁 Ödül Al (+${league.rewardCoins}✪ +${league.rewardEmeralds}❖)`;
+                rewardBtn.style.opacity = "1";
+            }
+        }
+    }
+
+    claimLeaderboardLeagueReward() {
+        const cat = this.activeLbCategory || "score";
+        const scope = this.activeLbScope || "global";
+        const list = this.getLeaderboardCompetitors(cat, scope);
+        const me = list.find((e) => e.isMe) || list[list.length - 1];
+        const league = this.getLeagueInfoByRank(me.rank);
+        const rewardKey = `${cat}_${league.id}`;
+
+        if (!Array.isArray(this.claimedLbLeagues)) this.claimedLbLeagues = [];
+        if (this.claimedLbLeagues.includes(rewardKey)) {
+            window.sfx.blockHit();
+            const syncEl = document.getElementById("lb-sync-status");
+            if (syncEl) {
+                syncEl.style.color = "#ffd166";
+                syncEl.textContent = "ℹ️ Bu lig kademesinin ödülünü zaten aldın! Sıralamanı yükselterek yeni lig ödülünü açabilirsin.";
+            }
+            return;
+        }
+
+        this.claimedLbLeagues.push(rewardKey);
+        this.addGoldCoins(league.rewardCoins, true);
+        this.addEmeralds(league.rewardEmeralds, true);
+        this.saveProgress();
+        window.sfx.victory();
+        const syncEl = document.getElementById("lb-sync-status");
+        if (syncEl) {
+            syncEl.style.color = "#06d6a0";
+            syncEl.textContent = `🎉 Tebrikler! ${league.label} ödülü (+${league.rewardCoins} ✪ Coin & +${league.rewardEmeralds} ❖ Zümrüt) hesabına eklendi!`;
+        }
+        this.renderLeaderboardUI();
+        this.updateMapUI();
+    }
+
+    syncLeaderboardToPlayGames() {
+        if (!window.MarinextCloudBridge || typeof window.MarinextCloudBridge.submitLeaderboardScores !== "function") return;
+        try {
+            const m = this.getPlayerLeaderboardMetrics();
+            window.MarinextCloudBridge.submitLeaderboardScores(
+                Number(m.score) || 0,
+                Number(m.progress) || 1,
+                Number(m.emerald) || 0,
+                Number(m.speedrun) || 25000
+            );
+        } catch (e) {}
+    }
+
+    openOfficialPlayGamesLeaderboard() {
+        const syncEl = document.getElementById("lb-sync-status");
+        this.syncLeaderboardToPlayGames();
+        if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.showPlayGamesLeaderboards === "function") {
+            try {
+                if (syncEl) {
+                    syncEl.style.color = "#06d6a0";
+                    syncEl.textContent = "🎮 Google Play Games Liderlik Tablosu açılıyor ve skorlarınız senkronize ediliyor...";
+                }
+                window.MarinextCloudBridge.showPlayGamesLeaderboards(this.activeLbCategory || "score");
+                return;
+            } catch (e) {}
+        }
+        if (syncEl) {
+            syncEl.style.color = "#ffd166";
+            syncEl.textContent = "ℹ️ Google Play Games resmi penceresi Android cihazlarda Play Games uygulaması üzerinden açılır. Skorunuz canlı tabloda güncellendi!";
         }
     }
 

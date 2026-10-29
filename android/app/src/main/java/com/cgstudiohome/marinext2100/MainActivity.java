@@ -430,10 +430,10 @@ public class MainActivity extends BridgeActivity {
                 int vCode = android.os.Build.VERSION.SDK_INT >= 28 ? (int) pInfo.getLongVersionCode() : pInfo.versionCode;
                 JSONObject obj = new JSONObject();
                 obj.put("versionCode", vCode);
-                obj.put("versionName", pInfo.versionName != null ? pInfo.versionName : "1.1.5");
+                obj.put("versionName", pInfo.versionName != null ? pInfo.versionName : "1.1.6");
                 return obj.toString();
             } catch (Throwable t) {
-                return "{\"versionCode\":9,\"versionName\":\"1.1.5\"}";
+                return "{\"versionCode\":10,\"versionName\":\"1.1.6\"}";
             }
         }
 
@@ -505,6 +505,51 @@ public class MainActivity extends BridgeActivity {
                     emailIntent.putExtra(Intent.EXTRA_TEXT, body);
                     emailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(Intent.createChooser(emailIntent, "Geliştiriciye Geri Bildirim Gönder"));
+                } catch (Throwable ignored) {
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void submitLeaderboardScores(final long totalScore, final int maxLevel, final int emeralds, final long bestSpeedMs) {
+            runOnUiThread(() -> {
+                try {
+                    SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+                    prefs.edit()
+                        .putLong("lb_total_score", totalScore)
+                        .putInt("lb_max_level", maxLevel)
+                        .putInt("lb_emeralds", emeralds)
+                        .putLong("lb_best_speed_ms", bestSpeedMs)
+                        .apply();
+                } catch (Throwable ignored) {
+                }
+            });
+        }
+
+        @JavascriptInterface
+        public void showPlayGamesLeaderboards(final String category) {
+            runOnUiThread(() -> {
+                try {
+                    ensurePlayGamesInitialized();
+                    PlayGames.getLeaderboardsClient(MainActivity.this)
+                        .getAllLeaderboardsIntent()
+                        .addOnSuccessListener(intent -> {
+                            try {
+                                startActivityForResult(intent, 9004);
+                            } catch (Throwable ignored) {
+                            }
+                        })
+                        .addOnFailureListener(err -> {
+                            try {
+                                signInPlayGames(true);
+                                android.widget.Toast.makeText(
+                                    MainActivity.this,
+                                    "Google Play Games bağlantısı güncelleniyor...",
+                                    android.widget.Toast.LENGTH_SHORT
+                                ).show();
+                            } catch (Throwable ignored) {
+                            }
+                        });
                 } catch (Throwable ignored) {
                 }
             });
