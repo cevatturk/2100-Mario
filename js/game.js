@@ -1495,7 +1495,7 @@ class Game {
     }
 
     async checkAppUpdateOnStartup() {
-        const CURRENT_VERSION_CODE = 7;
+        const CURRENT_VERSION_CODE = 8;
         let installedCode = CURRENT_VERSION_CODE;
         if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.getAppVersionInfo === "function") {
             try {
@@ -3380,6 +3380,7 @@ class Game {
         this.camera.x = 0;
         this.camera.y = 0;
         this.camera.prevX = 0;
+        this.camera.prevY = 0;
         this.camera.shake = 0;
         this.accumulator = 0;
         this.lastTime = performance.now();
@@ -4017,6 +4018,7 @@ class Game {
             this.player.prevY = this.player.y;
         }
         this.camera.prevX = this.camera.x;
+        this.camera.prevY = this.camera.y || 0;
 
         for (const mp of this.movingPlatforms) {
             mp.t += 0.015 * mp.speed;
@@ -4193,7 +4195,9 @@ class Game {
                     this.player.inTeleporter = true;
                     this.player.teleportCooldown = 45;
                     this.camera.x = Math.max(0, this.player.x - this.canvas.width * 0.35);
+                    this.camera.y = Math.min(0, this.player.y - this.canvas.height * 0.36);
                     this.camera.prevX = this.camera.x;
+                    this.camera.prevY = this.camera.y;
                     window.sfx.teleport();
                     this.spawnParticles(tp.x2 + 22, tp.y2 + 28, 20, tp.color, 4.5);
                     this.floatingTexts.push(new window.FloatingText(tp.x2 + 22, tp.y2 - 10, "🌀 IŞINLANDIN!", tp.color));
@@ -4208,7 +4212,9 @@ class Game {
                     this.player.inTeleporter = true;
                     this.player.teleportCooldown = 45;
                     this.camera.x = Math.max(0, this.player.x - this.canvas.width * 0.35);
+                    this.camera.y = Math.min(0, this.player.y - this.canvas.height * 0.36);
                     this.camera.prevX = this.camera.x;
+                    this.camera.prevY = this.camera.y;
                     window.sfx.teleport();
                     this.spawnParticles(tp.x1 + 22, tp.y1 + 28, 20, tp.color, 4.5);
                     this.floatingTexts.push(new window.FloatingText(tp.x1 + 22, tp.y1 - 10, "🌀 IŞINLANDIN!", tp.color));
@@ -4324,7 +4330,9 @@ class Game {
                     this.player.vx = 0;
                     this.player.vy = 0;
                     this.camera.x = 0;
+                    this.camera.y = 0;
                     this.camera.prevX = 0;
+                    this.camera.prevY = 0;
                     this.spawnParticles(this.player.x + 16, this.player.y + 20, 26, "#b537f2", 5);
                     this.floatingTexts.push(
                         new window.FloatingText(
@@ -4519,6 +4527,15 @@ class Game {
 
         const targetCamX = Math.max(0, this.player.x - this.canvas.width * 0.35);
         this.camera.x += (targetCamX - this.camera.x) * 0.1;
+
+        // Vertical camera tracking when climbing tall block walls or high platforms (keeps character comfortably below top HUD)
+        const safeTopThreshold = this.canvas.height * 0.36;
+        const targetCamY = Math.min(0, this.player.y - safeTopThreshold);
+        this.camera.y = (this.camera.y || 0) + (targetCamY - (this.camera.y || 0)) * 0.14;
+        if (Math.abs(this.camera.y) < 0.25 && targetCamY === 0) {
+            this.camera.y = 0;
+        }
+
         if (this.camera.shake > 0) {
             this.camera.shake *= 0.85;
             if (this.camera.shake < 0.4) this.camera.shake = 0;
@@ -4530,6 +4547,7 @@ class Game {
     drawBackground(ctx) {
         const w = this.canvas.width;
         const h = this.canvas.height;
+        const camYOffset = -(this.camera.y || 0) * 0.22;
 
         const grad = ctx.createLinearGradient(0, 0, 0, h);
         grad.addColorStop(0, "#05060f");
@@ -4543,9 +4561,9 @@ class Game {
         for (let x = offset1 - 260; x < w + 260; x += 260) {
             ctx.fillRect(x + 40, 0, 48, h);
             ctx.beginPath();
-            ctx.moveTo(x + 120, 0);
-            ctx.lineTo(x + 160, 190);
-            ctx.lineTo(x + 200, 0);
+            ctx.moveTo(x + 120, camYOffset);
+            ctx.lineTo(x + 160, 190 + camYOffset);
+            ctx.lineTo(x + 200, camYOffset);
             ctx.fill();
         }
 
@@ -4553,14 +4571,15 @@ class Game {
         ctx.lineWidth = 3;
         const offset2 = -(this.camera.x * 0.38) % 340;
         for (let x = offset2 - 340; x < w + 340; x += 340) {
-            ctx.strokeRect(x + 60, 120, 140, h - 120);
+            ctx.strokeRect(x + 60, 120 + camYOffset * 0.8, 140, h - 120);
         }
 
         for (const sp of this.bgSpores) {
             const sx = ((sp.x - this.camera.x * 0.45) % w + w) % w;
+            const sy = ((sp.y + camYOffset * 1.4) % h + h) % h;
             ctx.fillStyle = "rgba(0, 242, 254, 0.35)";
             ctx.beginPath();
-            ctx.arc(sx + Math.sin(sp.phase) * 8, sp.y, sp.r, 0, Math.PI * 2);
+            ctx.arc(sx + Math.sin(sp.phase) * 8, sy, sp.r, 0, Math.PI * 2);
             ctx.fill();
         }
     }
@@ -4955,8 +4974,10 @@ class Game {
         const shakeX = (Math.random() - 0.5) * this.camera.shake;
         const shakeY = (Math.random() - 0.5) * this.camera.shake;
         const prevCamX = this.camera.prevX !== undefined ? this.camera.prevX : this.camera.x;
+        const prevCamY = this.camera.prevY !== undefined ? this.camera.prevY : (this.camera.y || 0);
         const renderCamX = prevCamX + (this.camera.x - prevCamX) * alpha;
-        ctx.translate(-Math.round(renderCamX) + shakeX, shakeY);
+        const renderCamY = prevCamY + ((this.camera.y || 0) - prevCamY) * alpha;
+        ctx.translate(-Math.round(renderCamX) + shakeX, -Math.round(renderCamY) + shakeY);
 
         const viewMinX = renderCamX - 160;
         const viewMaxX = renderCamX + this.canvas.width + 160;
