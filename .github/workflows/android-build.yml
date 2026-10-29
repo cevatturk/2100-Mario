@@ -33,13 +33,15 @@ jobs:
           npm install --no-audit --no-fund
           npx cap sync android
 
-      - name: Generate Upload Keystore & Sign Release AAB + APK
+      - name: Generate Upload Keystore (if missing) & Sign Release AAB + APK
         run: |
           cd android
           chmod +x gradlew
-          keytool -genkeypair -v -keystore release-key.jks -alias mario2100 -keyalg RSA -keysize 2048 -validity 10000 \
-            -storepass Mario2100Store! -keypass Mario2100Store! \
-            -dname "CN=CG Studio Home, OU=GameStudio, O=CG Studio Home, L=Istanbul, S=Istanbul, C=TR"
+          if [ ! -f release-key.jks ]; then
+            keytool -genkeypair -v -keystore release-key.jks -alias mario2100 -keyalg RSA -keysize 2048 -validity 10000 \
+              -storepass Mario2100Store! -keypass Mario2100Store! \
+              -dname "CN=CG Studio Home, OU=GameStudio, O=CG Studio Home, L=Istanbul, S=Istanbul, C=TR"
+          fi
           ./gradlew assembleDebug bundleRelease \
             -Pandroid.injected.signing.store.file=$(pwd)/release-key.jks \
             -Pandroid.injected.signing.store.password=Mario2100Store! \
