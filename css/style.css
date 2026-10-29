@@ -935,17 +935,30 @@ html, body {
     font-size: 14px;
 }
 
+#screen-modal .modal-card {
+    max-width: 540px;
+}
+
 .modal-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
 }
 
 #screen-modal .modal-buttons button {
-    padding: 14px 22px;
-    font-size: 15px;
+    padding: 12px 14px;
+    font-size: 14px;
     font-weight: 800;
-    min-height: 50px;
+    min-height: 46px;
+    line-height: 1.25;
+}
+
+#btn-ad-revive,
+#btn-ad-double,
+#btn-resume,
+#btn-next-level,
+#btn-to-map {
+    grid-column: 1 / -1;
 }
 
 /* Square Profile Frame Button (Map & HUD) */
@@ -1700,5 +1713,59 @@ html, body {
     }
     .controls-hint {
         font-size: 10px;
+    }
+    #screen-modal {
+        align-items: center;
+    }
+    #screen-modal .modal-card {
+        max-width: 520px;
+        padding: 12px 18px;
+    }
+    #screen-modal .modal-card h2 {
+        font-size: 19px;
+        margin-bottom: 3px;
+    }
+    #screen-modal .modal-card p {
+        font-size: 12px;
+        margin-bottom: 8px;
+    }
+    #screen-modal .modal-stats {
+        padding: 7px 10px;
+        margin-bottom: 10px;
+        font-size: 12px;
+    }
+    #screen-modal .modal-buttons {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+    #screen-modal .modal-buttons button {
+        padding: 8px 10px;
+        font-size: 12px;
+        min-height: 38px;
+        line-height: 1.2;
+    }
+}
+
+/* Tablet Touch Controls Enlargement (Phones stay 72px/78px; Tablets get larger 98px/108px buttons) */
+@media (min-width: 768px) and (min-height: 561px) {
+    #touch-controls {
+        bottom: 28px;
+        left: 34px;
+        right: 34px;
+    }
+    .dpad-group, .action-group {
+        gap: 22px;
+    }
+    .touch-btn {
+        width: 98px;
+        height: 98px;
+        font-size: 38px;
+        border-width: 3px;
+    }
+    .btn-jump {
+        width: 108px;
+        height: 108px;
+        font-size: 42px;
     }
 }
