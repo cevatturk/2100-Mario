@@ -1130,7 +1130,8 @@ class Game {
         this.lastInterstitialTime = 0;
         this.lastRewardedAdTime = 0;
         this.adTimerInterval = null;
-        this.initAdMob();
+        this.adMobInitialized = false;
+        setTimeout(() => this.initAdMob(), 1200);
 
         this.ownedItems = [
             "skin_cyan",
@@ -2670,7 +2671,7 @@ class Game {
         }
         try {
             const capAdMob = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
-            if (capAdMob && typeof capAdMob.setApplicationMuted === "function") {
+            if (this.adMobInitialized && capAdMob && typeof capAdMob.setApplicationMuted === "function") {
                 capAdMob.setApplicationMuted({
                     muted: Boolean(window.sfx.sfxMuted && window.sfx.musicMuted)
                 });
@@ -3389,11 +3390,16 @@ class Game {
                     tagForUnderAgeOfConsent: false,
                     maxAdContentRating: "General"
                 });
-                if (typeof capAdMob.setApplicationMuted === "function" && window.sfx) {
-                    await capAdMob.setApplicationMuted({
-                        muted: Boolean(window.sfx.sfxMuted && window.sfx.musicMuted)
-                    });
-                }
+                setTimeout(() => {
+                    this.adMobInitialized = true;
+                    try {
+                        if (typeof capAdMob.setApplicationMuted === "function" && window.sfx) {
+                            capAdMob.setApplicationMuted({
+                                muted: Boolean(window.sfx.sfxMuted && window.sfx.musicMuted)
+                            });
+                        }
+                    } catch (err) {}
+                }, 2000);
             }
         } catch (e) {
             // Browser environment fallback

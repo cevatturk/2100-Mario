@@ -38,18 +38,51 @@ public class MainActivity extends BridgeActivity {
     private static final String LOCAL_FILE_NAME = "marinext2100_cloud_save.json";
 
     private volatile boolean isPlayGamesAuthenticated = false;
+    private volatile boolean isPlayGamesInitialized = false;
     private volatile String cachedPlayerName = "";
     private volatile String cachedPlayerId = "";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        enableImmersiveFullscreen();
-
+    static {
         try {
-            PlayGamesSdk.initialize(this);
+            final Thread.UncaughtExceptionHandler defaultHandler = Thread.getDefaultUncaughtExceptionHandler();
+            Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+                try {
+                    String threadName = thread != null ? thread.getName() : "";
+                    String msg = throwable != null && throwable.getMessage() != null ? throwable.getMessage() : "";
+                    // Prevent background plugin / SDK threads (CapacitorPlugins, AdMob, PlayGames, GmsCore) from force-closing the game
+                    if (!"main".equalsIgnoreCase(threadName)
+                        || msg.contains("MobileAds")
+                        || msg.contains("PlayGames")
+                        || msg.contains("Games")) {
+                        return;
+                    }
+                    if (defaultHandler != null) {
+                        defaultHandler.uncaughtException(thread, throwable);
+                    }
+                } catch (Throwable ignored) {
+                }
+            });
         } catch (Throwable ignored) {
         }
+    }
+
+    private void ensurePlayGamesInitialized() {
+        if (isPlayGamesInitialized) return;
+        try {
+            PlayGamesSdk.initialize(getApplicationContext());
+            isPlayGamesInitialized = true;
+        } catch (Throwable ignored) {
+        }
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        try {
+            setTheme(R.style.AppTheme_NoActionBar);
+        } catch (Throwable ignored) {
+        }
+        super.onCreate(savedInstanceState);
+        enableImmersiveFullscreen();
 
         try {
             SharedPreferences prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -62,11 +95,13 @@ public class MainActivity extends BridgeActivity {
             if (getBridge() != null && getBridge().getWebView() != null) {
                 WebView webView = getBridge().getWebView();
                 webView.addJavascriptInterface(new MarinextCloudBridge(), "MarinextCloudBridge");
+                webView.postDelayed(() -> {
+                    ensurePlayGamesInitialized();
+                    checkPlayGamesSilentAuth();
+                }, 2500);
             }
         } catch (Throwable ignored) {
         }
-
-        checkPlayGamesSilentAuth();
     }
 
     @Override
@@ -90,12 +125,13 @@ public class MainActivity extends BridgeActivity {
                     WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
                 );
             }
-        } catch (Exception ignored) {
+        } catch (Throwable ignored) {
         }
     }
 
     private void checkPlayGamesSilentAuth() {
         try {
+            ensurePlayGamesInitialized();
             GamesSignInClient signInClient = PlayGames.getGamesSignInClient(this);
             signInClient.isAuthenticated().addOnCompleteListener(task -> {
                 boolean authed = task.isSuccessful() && task.getResult() != null && task.getResult().isAuthenticated();
@@ -304,6 +340,7 @@ public class MainActivity extends BridgeActivity {
         public void signInPlayGames(final boolean interactive) {
             runOnUiThread(() -> {
                 try {
+                    ensurePlayGamesInitialized();
                     GamesSignInClient signInClient = PlayGames.getGamesSignInClient(MainActivity.this);
                     if (interactive) {
                         signInClient.signIn().addOnCompleteListener(task -> {
