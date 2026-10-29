@@ -1476,6 +1476,11 @@ class Game {
     }
 
     handleBackAction() {
+        const privacyScreen = document.getElementById("screen-privacy");
+        if (privacyScreen && !privacyScreen.classList.contains("hidden")) {
+            privacyScreen.classList.add("hidden");
+            return true;
+        }
         const trollScreen = document.getElementById("screen-troll");
         if (trollScreen && !trollScreen.classList.contains("hidden")) {
             const closeBtn = document.getElementById("btn-close-troll");
@@ -1848,12 +1853,16 @@ class Game {
         document.getElementById("btn-settings-reset-all").addEventListener("click", () => {
             try {
                 localStorage.removeItem("shadow_jumper_save_v3");
+                localStorage.removeItem("shadow_jumper_audio_v1");
             } catch (e) {
                 // Ignore storage errors
             }
             this.unlockedLevels = 1;
             this.selectedLevel = 0;
             this.starsPerLevel = Array(40).fill(0);
+            this.unlockedTrollLevels = 1;
+            this.selectedTrollLevel = 0;
+            this.starsPerTrollLevel = Array(15).fill(0);
             this.walletCoins = 0;
             this.walletEmeralds = 8;
             this.walletGoldCoins = 30;
@@ -1881,6 +1890,32 @@ class Game {
             document.getElementById("screen-settings").classList.add("hidden");
             this.showMapScreen();
         });
+
+        const btnOpenPrivacy = document.getElementById("btn-open-privacy");
+        if (btnOpenPrivacy) {
+            btnOpenPrivacy.addEventListener("click", () => {
+                window.sfx.coin();
+                const privModal = document.getElementById("screen-privacy");
+                if (privModal) privModal.classList.remove("hidden");
+            });
+        }
+        const closePrivacyHandler = () => {
+            window.sfx.coin();
+            const privModal = document.getElementById("screen-privacy");
+            if (privModal) privModal.classList.add("hidden");
+        };
+        const btnClosePrivacy = document.getElementById("btn-close-privacy");
+        if (btnClosePrivacy) btnClosePrivacy.addEventListener("click", closePrivacyHandler);
+        const btnClosePrivacyX = document.getElementById("btn-close-privacy-x");
+        if (btnClosePrivacyX) btnClosePrivacyX.addEventListener("click", closePrivacyHandler);
+
+        const btnPrivacyConsent = document.getElementById("btn-privacy-consent");
+        if (btnPrivacyConsent) {
+            btnPrivacyConsent.addEventListener("click", () => {
+                window.sfx.coin();
+                this.manageAdPrivacyConsent();
+            });
+        }
 
         const closeSettingsHandler = () => {
             document.getElementById("screen-settings").classList.add("hidden");
@@ -2384,6 +2419,14 @@ class Game {
         if (muteBtn) {
             muteBtn.textContent = (window.sfx.sfxMuted && window.sfx.musicMuted) ? "🔇" : "🔊";
         }
+        try {
+            const capAdMob = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
+            if (capAdMob && typeof capAdMob.setApplicationMuted === "function") {
+                capAdMob.setApplicationMuted({
+                    muted: Boolean(window.sfx.sfxMuted && window.sfx.musicMuted)
+                });
+            }
+        } catch (e) {}
     }
 
     openCustomizeStudio() {
@@ -3068,19 +3111,59 @@ class Game {
     }
 
     // ============================================================================
-    // 📺 GOOGLE ADMOB NATIVE + WEB AKILLI REKLAM YÖNETİCİSİ
+    // 📺 GOOGLE ADMOB NATIVE + UMP (GDPR) + WEB AKILLI REKLAM YÖNETİCİSİ
     // ============================================================================
     async initAdMob() {
         try {
             const capAdMob = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
             if (capAdMob && typeof capAdMob.initialize === "function") {
+                // 1. Google EU User Consent Policy (UMP SDK) Compliance
+                if (typeof capAdMob.requestConsentInfo === "function") {
+                    try {
+                        const consentInfo = await capAdMob.requestConsentInfo();
+                        if (
+                            consentInfo &&
+                            consentInfo.isConsentFormAvailable &&
+                            consentInfo.status === "REQUIRED" &&
+                            typeof capAdMob.showConsentForm === "function"
+                        ) {
+                            await capAdMob.showConsentForm();
+                        }
+                    } catch (consentErr) {
+                        // Ignore UMP errors if not configured in AdMob console for current region
+                    }
+                }
+                // 2. Initialize AdMob with General Audience Content Rating Compliance
                 await capAdMob.initialize({
-                    initializeForTesting: ADMOB_CONFIG.isTesting
+                    initializeForTesting: ADMOB_CONFIG.isTesting,
+                    tagForChildDirectedTreatment: false,
+                    tagForUnderAgeOfConsent: false,
+                    maxAdContentRating: "General"
                 });
+                if (typeof capAdMob.setApplicationMuted === "function" && window.sfx) {
+                    await capAdMob.setApplicationMuted({
+                        muted: Boolean(window.sfx.sfxMuted && window.sfx.musicMuted)
+                    });
+                }
             }
         } catch (e) {
             // Browser environment fallback
         }
+    }
+
+    async manageAdPrivacyConsent() {
+        try {
+            const capAdMob = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
+            if (capAdMob && typeof capAdMob.requestConsentInfo === "function") {
+                const consentInfo = await capAdMob.requestConsentInfo();
+                if (consentInfo && consentInfo.isConsentFormAvailable && typeof capAdMob.showConsentForm === "function") {
+                    await capAdMob.showConsentForm();
+                    return;
+                }
+            }
+        } catch (e) {}
+        const privModal = document.getElementById("screen-privacy");
+        if (privModal) privModal.classList.remove("hidden");
     }
 
     isNativeAndroid() {
