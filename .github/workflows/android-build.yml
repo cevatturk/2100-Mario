@@ -28,7 +28,7 @@ jobs:
       - name: Prepare www bundle & Sync Capacitor Android
         run: |
           mkdir -p www
-          cp index.html privacy-policy.html manifest.json app-ads.txt www/
+          cp index.html privacy-policy.html manifest.json app-ads.txt version.json www/
           cp -r css js assets www/
           npm install --no-audit --no-fund
           npx cap sync android

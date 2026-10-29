@@ -1132,6 +1132,7 @@ class Game {
         this.adTimerInterval = null;
         this.adMobInitialized = false;
         setTimeout(() => this.initAdMob(), 1200);
+        setTimeout(() => this.checkAppUpdateOnStartup(), 1600);
 
         this.ownedItems = [
             "skin_cyan",
@@ -1491,6 +1492,60 @@ class Game {
             setTimeout(() => URL.revokeObjectURL(url), 1500);
             this.updateCloudStatusUI("Yedek dosyası indirildi (Google Drive'a yükleyebilirsiniz) ✓");
         } catch (e) {}
+    }
+
+    async checkAppUpdateOnStartup() {
+        const CURRENT_VERSION_CODE = 6;
+        let installedCode = CURRENT_VERSION_CODE;
+        if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.getAppVersionInfo === "function") {
+            try {
+                const info = JSON.parse(window.MarinextCloudBridge.getAppVersionInfo());
+                if (info && Number.isFinite(Number(info.versionCode))) {
+                    installedCode = Number(info.versionCode);
+                }
+            } catch (e) {}
+        }
+
+        const updateScreen = document.getElementById("screen-update");
+        const btnDoUpdate = document.getElementById("btn-do-update");
+        const btnLater = document.getElementById("btn-later-update");
+        const btnCloseX = document.getElementById("btn-close-update-x");
+        const newVerEl = document.getElementById("update-new-version");
+        const storeUrlFallback = "https://play.google.com/store/apps/details?id=com.cgstudiohome.marinext2100";
+
+        const closeUpdateModal = () => {
+            if (updateScreen) updateScreen.classList.add("hidden");
+        };
+        if (btnLater) btnLater.onclick = closeUpdateModal;
+        if (btnCloseX) btnCloseX.onclick = closeUpdateModal;
+
+        try {
+            const resp = await fetch("https://raw.githubusercontent.com/cevatturk/2100-Mario/main/version.json?t=" + Date.now(), { cache: "no-store" });
+            if (!resp.ok) return;
+            const remote = await resp.json();
+            const remoteCode = Number(remote && remote.versionCode);
+            if (Number.isFinite(remoteCode) && remoteCode > installedCode) {
+                if (newVerEl && remote.versionName) {
+                    newVerEl.textContent = "v" + remote.versionName;
+                }
+                if (btnDoUpdate) {
+                    btnDoUpdate.onclick = () => {
+                        if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.openPlayStoreUpdate === "function") {
+                            try {
+                                window.MarinextCloudBridge.openPlayStoreUpdate();
+                                return;
+                            } catch (e) {}
+                        }
+                        window.open((remote && remote.storeUrl) || storeUrlFallback, "_blank", "noopener");
+                    };
+                }
+                if (updateScreen) {
+                    updateScreen.classList.remove("hidden");
+                }
+            }
+        } catch (e) {
+            // Offline or unreachable — silently continue game
+        }
     }
 
     getPlayerUpgrades() {

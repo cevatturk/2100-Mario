@@ -422,5 +422,37 @@ public class MainActivity extends BridgeActivity {
                 return "{\"authenticated\":false}";
             }
         }
+
+        @JavascriptInterface
+        public String getAppVersionInfo() {
+            try {
+                android.content.pm.PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+                int vCode = android.os.Build.VERSION.SDK_INT >= 28 ? (int) pInfo.getLongVersionCode() : pInfo.versionCode;
+                JSONObject obj = new JSONObject();
+                obj.put("versionCode", vCode);
+                obj.put("versionName", pInfo.versionName != null ? pInfo.versionName : "1.1.3");
+                return obj.toString();
+            } catch (Throwable t) {
+                return "{\"versionCode\":6,\"versionName\":\"1.1.3\"}";
+            }
+        }
+
+        @JavascriptInterface
+        public void openPlayStoreUpdate() {
+            runOnUiThread(() -> {
+                try {
+                    Intent marketIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + getPackageName()));
+                    marketIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(marketIntent);
+                } catch (Throwable e) {
+                    try {
+                        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName()));
+                        webIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(webIntent);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            });
+        }
     }
 }
