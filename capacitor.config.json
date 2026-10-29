@@ -1,6 +1,6 @@
 {
-  "appId": "com.mario2100.game",
-  "appName": "2100 Mario",
+  "appId": "com.cgstudiohome.marinext2100",
+  "appName": "Marinext 2100",
   "webDir": "www",
   "bundledWebRuntime": false,
   "server": {

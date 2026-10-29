@@ -5,7 +5,7 @@
 // (Capacitor @capacitor-community/admob ile Native Android ve Tarayıcı Uyumlu)
 // ============================================================================
 const ADMOB_CONFIG = {
-    appIdAndroid: "ca-app-pub-1366538011855586~4280227520",          // Google AdMob Uygulama ID'niz (2100 Mario)
+    appIdAndroid: "ca-app-pub-1366538011855586~4280227520",          // Google AdMob Uygulama ID'niz (Marinext 2100)
     rewardedAdUnitId: "ca-app-pub-1366538011855586/3303469030",      // Ödüllü Video Reklam Birimi ID'niz (Odullu_Reklam)
     interstitialAdUnitId: "ca-app-pub-1366538011855586/9340982515",  // Bölüm Sonu Geçiş Reklamı Birimi ID'niz (Gecis_Reklami)
     isTesting: false,                                                // Gerçek AdMob üretim kimlikleri aktif
@@ -17,7 +17,7 @@ const ADMOB_CONFIG = {
 const HERO_CHARACTERS_CATALOG = [
     {
         id: "default",
-        icon: "🥷",
+        icon: "⚔️",
         title: "Siber Gölge Şövalye (Varsayılan)",
         faceDesc: "Yüz Tipi: Neon Lazer Vizörlü Siber Maske",
         desc: "Standart gelecek çağı zırhlı siber şövalye görünümü.",
@@ -25,7 +25,7 @@ const HERO_CHARACTERS_CATALOG = [
     },
     {
         id: "soldier_1950",
-        icon: "🪖",
+        icon: "🎖️",
         title: "1950 Asker Kıyafeti",
         faceDesc: "Yüz Tipi: 1950'ler Kalın Bıyıklı & Sert Çeneli Gazi Yüzü",
         desc: "1950 dönemi haki yün üniforma, çapraz deri kayış, fileli M1 çelik miğfer ve ahşap dipçikli tüfek.",
@@ -33,7 +33,7 @@ const HERO_CHARACTERS_CATALOG = [
     },
     {
         id: "soldier_modern",
-        icon: "🥽",
+        icon: "🎯",
         title: "Şimdi Kullanılan Asker Kıyafeti",
         faceDesc: "Yüz Tipi: Kamuflaj Boyalı & Taktik Sakallı Komando Yüzü",
         desc: "Modern dijital kamuflaj, MOLLE hücum yeleği, telsiz anteni ve 4'lü gece görüşlü (NVG) FAST balistik kask.",
@@ -143,7 +143,7 @@ const SHOP_CATALOG = [
 // 66 Visual Character Customization Items across 6 Visual Categories (+ 8 Upgrades = 74 Total)
 const CUSTOMIZE_CATALOG = [
     // ================= 1. HELMETS (12 Çeşit) =================
-    { id: "helmet_crest", category: "helmet", value: "crest", icon: "🪖", title: "Şövalye Tepeliği", desc: "Klasik aerodinamik siber şövalye miğferi.", cost: 0 },
+    { id: "helmet_crest", category: "helmet", value: "crest", icon: "👑", title: "Şövalye Tepeliği", desc: "Klasik aerodinamik siber şövalye miğferi.", cost: 0 },
     { id: "helmet_horns", category: "helmet", value: "horns", icon: "👹", title: "Samuray Boynuzları", desc: "Karanlık savaşçılara özel kıvrımlı neon boynuzlar.", cost: 1 },
     { id: "helmet_viking", category: "helmet", value: "viking", icon: "🐂", title: "Kuzeyli Viking Boynuzu", desc: "Yana doğru açılan dev kemik savaş boynuzları.", cost: 2 },
     { id: "helmet_ronin", category: "helmet", value: "ronin", icon: "⛩", title: "Gölge Ronin Şapkası", desc: "Geniş kenarlı neon bambu suikastçı şapkası.", cost: 2 },
@@ -177,7 +177,7 @@ const CUSTOMIZE_CATALOG = [
     { id: "skin_arctic", category: "skin", value: "arctic", icon: "❄️", title: "Buzul Şövalyesi", desc: "Saf beyaz ve buz mavisi kristal zırh.", cost: 2 },
     { id: "skin_toxic", category: "skin", value: "toxic", icon: "☣️", title: "Radyoaktif Biyo-Zırh", desc: "Fosforlu asit yeşili siber-simbiyot zırhı.", cost: 2 },
     { id: "skin_sakura", category: "skin", value: "sakura", icon: "🌸", title: "Pembe Samuray (Sakura)", desc: "Kiraz çiçeği pembesi ve bordo samuray zırhı.", cost: 3 },
-    { id: "skin_stealth", category: "skin", value: "stealth", icon: "🥷", title: "Gece Hayaleti (Stealth)", desc: "Mat karbon siyahı ve gümüş gizli operasyon zırhı.", cost: 3 },
+    { id: "skin_stealth", category: "skin", value: "stealth", icon: "⚔️", title: "Gece Hayaleti (Stealth)", desc: "Mat karbon siyahı ve gümüş gizli operasyon zırhı.", cost: 3 },
     { id: "skin_violet", category: "skin", value: "violet", icon: "🔮", title: "Boşluk Muhafızı", desc: "Derin mor neon enerji zırhı.", cost: 3 },
     { id: "skin_magma", category: "skin", value: "magma", icon: "🌋", title: "Magma Titanı", desc: "Erimiş lav turuncusu ve volkanik kaya zırhı.", cost: 4 },
     { id: "skin_galaxy", category: "skin", value: "galaxy", icon: "🌌", title: "Kozmik Galaksi", desc: "Yıldız tozu pembesi ve derin uzay laciverti zırh.", cost: 4 },
@@ -223,7 +223,7 @@ const CUSTOMIZE_CATALOG = [
 
 // 30 Distinct Profile Pictures (Portraits) with Custom Gradient Frames
 const PROFILE_AVATARS = [
-    { id: "av_1", icon: "🥷", title: "Gölge Ninja", bg: "linear-gradient(135deg, #091e3a, #0077b6)", border: "#00f2fe" },
+    { id: "av_1", icon: "⚔️", title: "Gölge Ninja", bg: "linear-gradient(135deg, #091e3a, #0077b6)", border: "#00f2fe" },
     { id: "av_2", icon: "⚔️", title: "Siber Şövalye", bg: "linear-gradient(135deg, #1b1f3b, #3a0ca3)", border: "#4cc9f0" },
     { id: "av_3", icon: "👹", title: "Kızıl Samuray", bg: "linear-gradient(135deg, #2b0918, #9b0047)", border: "#ff2a85" },
     { id: "av_4", icon: "🐺", title: "Alfa Siber Kurt", bg: "linear-gradient(135deg, #0f172a, #334155)", border: "#38bdf8" },
@@ -269,7 +269,7 @@ const LANGUAGES = [
 
 const LANG_DICT = {
     tr: {
-        gameTitle: "2100 Mario",
+        gameTitle: "Marinext 2100",
         seasonBadge: "40 BÖLÜM TAM SÜRÜM",
         profileTag: "OYUNCU PROFİLİ",
         hudProfileTag: "PROFİL",
@@ -357,10 +357,10 @@ const LANG_DICT = {
             "Radyoaktif Mağara", "Başa Sar!", "Görünmez Çukur", "Üçlü İhanet", "Nükleer Cellat ☠",
             "Sinir Krizi", "Atom Yağmuru", "Sabır Testi", "Son Şaka", "Trol İmparator 👑"
         ],
-        tabs: ["🪖 Miğfer (12)", "⚔️ Silah & Kanat (12)", "🛡 Zırh (12)", "👁 Göz & Vizör (10)", "✨ Aura & Efekt (10)", "🧣 Pelerin (10)", "⚡ Güçlendirme (8)"]
+        tabs: ["👑 Miğfer (12)", "⚔️ Silah & Kanat (12)", "🛡 Zırh (12)", "👁 Göz & Vizör (10)", "✨ Aura & Efekt (10)", "🧣 Pelerin (10)", "⚡ Güçlendirme (8)"]
     },
     ru: {
-        gameTitle: "2100 Марио",
+        gameTitle: "Marinext 2100",
         seasonBadge: "40 УРОВНЕЙ • ПОЛНЫЙ СЕЗОН",
         profileTag: "ПРОФИЛЬ ИГРОКА",
         hudProfileTag: "ПРОФИЛЬ",
@@ -448,10 +448,10 @@ const LANG_DICT = {
             "Радио-Пещера", "Назад на Старт!", "Невидимая Яма", "Тройной Обман", "Ядерный Палач ☠",
             "Нервный Срыв", "Атомный Дождь", "Тест Терпения", "Последняя Шутка", "Тролль-Император 👑"
         ],
-        tabs: ["🪖 Шлем (12)", "⚔️ Оружие и Крылья (12)", "🛡 Броня (12)", "👁 Визор (10)", "✨ Аура (10)", "🧣 Плащ (10)", "⚡ Улучшения (8)"]
+        tabs: ["👑 Шлем (12)", "⚔️ Оружие и Крылья (12)", "🛡 Броня (12)", "👁 Визор (10)", "✨ Аура (10)", "🧣 Плащ (10)", "⚡ Улучшения (8)"]
     },
     en: {
-        gameTitle: "2100 Mario",
+        gameTitle: "Marinext 2100",
         seasonBadge: "40 LEVELS FULL CAMPAIGN",
         profileTag: "PLAYER PROFILE",
         hudProfileTag: "PROFILE",
@@ -539,10 +539,10 @@ const LANG_DICT = {
             "Radioactive Cave", "Back to Start!", "Hidden Pit", "Triple Betrayal", "Nuclear Boss ☠",
             "Rage Quit", "Atom Rain", "Patience Test", "Final Prank", "Troll Emperor 👑"
         ],
-        tabs: ["🪖 Helmet (12)", "⚔️ Weapon & Wings (12)", "🛡 Armor (12)", "👁 Visor (10)", "✨ Aura (10)", "🧣 Cape (10)", "⚡ Upgrades (8)"]
+        tabs: ["👑 Helmet (12)", "⚔️ Weapon & Wings (12)", "🛡 Armor (12)", "👁 Visor (10)", "✨ Aura (10)", "🧣 Cape (10)", "⚡ Upgrades (8)"]
     },
     it: {
-        gameTitle: "2100 Mario",
+        gameTitle: "Marinext 2100",
         seasonBadge: "40 LIVELLI STAGIONE COMPLETA",
         profileTag: "PROFILO GIOCATORE",
         hudProfileTag: "PROFILO",
@@ -630,10 +630,10 @@ const LANG_DICT = {
             "Grotta Radio", "Torna all'Inizio!", "Fossa Invisibile", "Triplo Inganno", "Boia Nucleare ☠",
             "Crisi di Nervi", "Pioggia Atomica", "Test Pazienza", "Ultimo Scherzo", "Imperatore Troll 👑"
         ],
-        tabs: ["🪖 Elmo (12)", "⚔️ Armi e Ali (12)", "🛡 Armatura (12)", "👁 Visiera (10)", "✨ Aura (10)", "🧣 Mantello (10)", "⚡ Potenziamenti (8)"]
+        tabs: ["👑 Elmo (12)", "⚔️ Armi e Ali (12)", "🛡 Armatura (12)", "👁 Visiera (10)", "✨ Aura (10)", "🧣 Mantello (10)", "⚡ Potenziamenti (8)"]
     },
     es: {
-        gameTitle: "2100 Mario",
+        gameTitle: "Marinext 2100",
         seasonBadge: "40 NIVELES TEMPORADA COMPLETA",
         profileTag: "PERFIL DE JUGADOR",
         hudProfileTag: "PERFIL",
@@ -721,10 +721,10 @@ const LANG_DICT = {
             "Cueva Radio", "¡Al Inicio!", "Foso Oculto", "Triple Traición", "Verdugo Nuclear ☠",
             "Crisis Nerviosa", "Lluvia Atómica", "Test Paciencia", "Broma Final", "Emperador Trol 👑"
         ],
-        tabs: ["🪖 Casco (12)", "⚔️ Armas y Alas (12)", "🛡 Armadura (12)", "👁 Visor (10)", "✨ Aura (10)", "🧣 Capa (10)", "⚡ Mejoras (8)"]
+        tabs: ["👑 Casco (12)", "⚔️ Armas y Alas (12)", "🛡 Armadura (12)", "👁 Visor (10)", "✨ Aura (10)", "🧣 Capa (10)", "⚡ Mejoras (8)"]
     },
     fr: {
-        gameTitle: "2100 Mario",
+        gameTitle: "Marinext 2100",
         seasonBadge: "40 NIVEAUX SAISON COMPLÈTE",
         profileTag: "PROFIL DU JOUEUR",
         hudProfileTag: "PROFIL",
@@ -812,10 +812,10 @@ const LANG_DICT = {
             "Grotte Radio", "Retour Départ !", "Fosse Cachée", "Triple Trahison", "Bourreau Nucléaire ☠",
             "Crise de Nerfs", "Pluie Atomique", "Test Patience", "Farce Finale", "Empereur Troll 👑"
         ],
-        tabs: ["🪖 Casque (12)", "⚔️ Armes & Ailes (12)", "🛡 Armure (12)", "👁 Visière (10)", "✨ Aura (10)", "🧣 Cape (10)", "⚡ Améliorations (8)"]
+        tabs: ["👑 Casque (12)", "⚔️ Armes & Ailes (12)", "🛡 Armure (12)", "👁 Visière (10)", "✨ Aura (10)", "🧣 Cape (10)", "⚡ Améliorations (8)"]
     },
     ko: {
-        gameTitle: "2100 마리오",
+        gameTitle: "Marinext 2100",
         seasonBadge: "40 스테이지 풀 시즌",
         profileTag: "플레이어 프로필",
         hudProfileTag: "프로필",
@@ -903,10 +903,10 @@ const LANG_DICT = {
             "방사능 동굴", "처음으로!", "보이지 않는 구덩이", "삼중 배신", "핵 처형자 ☠",
             "분노 폭발", "우라늄 폭우", "인내심 테스트", "마지막 장난", "트롤 황제 👑"
         ],
-        tabs: ["🪖 투구 (12)", "⚔️ 무기 & 날개 (12)", "🛡 갑옷 (12)", "👁 바이저 (10)", "✨ 오라 (10)", "🧣 망토 (10)", "⚡ 강화 (8)"]
+        tabs: ["👑 투구 (12)", "⚔️ 무기 & 날개 (12)", "🛡 갑옷 (12)", "👁 바이저 (10)", "✨ 오라 (10)", "🧣 망토 (10)", "⚡ 강화 (8)"]
     },
     zh: {
-        gameTitle: "2100 马里奥",
+        gameTitle: "Marinext 2100",
         seasonBadge: "40关卡完整赛季",
         profileTag: "玩家资料",
         hudProfileTag: "资料",
@@ -994,10 +994,10 @@ const LANG_DICT = {
             "辐射洞穴", "回到起点！", "隐形深坑", "三重背叛", "核能行刑者 ☠",
             "暴怒崩溃", "原子暴雨", "耐心测试", "终极恶作剧", "整蛊大帝 👑"
         ],
-        tabs: ["🪖 头盔 (12)", "⚔️ 武器与翅膀 (12)", "🛡 装甲 (12)", "👁 面罩 (10)", "✨ 光环 (10)", "🧣 披风 (10)", "⚡ 强化 (8)"]
+        tabs: ["👑 头盔 (12)", "⚔️ 武器与翅膀 (12)", "🛡 装甲 (12)", "👁 面罩 (10)", "✨ 光环 (10)", "🧣 披风 (10)", "⚡ 强化 (8)"]
     },
     ja: {
-        gameTitle: "2100 マリオ",
+        gameTitle: "Marinext 2100",
         seasonBadge: "全40ステージ完全版",
         profileTag: "プロフィール",
         hudProfileTag: "プロフィール",
@@ -1085,7 +1085,7 @@ const LANG_DICT = {
             "放射能の洞窟", "振り出しへ！", "見えない落とし穴", "三重の裏切り", "核の処刑人 ☠",
             "激怒の陸橋", "アトムの豪雨", "忍耐テスト", "最後の悪戯", "トロール皇帝 👑"
         ],
-        tabs: ["🪖 兜 (12)", "⚔️ 武器＆翼 (12)", "🛡 鎧 (12)", "👁 バイザー (10)", "✨ オーラ (10)", "🧣 マント (10)", "⚡ 強化 (8)"]
+        tabs: ["👑 兜 (12)", "⚔️ 武器＆翼 (12)", "🛡 鎧 (12)", "👁 バイザー (10)", "✨ オーラ (10)", "🧣 マント (10)", "⚡ 強化 (8)"]
     }
 };
 
@@ -1475,16 +1475,97 @@ class Game {
         });
     }
 
+    handleBackAction() {
+        const trollScreen = document.getElementById("screen-troll");
+        if (trollScreen && !trollScreen.classList.contains("hidden")) {
+            const closeBtn = document.getElementById("btn-close-troll");
+            if (closeBtn) closeBtn.click();
+            return true;
+        }
+        const langScreen = document.getElementById("screen-language");
+        if (langScreen && !langScreen.classList.contains("hidden")) {
+            const closeBtn = document.getElementById("btn-close-lang");
+            if (closeBtn) closeBtn.click();
+            return true;
+        }
+        const profileScreen = document.getElementById("screen-profile");
+        if (profileScreen && !profileScreen.classList.contains("hidden")) {
+            const closeBtn = document.getElementById("btn-close-profile");
+            if (closeBtn) closeBtn.click();
+            return true;
+        }
+        const settingsScreen = document.getElementById("screen-settings");
+        if (settingsScreen && !settingsScreen.classList.contains("hidden")) {
+            const closeBtn = document.getElementById("btn-close-settings");
+            if (closeBtn) closeBtn.click();
+            return true;
+        }
+        const charScreen = document.getElementById("screen-character");
+        if (charScreen && !charScreen.classList.contains("hidden")) {
+            const closeBtn = document.getElementById("btn-close-character");
+            if (closeBtn) closeBtn.click();
+            return true;
+        }
+        const custScreen = document.getElementById("screen-customize");
+        if (custScreen && !custScreen.classList.contains("hidden")) {
+            const closeBtn = document.getElementById("btn-close-customize");
+            if (closeBtn) closeBtn.click();
+            return true;
+        }
+        const shopScreen = document.getElementById("screen-shop");
+        if (shopScreen && !shopScreen.classList.contains("hidden")) {
+            const closeBtn = document.getElementById("btn-close-shop");
+            if (closeBtn) closeBtn.click();
+            return true;
+        }
+        if (this.state === "playing") {
+            this.pauseGame();
+            return true;
+        }
+        if (this.state === "paused") {
+            this.resumeGame();
+            return true;
+        }
+        return false;
+    }
+
     setupInputs() {
         window.addEventListener("blur", () => {
             this.resetInputs();
+            if (window.sfx && typeof window.sfx.suspendAudio === "function") {
+                window.sfx.suspendAudio();
+            }
+        });
+        window.addEventListener("focus", () => {
+            if (!document.hidden && window.sfx && typeof window.sfx.resumeAudio === "function") {
+                window.sfx.resumeAudio();
+            }
         });
         document.addEventListener("visibilitychange", () => {
-            if (document.hidden) this.resetInputs();
+            if (document.hidden) {
+                this.resetInputs();
+                if (this.state === "playing") {
+                    this.pauseGame();
+                }
+                if (window.sfx && typeof window.sfx.suspendAudio === "function") {
+                    window.sfx.suspendAudio();
+                }
+            } else {
+                if (window.sfx && typeof window.sfx.resumeAudio === "function") {
+                    window.sfx.resumeAudio();
+                }
+            }
         });
         window.addEventListener("contextmenu", () => {
             this.resetInputs();
         });
+
+        // Android Hardware Back Button & Capacitor Back Event Compliance
+        document.addEventListener("backbutton", (e) => {
+            if (this.handleBackAction()) {
+                if (e && typeof e.preventDefault === "function") e.preventDefault();
+            }
+        }, false);
 
         window.addEventListener("keydown", (e) => {
             if (document.activeElement && document.activeElement.tagName === "INPUT") {
@@ -1505,50 +1586,10 @@ class Game {
                 }
             }
             if (e.code === "Escape") {
-                const trollScreen = document.getElementById("screen-troll");
-                if (trollScreen && !trollScreen.classList.contains("hidden")) {
-                    const closeBtn = document.getElementById("btn-close-troll");
-                    if (closeBtn) closeBtn.click();
-                    return;
-                }
-                const langScreen = document.getElementById("screen-language");
-                if (langScreen && !langScreen.classList.contains("hidden")) {
-                    const closeBtn = document.getElementById("btn-close-lang");
-                    if (closeBtn) closeBtn.click();
-                    return;
-                }
-                const profileScreen = document.getElementById("screen-profile");
-                if (profileScreen && !profileScreen.classList.contains("hidden")) {
-                    const closeBtn = document.getElementById("btn-close-profile");
-                    if (closeBtn) closeBtn.click();
-                    return;
-                }
-                const settingsScreen = document.getElementById("screen-settings");
-                if (settingsScreen && !settingsScreen.classList.contains("hidden")) {
-                    const closeBtn = document.getElementById("btn-close-settings");
-                    if (closeBtn) closeBtn.click();
-                    return;
-                }
-                const charScreen = document.getElementById("screen-character");
-                if (charScreen && !charScreen.classList.contains("hidden")) {
-                    const closeBtn = document.getElementById("btn-close-character");
-                    if (closeBtn) closeBtn.click();
-                    return;
-                }
-                const custScreen = document.getElementById("screen-customize");
-                if (custScreen && !custScreen.classList.contains("hidden")) {
-                    const closeBtn = document.getElementById("btn-close-customize");
-                    if (closeBtn) closeBtn.click();
-                    return;
-                }
-                const shopScreen = document.getElementById("screen-shop");
-                if (shopScreen && !shopScreen.classList.contains("hidden")) {
-                    const closeBtn = document.getElementById("btn-close-shop");
-                    if (closeBtn) closeBtn.click();
-                    return;
-                }
+                this.handleBackAction();
+                return;
             }
-            if (e.code === "Escape" || e.code === "KeyP") {
+            if (e.code === "KeyP") {
                 if (this.state === "playing") this.pauseGame();
                 else if (this.state === "paused") this.resumeGame();
             }
@@ -2101,15 +2142,15 @@ class Game {
         setTxt("hud-lang-code", this.langAuto ? `📱${langMeta.badge}` : langMeta.badge);
 
         const charBtnMap = {
-            tr: { open: "👤 KARAKTER DEĞİŞTİR (🪙)", main: "👤 KARAKTER DEĞİŞTİR (🪙 COİN)", hud: "👤 Karakter", title: "👤 KARAKTER DEĞİŞTİRME & GERÇEKÇİ KIYAFET / YÜZ STÜDYOSU", preview: "CANLI KIYAFET & YÜZ TİPİ ÖNİZLEME", close: "SEÇİMİ KAYDET VE DÖN ✓" },
-            en: { open: "👤 CHANGE CHARACTER (🪙)", main: "👤 CHANGE CHARACTER (🪙 COIN)", hud: "👤 Character", title: "👤 CHARACTER & REALISTIC OUTFIT / FACE STUDIO", preview: "LIVE OUTFIT & FACE PREVIEW", close: "SAVE & RETURN ✓" },
-            ru: { open: "👤 СМЕНИТЬ ГЕРОЯ (🪙)", main: "👤 СМЕНИТЬ ГЕРОЯ (🪙 COIN)", hud: "👤 Герой", title: "👤 СМЕНА ПЕРСОНАЖА, КОСТЮМА И ЛИЦА", preview: "ПРЕДПРОСМОТР КОСТЮМА И ЛИЦА", close: "СОХРАНИТЬ И ВЫЙТИ ✓" },
-            it: { open: "👤 CAMBIA PERSONAGGIO (🪙)", main: "👤 CAMBIA PERSONAGGIO (🪙 COIN)", hud: "👤 Eroe", title: "👤 STUDIO PERSONAGGIO, ABITO E VOLTO", preview: "ANTEPRIMA ABITO E VOLTO", close: "SALVA E TORNA ✓" },
-            es: { open: "👤 CAMBIAR PERSONAJE (🪙)", main: "👤 CAMBIAR PERSONAJE (🪙 COIN)", hud: "👤 Héroe", title: "👤 ESTUDIO DE PERSONAJE, TRAJE Y ROSTRO", preview: "VISTA PREVIA DE TRAJE Y ROSTRO", close: "GUARDAR Y VOLVER ✓" },
-            fr: { open: "👤 CHANGER DE HÉROS (🪙)", main: "👤 CHANGER DE HÉROS (🪙 COIN)", hud: "👤 Héros", title: "👤 STUDIO DE PERSONNAGE, TENUE ET VISAGE", preview: "APERÇU TENUE ET VISAGE", close: "ENREGISTRER ET RETOUR ✓" },
-            ko: { open: "👤 캐릭터 변경 (🪙)", main: "👤 캐릭터 변경 (🪙 코인)", hud: "👤 캐릭터", title: "👤 캐릭터 의상 및 얼굴 변경 스튜디오", preview: "실시간 의상 & 얼굴 미리보기", close: "저장 후 돌아가기 ✓" },
-            zh: { open: "👤 更换角色 (🪙)", main: "👤 更换角色 (🪙 金币)", hud: "👤 角色", title: "👤 角色服装与脸型更换工作室", preview: "服装与脸型实时预览", close: "保存并返回 ✓" },
-            ja: { open: "👤 キャラ変更 (🪙)", main: "👤 キャラ変更 (🪙 コイン)", hud: "👤 キャラ", title: "👤 キャラクター衣装＆顔タイプ変更スタジオ", preview: "衣装＆顔ライブプレビュー", close: "保存して戻る ✓" }
+            tr: { open: "👤 KARAKTER DEĞİŞTİR (✪)", main: "👤 KARAKTER DEĞİŞTİR (✪ COİN)", hud: "👤 Karakter", title: "👤 KARAKTER DEĞİŞTİRME & GERÇEKÇİ KIYAFET / YÜZ STÜDYOSU", preview: "CANLI KIYAFET & YÜZ TİPİ ÖNİZLEME", close: "SEÇİMİ KAYDET VE DÖN ✓" },
+            en: { open: "👤 CHANGE CHARACTER (✪)", main: "👤 CHANGE CHARACTER (✪ COIN)", hud: "👤 Character", title: "👤 CHARACTER & REALISTIC OUTFIT / FACE STUDIO", preview: "LIVE OUTFIT & FACE PREVIEW", close: "SAVE & RETURN ✓" },
+            ru: { open: "👤 СМЕНИТЬ ГЕРОЯ (✪)", main: "👤 СМЕНИТЬ ГЕРОЯ (✪ COIN)", hud: "👤 Герой", title: "👤 СМЕНА ПЕРСОНАЖА, КОСТЮМА И ЛИЦА", preview: "ПРЕДПРОСМОТР КОСТЮМА И ЛИЦА", close: "СОХРАНИТЬ И ВЫЙТИ ✓" },
+            it: { open: "👤 CAMBIA PERSONAGGIO (✪)", main: "👤 CAMBIA PERSONAGGIO (✪ COIN)", hud: "👤 Eroe", title: "👤 STUDIO PERSONAGGIO, ABITO E VOLTO", preview: "ANTEPRIMA ABITO E VOLTO", close: "SALVA E TORNA ✓" },
+            es: { open: "👤 CAMBIAR PERSONAJE (✪)", main: "👤 CAMBIAR PERSONAJE (✪ COIN)", hud: "👤 Héroe", title: "👤 ESTUDIO DE PERSONAJE, TRAJE Y ROSTRO", preview: "VISTA PREVIA DE TRAJE Y ROSTRO", close: "GUARDAR Y VOLVER ✓" },
+            fr: { open: "👤 CHANGER DE HÉROS (✪)", main: "👤 CHANGER DE HÉROS (✪ COIN)", hud: "👤 Héros", title: "👤 STUDIO DE PERSONNAGE, TENUE ET VISAGE", preview: "APERÇU TENUE ET VISAGE", close: "ENREGISTRER ET RETOUR ✓" },
+            ko: { open: "👤 캐릭터 변경 (✪)", main: "👤 캐릭터 변경 (✪ 코인)", hud: "👤 캐릭터", title: "👤 캐릭터 의상 및 얼굴 변경 스튜디오", preview: "실시간 의상 & 얼굴 미리보기", close: "저장 후 돌아가기 ✓" },
+            zh: { open: "👤 更换角色 (✪)", main: "👤 更换角色 (✪ 金币)", hud: "👤 角色", title: "👤 角色服装与脸型更换工作室", preview: "服装与脸型实时预览", close: "保存并返回 ✓" },
+            ja: { open: "👤 キャラ変更 (✪)", main: "👤 キャラ変更 (✪ コイン)", hud: "👤 キャラ", title: "👤 キャラクター衣装＆顔タイプ変更スタジオ", preview: "衣装＆顔ライブプレビュー", close: "保存して戻る ✓" }
         };
         const cDict = charBtnMap[this.lang] || charBtnMap.tr;
         setTxt("btn-open-character", cDict.open);
@@ -2551,7 +2592,7 @@ class Game {
                 card.style.boxShadow = "0 0 18px rgba(255, 209, 102, 0.35)";
             }
 
-            let btnLabel = `SATIN AL (${item.cost} 🪙 Coin)`;
+            let btnLabel = `SATIN AL (${item.cost} ✪ Coin)`;
             let btnClass = "shop-buy-btn";
             let disabled = false;
 
@@ -2571,7 +2612,7 @@ class Game {
                         <span class="shop-icon">${item.icon}</span>
                         <div>
                             <h4 style="color:#ffd166;">${item.title}</h4>
-                            <small style="color:#06d6a0; font-weight:700; display:block; margin-top:2px;">${item.cost === 0 ? "ÜCRETSİZ" : item.cost + " 🪙 Coin"}</small>
+                            <small style="color:#06d6a0; font-weight:700; display:block; margin-top:2px;">${item.cost === 0 ? "ÜCRETSİZ" : item.cost + " ✪ Coin"}</small>
                         </div>
                     </div>
                     <p style="color:#ff9ebb; font-weight:700; font-size:11.5px; margin-bottom:4px;">👤 ${item.faceDesc}</p>
@@ -3042,26 +3083,52 @@ class Game {
         }
     }
 
+    isNativeAndroid() {
+        return Boolean(
+            window.Capacitor &&
+            typeof window.Capacitor.isNativePlatform === "function" &&
+            window.Capacitor.isNativePlatform()
+        );
+    }
+
     async showRewardedAd(adTitle, adRewardDesc, onRewardGranted) {
         const capAdMob = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
         if (capAdMob && typeof capAdMob.prepareRewardVideoAd === "function") {
             try {
+                if (window.sfx) {
+                    window.sfx.adPlaying = true;
+                    window.sfx.suspendAudio();
+                }
                 await capAdMob.prepareRewardVideoAd({
                     adId: ADMOB_CONFIG.rewardedAdUnitId,
                     isTesting: ADMOB_CONFIG.isTesting
                 });
                 const rewardItem = await capAdMob.showRewardVideoAd();
+                if (window.sfx) {
+                    window.sfx.adPlaying = false;
+                    window.sfx.resumeAudio();
+                }
                 if (rewardItem) {
                     this.lastRewardedAdTime = performance.now();
                     onRewardGranted();
                 }
                 return;
             } catch (e) {
-                // Fall back to interactive AdMob overlay if offline or in web browser
+                if (window.sfx) {
+                    window.sfx.adPlaying = false;
+                    window.sfx.resumeAudio();
+                }
+                // Google Play Deceptive Ads Compliance: On native Android, never show a simulated HTML ad screen
+                if (this.isNativeAndroid()) {
+                    alert("Şu anda uygun video reklam bulunamadı veya internet bağlantınız kapalı. Lütfen biraz sonra tekrar deneyin.");
+                    return;
+                }
             }
+        } else if (this.isNativeAndroid()) {
+            return;
         }
 
-        this.playInteractiveAdOverlay("ÖDÜLLÜ VİDEO REKLAM", "🎁", adTitle, adRewardDesc, 5, () => {
+        this.playInteractiveAdOverlay("ÖDÜLLÜ BONUS VİDEO", "🎁", adTitle, adRewardDesc, 5, () => {
             this.lastRewardedAdTime = performance.now();
             onRewardGranted();
         });
@@ -3079,22 +3146,39 @@ class Game {
         const capAdMob = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
         if (capAdMob && typeof capAdMob.prepareInterstitial === "function") {
             try {
+                if (window.sfx) {
+                    window.sfx.adPlaying = true;
+                    window.sfx.suspendAudio();
+                }
                 await capAdMob.prepareInterstitial({
                     adId: ADMOB_CONFIG.interstitialAdUnitId,
                     isTesting: ADMOB_CONFIG.isTesting
                 });
                 await capAdMob.showInterstitial();
+                if (window.sfx) {
+                    window.sfx.adPlaying = false;
+                    window.sfx.resumeAudio();
+                }
                 return;
             } catch (e) {
-                // Fall back to web overlay
+                if (window.sfx) {
+                    window.sfx.adPlaying = false;
+                    window.sfx.resumeAudio();
+                }
+                // On native Android, silently skip if no interstitial ad is available
+                if (this.isNativeAndroid()) {
+                    return;
+                }
             }
+        } else if (this.isNativeAndroid()) {
+            return;
         }
 
         this.playInteractiveAdOverlay(
-            "BÖLÜM ARASI GEÇİŞ REKLAMI",
+            "BÖLÜM ARASI MOLA",
             "📺",
-            "Google AdMob Akıllı Geçiş Reklamı",
-            "Kullanıcı dostu reklam modu: Sadece 3 bölüm kazanıldığında 1 kez gösterilir!",
+            "Bölüm Sonu Kısa Mola",
+            "Kullanıcı dostu mod: Sadece 3 bölüm kazanıldığında 1 kez gösterilir!",
             3,
             () => {}
         );
@@ -3217,8 +3301,8 @@ class Game {
         const bonusGoldCoins = Math.max(25, (this.collectedGoldCoins || 10) + 15);
 
         this.showRewardedAd(
-            "🪙 Bölüm Ödüllerini 2'ye Katla (2x Bonus)",
-            `Ekstra +${bonusGoldCoins} 🪙 Coin, +${bonusEmeralds} ❖ Antik Zümrüt ve +${bonusCrystals} ◆ Kristal kazanacaksın!`,
+            "✪ Bölüm Ödüllerini 2'ye Katla (2x Bonus)",
+            `Ekstra +${bonusGoldCoins} ✪ Coin, +${bonusEmeralds} ❖ Antik Zümrüt ve +${bonusCrystals} ◆ Kristal kazanacaksın!`,
             () => {
                 this.doubleRewardUsedInLevel = true;
                 this.addGoldCoins(bonusGoldCoins, true);
@@ -3228,7 +3312,7 @@ class Game {
                 const dblBtn = document.getElementById("btn-ad-double");
                 if (dblBtn) dblBtn.classList.add("hidden");
                 document.getElementById("stat-emeralds").textContent = `${this.collectedEmeralds}/${this.totalLevelEmeralds} (${this.walletEmeralds})`;
-                document.getElementById("stat-coins").textContent = `${this.collectedCoins} (+${bonusGoldCoins} 🪙)`;
+                document.getElementById("stat-coins").textContent = `${this.collectedCoins} (+${bonusGoldCoins} ✪)`;
                 document.getElementById("stat-score").textContent = this.score;
                 this.updateMapUI();
                 if (this.player) this.updateHUD();
@@ -3238,8 +3322,8 @@ class Game {
 
     claimChestRewardWithAd() {
         this.showRewardedAd(
-            "🎁 Ücretsiz Hazine Sandığı (+50 🪙 Coin & +10 ❖ Zümrüt)",
-            "Reklam tamamlandığında anında +50 🪙 Coin ve +10 ❖ Antik Zümrüt cüzdanına eklenecek!",
+            "🎁 Ücretsiz Hazine Sandığı (+50 ✪ Coin & +10 ❖ Zümrüt)",
+            "Tamamlandığında anında +50 ✪ Coin ve +10 ❖ Antik Zümrüt cüzdanına eklenecek!",
             () => {
                 this.addGoldCoins(50, true);
                 this.addEmeralds(10, true);
@@ -3738,7 +3822,7 @@ class Game {
                         new window.FloatingText(
                             c.x,
                             c.y - 12,
-                            "+2 🪙 COİN!",
+                            "+2 ✪ COİN!",
                             "#ffd166"
                         )
                     );

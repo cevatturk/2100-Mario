@@ -1,29 +1,31 @@
-# 2100 Mario — Google Play Store Mağaza Giriş Rehberi ve Hazır Metinler
+# Marinext 2100 — Google Play Store Mağaza Giriş Rehberi ve Hazır Metinler
 
-Bu dosya, **Google Play Console** üzerinde **CG Studio Home** geliştirici hesabıyla **2100 Mario (`com.mario2100.game`)** uygulamasını oluştururken sorulan tüm metinleri ve form yanıtlarını kopyala-yapıştır yapabilmeniz için hazırlanmıştır.
+Bu dosya, **Google Play Console** üzerinde **CG Studio Home** geliştirici hesabıyla **Marinext 2100 (`com.cgstudiohome.marinext2100`)** uygulamasını oluştururken sorulan tüm metinleri ve form yanıtlarını kopyala-yapıştır yapabilmeniz için hazırlanmıştır.
 
 * **Geliştirici Adı:** `CG Studio Home`
 * **Resmi İletişim E-postası:** `info@erpdanisman.com`
+* **Paket Kimliği (`applicationId`):** `com.cgstudiohome.marinext2100`
+* **Hedef Android SDK (`targetSdkVersion` / `compileSdkVersion`):** `API 36 (Android 16)`
 
 ---
 
 ## 1. Mağaza Girişi Metinleri (Türkçe - `tr-TR`)
 
 * **Uygulama Adı (Maks. 30 karakter):**
-  `2100 Mario`
+  `Marinext 2100`
 
 * **Kısa Açıklama (Maks. 80 karakter):**
   `40 bölüm siber zindan, 15 trol bölümü, tarihi kahramanlar ve 120 FPS aksiyon!`
 
 * **Tam Açıklama (Maks. 4000 karakter):**
 ```text
-2100 Mario ile siber gelecek ve tarihi kahramanların buluştuğu yüksek tempolu 2D platform macerasına adım atın!
+Marinext 2100 ile siber gelecek ve tarihi kahramanların buluştuğu yüksek tempolu 2D platform macerasına adım atın!
 
 Karanlık neon zindanlardan kristal mağaralara, lav tuzaklarından dev bölüm sonu canavarlarına (Boss) kadar uzanan 40 ana görev bölümü ve yeteneklerinizi zorlayacak 15 özel Trol Modu bölümü sizi bekliyor.
 
 ÖNE ÇIKAN ÖZELLİKLER:
 • 40 Bölüm Ana Hikaye + 15 Bölüm Özel Trol Modu: Her bölümde benzersiz mekanikler, solucan deliği ışınlayıcılar, gizemli kutular ve dev Boss savaşları.
-• Zengin Karakter Koleksiyonu (🪙 Coin): Oyun içinde topladığınız altınlarla birbirinden özel kıyafet ve yüz tiplerine sahip karakterleri açın:
+• Zengin Karakter Koleksiyonu (✪ Coin): Oyun içinde topladığınız altınlarla birbirinden özel kıyafet ve yüz tiplerine sahip karakterleri açın:
   - Siber Gölge Şövalye
   - 1950 Klasik Asker
   - Modern Özel Kuvvetler Askeri
@@ -42,20 +44,20 @@ Karanlık neon zindanlardan kristal mağaralara, lav tuzaklarından dev bölüm 
 ## 2. Store Listing Texts (English - `en-US`)
 
 * **App Name:**
-  `2100 Mario`
+  `Marinext 2100`
 
 * **Short Description:**
   `40 cyber platformer levels, 15 troll stages, historical heroes & 120 FPS action!`
 
 * **Full Description:**
 ```text
-Step into a high-speed 2D action platformer where cyber-futuristic dungeons meet legendary historical heroes in 2100 Mario!
+Step into a high-speed 2D action platformer where cyber-futuristic dungeons meet legendary historical heroes in Marinext 2100!
 
 Battle through 40 handcrafted campaign stages filled with crystal caverns, wormhole teleporters, laser traps, and epic Boss fights—plus 15 brain-teasing Troll Mode stages designed to test your reflexes.
 
 KEY FEATURES:
 • 40 Campaign Levels + 15 Troll Mode Stages: Master precision jumps, mystery blocks, moving saws, and dark dungeon guardians.
-• Unlockable Hero Roster (🪙 Coins): Collect gold coins on safe platforms to unlock iconic outfits with unique facial designs:
+• Unlockable Hero Roster (✪ Coins): Collect gold coins on safe platforms to unlock iconic outfits with unique facial designs:
   - Cyber Shadow Knight
   - 1950 Vintage Soldier
   - Modern Special Forces Commando

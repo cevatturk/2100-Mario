@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- Google AdMob Resmi Uygulama Kimliği (2100 Mario) -->
+        <!-- Google AdMob Resmi Uygulama Kimliği (Marinext 2100) -->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admob_app_id" />

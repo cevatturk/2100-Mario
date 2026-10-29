@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#070812">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    <title>2100 Mario</title>
+    <title>Marinext 2100</title>
     <link rel="icon" type="image/png" sizes="512x512" href="assets/store/icon-512.png">
     <link rel="apple-touch-icon" href="assets/store/icon-192.png">
     <link rel="manifest" href="manifest.json">
@@ -21,7 +21,7 @@
         <div id="hud" class="hidden">
             <div class="hud-left">
                 <button id="btn-hud-profile" class="profile-square-btn" style="padding: 3px 9px 3px 4px;" title="Oyuncu Profili">
-                    <div class="profile-frame-box hud-size" id="hud-profile-avatar">🥷</div>
+                    <div class="profile-frame-box hud-size" id="hud-profile-avatar">⚔️</div>
                     <div class="profile-btn-info">
                         <span class="profile-btn-tag" id="hud-profile-tag">PROFİL</span>
                         <span class="profile-btn-name" id="hud-profile-name">Gölge Şövalye</span>
@@ -52,14 +52,14 @@
             </div>
 
             <div class="hud-right">
-                <button id="btn-hud-character" class="customize-btn" style="padding: 6px 11px; font-size: 12.5px; background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047;" title="Karakter Değiştir (Coin 🪙)">
+                <button id="btn-hud-character" class="customize-btn" style="padding: 6px 11px; font-size: 12.5px; background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047;" title="Karakter Değiştir (Coin ✪)">
                     👤 Karakter
                 </button>
                 <button id="btn-hud-customize" class="customize-btn" style="padding: 6px 12px; font-size: 12.5px;" title="Karakteri Kişiselleştir">
                     🎨 Kişiselleştir
                 </button>
-                <div class="hud-stat goldcoin-stat" id="hud-goldcoin-box" style="cursor:pointer; border-color: rgba(255, 209, 102, 0.6);" title="Tıkla: Karakter Değiştirme Parası (Coin 🪙)">
-                    <span class="icon-goldcoin">🪙</span>
+                <div class="hud-stat goldcoin-stat" id="hud-goldcoin-box" style="cursor:pointer; border-color: rgba(255, 209, 102, 0.6);" title="Tıkla: Karakter Değiştirme Parası (Coin ✪)">
+                    <span class="icon-goldcoin" style="color:#ffd166;">✪</span>
                     <span><span id="hud-goldcoin-label">Coin:</span> <strong id="hud-goldcoins" style="color:#ffd166;">0</strong></span>
                 </div>
                 <div class="hud-stat emerald-stat" id="hud-emerald-box" style="cursor:pointer;" title="Tıkla: Karakter Kişiselleştirme (Antik Zümrüt)">
@@ -106,14 +106,14 @@
                 <div class="map-top-bar">
                     <div class="currencies-group">
                         <button id="btn-map-profile" class="profile-square-btn" title="Profilini Görüntüle ve Düzenle">
-                            <div class="profile-frame-box" id="map-profile-avatar">🥷</div>
+                            <div class="profile-frame-box" id="map-profile-avatar">⚔️</div>
                             <div class="profile-btn-info">
                                 <span class="profile-btn-tag" id="map-profile-tag">OYUNCU PROFİLİ</span>
                                 <span class="profile-btn-name" id="map-profile-name">Gölge Şövalye</span>
                             </div>
                         </button>
-                        <div class="wallet-pill goldcoin-pill" id="map-goldcoin-pill" style="cursor:pointer; border-color: rgba(255, 209, 102, 0.7); background: rgba(255, 209, 102, 0.12);" title="Karakter Değiştirme Parası (Coin 🪙)">
-                            <span class="icon-goldcoin">🪙</span>
+                        <div class="wallet-pill goldcoin-pill" id="map-goldcoin-pill" style="cursor:pointer; border-color: rgba(255, 209, 102, 0.7); background: rgba(255, 209, 102, 0.12);" title="Karakter Değiştirme Parası (Coin ✪)">
+                            <span class="icon-goldcoin" style="color:#ffd166;">✪</span>
                             <span><span id="map-goldcoin-label">Coin:</span> <strong id="map-wallet-goldcoins" style="color:#ffd166;">0</strong></span>
                         </div>
                         <div class="wallet-pill emerald-pill" title="Karakter Kişiselleştirme Parası">
@@ -134,11 +134,11 @@
 
                     <div class="title-header">
                         <span class="badge-tag" id="map-season-badge">40 BÖLÜM TAM SÜRÜM</span>
-                        <h1 id="map-game-title">2100 Mario</h1>
+                        <h1 id="map-game-title">Marinext 2100</h1>
                     </div>
 
                     <div class="top-buttons-group">
-                        <button id="btn-open-character" class="customize-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047; color: #fff;">👤 KARAKTER DEĞİŞTİR (🪙)</button>
+                        <button id="btn-open-character" class="customize-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047; color: #fff;">👤 KARAKTER DEĞİŞTİR (✪)</button>
                         <button id="btn-open-customize" class="customize-btn">🎨 KARAKTERİ KİŞİSELLEŞTİR</button>
                         <button id="btn-open-shop" class="shop-btn">🛒 GÜÇLENDİRME MAĞAZASI</button>
                         <button id="btn-map-troll" class="troll-round-btn" title="Trol Modu (15 Bölüm) - Sinirlenen Adam (😡)">
@@ -174,9 +174,9 @@
 
                 <div class="map-actions">
                     <button id="btn-play-level" class="primary-btn">BÖLÜME BAŞLA ▶</button>
-                    <button id="btn-character-main" class="customize-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047; color: #fff;">👤 KARAKTER DEĞİŞTİR (🪙 COİN)</button>
+                    <button id="btn-character-main" class="customize-btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); border-color: #fde047; color: #fff;">👤 KARAKTER DEĞİŞTİR (✪ COİN)</button>
                     <button id="btn-customize-main" class="customize-btn">🎨 KARAKTERİ KİŞİSELLEŞTİR (❖)</button>
-                    <button id="btn-unlock-all" class="secondary-btn" title="Test için 40 bölümü, +500 Coin, +50 Antik Zümrüt ve +500 Kristali aç">🔓 40 Bölüm + 500🪙 Coin + 50❖ Zümrüt Aç (Test)</button>
+                    <button id="btn-unlock-all" class="secondary-btn" title="Test için 40 bölümü, +500 Coin, +50 Antik Zümrüt ve +500 Kristali aç">🔓 40 Bölüm + 500✪ Coin + 50❖ Zümrüt Aç (Test)</button>
                 </div>
 
                 <div class="controls-hint">
@@ -185,21 +185,21 @@
             </div>
         </div>
 
-        <!-- Character Change & Realistic Outfit + Face Studio Modal (Uses Gold Coins 🪙) -->
+        <!-- Character Change & Realistic Outfit + Face Studio Modal (Uses Gold Coins ✪) -->
         <div id="screen-character" class="overlay-screen hidden">
             <div class="customize-container" style="position: relative; border-color: rgba(255, 209, 102, 0.55); box-shadow: 0 0 40px rgba(245, 158, 11, 0.25);">
                 <button id="btn-close-character-x" class="modal-close-x" title="Kapat (ESC)">✕</button>
                 <div class="shop-header" style="padding-right: 48px;">
                     <div>
                         <h2 id="char-modal-title" style="color: #ffd166;">👤 KARAKTER DEĞİŞTİRME & GERÇEKÇİ KIYAFET / YÜZ STÜDYOSU</h2>
-                        <p class="shop-sub" id="char-modal-sub">Bölümlerde topladığın <strong>Coin (🪙)</strong> ile gerçekçi tarihi ve modern kıyafetleri aç! Kıyafeti giydirince karakterin <strong>yüz tipi, bıyığı/sakalı ve duruşu</strong> da gerçekle birebir değişir!</p>
+                        <p class="shop-sub" id="char-modal-sub">Bölümlerde topladığın <strong>Coin (✪)</strong> ile gerçekçi tarihi ve modern kıyafetleri aç! Kıyafeti giydirince karakterin <strong>yüz tipi, bıyığı/sakalı ve duruşu</strong> da gerçekle birebir değişir!</p>
                     </div>
                     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                         <button id="btn-ad-chest-char" class="customize-btn" style="background: linear-gradient(135deg, #10b981, #059669); border-color: #6ee7b7; color: #fff; padding: 8px 14px; font-size: 13px;">
-                            🎬 Reklam İzle (+50 🪙 Coin)
+                            🎬 Reklam İzle (+50 ✪ Coin)
                         </button>
                         <div class="wallet-pill" style="border-color: rgba(255, 209, 102, 0.85); background: rgba(255, 209, 102, 0.16);">
-                            <span class="icon-goldcoin">🪙</span>
+                            <span class="icon-goldcoin" style="color:#ffd166;">✪</span>
                             <span>Coin: <strong id="char-wallet-goldcoins" style="color: #ffd166;">0</strong></span>
                         </div>
                     </div>
@@ -240,7 +240,7 @@
                     </div>
                     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                         <button id="btn-ad-chest-cust" class="customize-btn" style="background: linear-gradient(135deg, #10b981, #059669); border-color: #6ee7b7; color: #fff; padding: 8px 14px; font-size: 13px;">
-                            🎬 Reklam İzle (+10 ❖ Zümrüt & +50 🪙 Coin)
+                            🎬 Reklam İzle (+10 ❖ Zümrüt & +50 ✪ Coin)
                         </button>
                         <div class="wallet-pill emerald-pill">
                             <span class="icon-emerald">❖</span>
@@ -262,7 +262,7 @@
                     <!-- Right: Customization Categories & Options -->
                     <div class="customize-options-panel">
                         <div class="cust-tabs">
-                            <button class="cust-tab active" data-tab="helmet">🪖 Miğfer (12)</button>
+                            <button class="cust-tab active" data-tab="helmet">👑 Miğfer (12)</button>
                             <button class="cust-tab" data-tab="backGear">⚔️ Silah & Kanat (12)</button>
                             <button class="cust-tab" data-tab="skin">🛡 Zırh (12)</button>
                             <button class="cust-tab" data-tab="visor">👁 Göz & Vizör (10)</button>
@@ -320,7 +320,7 @@
                         🎬 REKLAM İZLE & KALDIĞIN YERDEN CANLAN (3 ♥ + 🛡)
                     </button>
                     <button id="btn-ad-double" class="primary-btn hidden" style="background: linear-gradient(135deg, #f59e0b, #d97706); border: 2px solid #fde047; box-shadow: 0 0 22px rgba(245, 158, 11, 0.55);">
-                        🎬 REKLAM İZLE & BÖLÜM ÖDÜLLERİNİ 2'YE KATLA (2x 🪙❖◆)
+                        🎬 REKLAM İZLE & BÖLÜM ÖDÜLLERİNİ 2'YE KATLA (2x ✪❖◆)
                     </button>
                     <button id="btn-resume" class="primary-btn">DEVAM ET</button>
                     <button id="btn-next-level" class="primary-btn hidden">SONRAKİ BÖLÜM ▶</button>
@@ -331,25 +331,25 @@
             </div>
         </div>
 
-        <!-- Google AdMob Smart Rewarded / Interstitial Overlay -->
+        <!-- Web Preview Bonus Overlay (Never shown on Native Android where real Google AdMob SDK runs) -->
         <div id="screen-ad-overlay" class="overlay-screen hidden" style="z-index: 9999; background: rgba(4, 6, 16, 0.96);">
             <div class="modal-card" style="max-width: 540px; border: 2px solid #ffd166; box-shadow: 0 0 45px rgba(255, 209, 102, 0.35); text-align: center;">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
                     <span style="background: rgba(255, 209, 102, 0.2); border: 1px solid #ffd166; color: #ffd166; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800;">
-                        📺 GOOGLE ADMOB • <span id="ad-overlay-badge">ÖDÜLLÜ REKLAM</span>
+                        🎁 OYUN İÇİ BONUS • <span id="ad-overlay-badge">ÖDÜLLÜ VİDEO</span>
                     </span>
                     <span id="ad-overlay-timer" style="color: #06d6a0; font-weight: 800; font-size: 14px;">⏳ 5 sn</span>
                 </div>
                 <div style="background: linear-gradient(135deg, #0f172a, #1e1b4b); border: 1px solid rgba(0, 242, 254, 0.35); border-radius: 14px; padding: 28px 18px; margin-bottom: 14px;">
                     <div style="font-size: 46px; margin-bottom: 8px;" id="ad-overlay-icon">🎁</div>
-                    <h3 id="ad-overlay-title" style="color: #ffffff; font-size: 20px; margin-bottom: 6px;">Google AdMob Ödüllü Video Reklam</h3>
-                    <p id="ad-overlay-desc" style="color: #cbd5e1; font-size: 14px; margin-bottom: 14px;">Reklam tamamlandığında ödülün anında hesabına eklenecek!</p>
+                    <h3 id="ad-overlay-title" style="color: #ffffff; font-size: 20px; margin-bottom: 6px;">Ödüllü Bonus Video</h3>
+                    <p id="ad-overlay-desc" style="color: #cbd5e1; font-size: 14px; margin-bottom: 14px;">Süre tamamlandığında ödülün anında hesabına eklenecek!</p>
                     <div style="width: 100%; height: 10px; background: rgba(255,255,255,0.12); border-radius: 999px; overflow: hidden;">
                         <div id="ad-overlay-bar" style="width: 0%; height: 100%; background: linear-gradient(90deg, #06d6a0, #00f2fe, #ffd166); transition: width 0.25s linear;"></div>
                     </div>
                 </div>
                 <button id="btn-ad-claim" class="primary-btn" disabled style="width: 100%; opacity: 0.6;">
-                    ⏳ Reklam Oynatılıyor... (5)
+                    ⏳ Hazırlanıyor... (5)
                 </button>
             </div>
         </div>
@@ -415,7 +415,7 @@
 
                 <!-- 1. İlk Profil Fotoğrafı -->
                 <div class="profile-top-avatar-wrap">
-                    <div class="profile-hero-square" id="profile-hero-avatar">🥷</div>
+                    <div class="profile-hero-square" id="profile-hero-avatar">⚔️</div>
                     <span class="profile-avatar-title-badge" id="profile-hero-title">Siber Şövalye</span>
                 </div>
 

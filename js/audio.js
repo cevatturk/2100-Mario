@@ -7,6 +7,7 @@ class SoundManager {
         this.bgmInterval = null;
         this.bgmStep = 0;
         this.currentIsBoss = false;
+        this.adPlaying = false;
 
         try {
             const saved = JSON.parse(localStorage.getItem("shadow_jumper_audio_v1") || "{}");
@@ -14,6 +15,39 @@ class SoundManager {
             this.musicMuted = Boolean(saved.musicMuted);
         } catch (e) {
             // Ignore storage errors
+        }
+
+        // Google Play Policy Compliance: Automatically suspend all audio when screen locks or app goes to background
+        const handleBackground = () => {
+            if (document.hidden) {
+                this.suspendAudio();
+            } else if (!this.adPlaying) {
+                this.resumeAudio();
+            }
+        };
+        document.addEventListener("visibilitychange", handleBackground);
+        window.addEventListener("pagehide", () => this.suspendAudio());
+        window.addEventListener("blur", () => this.suspendAudio());
+        window.addEventListener("focus", () => {
+            if (!document.hidden && !this.adPlaying) {
+                this.resumeAudio();
+            }
+        });
+    }
+
+    suspendAudio() {
+        if (this.ctx && this.ctx.state === "running") {
+            try {
+                this.ctx.suspend();
+            } catch (e) {}
+        }
+    }
+
+    resumeAudio() {
+        if (this.ctx && this.ctx.state === "suspended" && !document.hidden && !this.adPlaying) {
+            try {
+                this.ctx.resume();
+            } catch (e) {}
         }
     }
 
@@ -73,8 +107,9 @@ class SoundManager {
     }
 
     playRawTone(freq, type, duration, vol = 0.15, slideTo = null) {
+        if (document.hidden || this.adPlaying) return;
         this.init();
-        if (!this.ctx) return;
+        if (!this.ctx || this.ctx.state !== 'running') return;
 
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
