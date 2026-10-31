@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import androidx.core.content.FileProvider;
@@ -105,6 +106,12 @@ public class MainActivity extends BridgeActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        enableImmersiveFullscreen();
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if (hasFocus) {
@@ -116,7 +123,11 @@ public class MainActivity extends BridgeActivity {
         try {
             Window window = getWindow();
             if (window == null) return;
+            window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             View decorView = window.getDecorView();
+            if (decorView != null) {
+                decorView.setKeepScreenOn(true);
+            }
             WindowCompat.setDecorFitsSystemWindows(window, false);
             WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(window, decorView);
             if (controller != null) {

@@ -1817,36 +1817,38 @@ html, body {
         font-size: 17px !important;
     }
     .world-tabs-bar {
-        padding: 2px 1px;
-        gap: 4px;
+        padding: 3px 2px;
+        gap: 6px;
         flex-shrink: 0;
     }
     .world-tab-btn {
-        padding: 3px 9px;
-        font-size: 10px;
+        padding: 5px 12px;
+        font-size: 11.5px;
     }
     .world-map-grid {
         flex: 1 1 auto;
-        min-height: 58px;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        min-height: 76px;
         max-height: none;
-        padding: 5px 7px;
-        gap: 4px;
+        padding: 6px 8px;
+        gap: 6px;
         overflow-y: auto;
     }
     .map-node {
-        padding: 3px 2px;
-        gap: 1px;
+        padding: 5px 4px;
+        gap: 2px;
     }
     .node-circle {
-        width: 20px;
-        height: 20px;
-        font-size: 10px;
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
     }
     .node-label {
-        font-size: 8px;
+        font-size: 11px;
+        font-weight: 800;
     }
     .node-stars {
-        font-size: 8px;
+        font-size: 10.5px;
     }
     /* Docked Bottom Bar: Level Info on Left + Action Buttons on Right so Play Button is NEVER hidden! */
     .map-bottom-dock {
@@ -1854,11 +1856,11 @@ html, body {
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        gap: 8px;
-        background: rgba(8, 11, 26, 0.94);
-        border: 1.5px solid rgba(0, 242, 254, 0.38);
+        gap: 10px;
+        background: rgba(8, 11, 26, 0.96);
+        border: 1.5px solid rgba(0, 242, 254, 0.45);
         border-radius: 12px;
-        padding: 5px 10px;
+        padding: 6px 12px;
         flex-shrink: 0;
     }
     .level-preview-card {
@@ -1871,21 +1873,23 @@ html, body {
     }
     .preview-header {
         justify-content: flex-start;
-        gap: 6px;
-        margin-bottom: 1px;
+        gap: 7px;
+        margin-bottom: 2px;
     }
     .world-tag {
-        font-size: 9px;
-        padding: 1px 6px;
+        font-size: 10px;
+        padding: 2px 8px;
     }
     .level-preview-card h3 {
-        font-size: 12.5px;
+        font-size: 14.5px;
+        font-weight: 900;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
     .level-preview-card p {
-        font-size: 10px;
+        font-size: 11.5px;
+        color: #cbd5e1;
         margin-bottom: 0;
         white-space: nowrap;
         overflow: hidden;
@@ -1902,93 +1906,91 @@ html, body {
         flex-wrap: nowrap;
     }
     #btn-play-level {
-        padding: 8px 16px;
-        font-size: 12.5px;
+        padding: 9px 18px;
+        font-size: 13.5px;
         font-weight: 900;
-        box-shadow: 0 0 18px rgba(0, 242, 254, 0.65);
         white-space: nowrap;
     }
     #btn-character-main,
-    #btn-customize-main {
-        padding: 7px 10px;
-        font-size: 10.5px;
+    #btn-customize-main,
+    #btn-open-shop {
+        padding: 7px 11px;
+        font-size: 11px;
         white-space: nowrap;
     }
 
-    /* Profile Modal Compact Fit on Phone Landscape */
+    /* Spacious Profile Modal on Phone Landscape (Since 30 Avatars are now in a Dedicated Popup) */
     .profile-modal-card {
-        max-height: calc(100vh - 8px);
-        max-height: calc(100dvh - 8px);
-        padding: 7px 12px;
-        gap: 4px;
+        max-height: calc(100vh - 10px);
+        max-height: calc(100dvh - 10px);
+        padding: 12px 16px;
+        gap: 8px;
     }
     .profile-compact-top-row {
-        gap: 8px;
-        padding-right: 38px;
+        gap: 10px;
+        padding-right: 40px;
     }
     .profile-hero-square {
-        width: 38px;
-        height: 38px;
-        font-size: 20px;
-        border-radius: 9px;
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+        border-radius: 10px;
     }
     .profile-avatar-title-badge {
-        font-size: 9.5px;
-        padding: 2px 7px;
+        font-size: 11px;
+        padding: 2px 8px;
     }
     .profile-name-label {
-        font-size: 8.5px;
+        font-size: 10px;
     }
     .profile-name-input {
-        padding: 4px 10px;
-        font-size: 12px;
+        padding: 6px 12px;
+        font-size: 13.5px;
     }
     .profile-save-top-btn {
-        padding: 6px 12px !important;
-        font-size: 11px !important;
-    }
-    .profile-cloud-desc {
-        display: none;
+        padding: 8px 14px !important;
+        font-size: 12px !important;
     }
     .profile-attributes-box,
     .profile-picker-box {
-        padding: 5px 8px;
-        border-radius: 9px;
+        padding: 8px 12px;
+        border-radius: 10px;
     }
     .profile-section-title {
-        font-size: 9.5px;
-        margin-bottom: 3px;
+        font-size: 11px;
+        margin-bottom: 5px;
     }
     .profile-stats-grid {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-        gap: 4px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
     }
     .profile-stat-item {
-        padding: 3px 5px;
-        gap: 1px;
+        padding: 6px 8px;
+        gap: 2px;
     }
     .profile-stat-item span {
-        font-size: 8px;
+        font-size: 9.5px;
     }
     .profile-stat-item strong {
-        font-size: 10px;
+        font-size: 11.5px;
     }
     .profile-avatars-grid {
-        gap: 3px;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 6px;
     }
     .avatar-option-card {
-        height: 35px;
-        padding: 2px 1px;
-        border-radius: 6px;
+        height: 46px;
+        padding: 3px 2px;
+        border-radius: 8px;
     }
     .avatar-option-icon {
-        font-size: 15px;
-        width: 18px;
-        height: 18px;
+        font-size: 19px;
+        width: 22px;
+        height: 22px;
     }
     .avatar-option-label {
-        font-size: 6.8px;
-        margin-top: 1px;
+        font-size: 8.5px;
+        margin-top: 2px;
     }
 
     #screen-modal {
@@ -2234,4 +2236,182 @@ html, body {
     .lb-podium-card {
         padding: 5px 8px;
     }
+}
+
+/* =========================================================================
+   🚀 ASPECT-RATIO-SAFE STARTUP SPLASH SCREEN & GUIDING PLAY BUTTON PULSE
+   ========================================================================= */
+.splash-intro-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    max-width: 520px;
+    width: 92%;
+    padding: 20px 24px;
+    border-radius: 24px;
+    background: rgba(10, 14, 34, 0.88);
+    border: 2px solid rgba(0, 242, 254, 0.45);
+    box-shadow: 0 0 60px rgba(0, 242, 254, 0.25), inset 0 0 30px rgba(181, 55, 242, 0.15);
+}
+
+.splash-emblem-frame {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 2px;
+}
+
+.splash-emblem-img {
+    width: 108px;
+    height: 108px;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    border-radius: 22px;
+    border: 2.5px solid #ffd166;
+    box-shadow: 0 0 28px rgba(255, 209, 102, 0.5);
+    flex-shrink: 0;
+}
+
+.splash-hero-canvas {
+    width: 150px;
+    height: 116px;
+    aspect-ratio: 150 / 116;
+    object-fit: contain;
+    border-radius: 16px;
+    background: radial-gradient(circle at center, rgba(0, 242, 254, 0.16), rgba(6, 8, 22, 0.9));
+    border: 1.5px solid rgba(6, 214, 160, 0.45);
+    flex-shrink: 0;
+}
+
+.splash-badge-pill {
+    font-size: 10.5px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(6, 214, 160, 0.18);
+    border: 1px solid #06d6a0;
+    color: #06d6a0;
+}
+
+.splash-main-title {
+    font-size: clamp(24px, 4vw, 34px);
+    font-weight: 900;
+    letter-spacing: 2.5px;
+    background: linear-gradient(90deg, #00f2fe, #ffd166, #ff2a85);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+
+.splash-sub-text {
+    font-size: 12.5px;
+    color: #cbd5e1;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+.splash-progress-track {
+    width: 100%;
+    max-width: 340px;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 242, 254, 0.4);
+    overflow: hidden;
+}
+
+.splash-progress-fill {
+    width: 15%;
+    height: 100%;
+    background: linear-gradient(90deg, #06d6a0, #00f2fe, #ffd166);
+    box-shadow: 0 0 14px #00f2fe;
+    transition: width 0.25s ease;
+}
+
+.splash-status-label {
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #ffd166;
+}
+
+@media (max-height: 500px) {
+    .splash-intro-card {
+        padding: 12px 18px;
+        gap: 5px;
+    }
+    .splash-emblem-img {
+        width: 82px;
+        height: 82px;
+    }
+    .splash-hero-canvas {
+        width: 120px;
+        height: 92px;
+    }
+}
+
+@keyframes guidingPlayPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 18px rgba(0, 242, 254, 0.65), 0 0 0 0 rgba(255, 209, 102, 0.75);
+        border-color: #ffd166;
+    }
+    50% {
+        transform: scale(1.06);
+        box-shadow: 0 0 32px rgba(6, 214, 160, 0.95), 0 0 0 7px rgba(255, 209, 102, 0);
+        border-color: #06d6a0;
+    }
+}
+
+.play-btn-guiding {
+    border: 2.5px solid #ffd166 !important;
+    background: linear-gradient(90deg, #06d6a0, #00b4d8, #b537f2) !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.65);
+    animation: guidingPlayPulse 1.25s infinite ease-in-out;
+}
+
+.char-status-badge {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 0.4px;
+}
+
+.char-status-badge.badge-equipped {
+    background: rgba(255, 209, 102, 0.22);
+    border: 1px solid #ffd166;
+    color: #ffd166;
+}
+
+.char-status-badge.badge-owned {
+    background: rgba(6, 214, 160, 0.2);
+    border: 1px solid #06d6a0;
+    color: #06d6a0;
+}
+
+.char-status-badge.badge-locked {
+    background: rgba(255, 42, 133, 0.16);
+    border: 1px solid rgba(255, 42, 133, 0.55);
+    color: #ff85a1;
+}
+
+.item-perk-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+    padding: 3px 8px;
+    border-radius: 7px;
+    background: rgba(0, 242, 254, 0.13);
+    border: 1px solid rgba(0, 242, 254, 0.4);
+    color: #00f2fe;
+    font-size: 10.5px;
+    font-weight: 800;
 }

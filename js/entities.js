@@ -1135,13 +1135,21 @@ class Player {
         this.vy = 0;
         this.facing = 1;
 
-        this.maxHp = 3;
-        this.hp = 3;
+        this.maxHp = 3 + (upgrades.extraHearts || 0);
+        this.hp = this.maxHp;
         this.hasShield = !!upgrades.startShield;
         this.hasFire = !!upgrades.startFire;
         this.maxJumps = 2 + (upgrades.extraJumps || 0);
-        this.speedMult = upgrades.speedBonus ? 1.15 : 1.0;
+        this.speedMult = 1.0 + (upgrades.speedBonus || 0);
+        this.airControlBonus = upgrades.airControlBonus || 0;
+        this.jumpMult = 1.0 + (upgrades.jumpBonus || 0);
+        this.hasGlide = Boolean(upgrades.hasGlide);
+        this.invulnBonus = upgrades.invulnBonus || 0;
+        this.fireCooldownMax = Math.max(8, 18 - (upgrades.fireRateBonus || 0));
         this.hasMagnet = !!upgrades.hasMagnet;
+        this.magnetRadius = 155 + (upgrades.magnetRadiusBonus || 0);
+        this.scoreMult = 1.0 + (upgrades.scoreBonus || 0);
+        this.coinBonusChance = upgrades.coinBonusChance || 0;
 
         this.skinId = upgrades.skinId || "cyan";
         this.helmetId = upgrades.helmetId || "crest";
@@ -1193,14 +1201,14 @@ class Player {
 
         if (this.hasShield) {
             this.hasShield = false;
-            this.invulnTimer = 75;
+            this.invulnTimer = 75 + (this.invulnBonus || 0);
             game.spawnParticles(this.x + this.w / 2, this.y + this.h / 2, 20, "#00f2fe", 4);
             game.floatingTexts.push(new FloatingText(this.x + 16, this.y - 10, "Kalkan Kırıldı!", "#00f2fe"));
             return;
         }
 
         this.hp--;
-        this.invulnTimer = 75;
+        this.invulnTimer = 75 + (this.invulnBonus || 0);
         game.spawnParticles(this.x + this.w / 2, this.y + this.h / 2, 20, "#ff2a85", 4);
 
         if (this.hp <= 0) {
@@ -1257,7 +1265,8 @@ class Player {
         const isBoost = this.onGround && this.currentSurface === 'boost';
         const surfSpeedFactor = isBoost ? 1.48 : (isIce ? 1.18 : 1.0);
         const maxSpeed = (this.speedTimer > 0 ? 7.0 : 5.2) * this.speedMult * surfSpeedFactor;
-        const accel = (this.onGround ? (isIce ? 0.38 : (isBoost ? 1.35 : 0.95)) : 0.75) * this.speedMult;
+        const airAccelBase = 0.75 + (this.airControlBonus || 0);
+        const accel = (this.onGround ? (isIce ? 0.38 : (isBoost ? 1.35 : 0.95)) : airAccelBase) * this.speedMult;
         const friction = this.onGround ? (isIce ? 0.965 : 0.78) : 0.86;
 
         if (input.left) {
@@ -1280,7 +1289,7 @@ class Player {
             input.jumpPressed = false;
         }
 
-        const jumpForce = this.inLowGravity ? -12.8 : -14.2;
+        const jumpForce = (this.inLowGravity ? -12.8 : -14.2) * (this.jumpMult || 1.0);
         const activeWallDir = this.onWall !== 0 ? this.onWall : (this.wallCoyoteTimer > 0 ? this.lastWallDir : 0);
 
         if (this.jumpBuffer > 0) {
@@ -1328,20 +1337,23 @@ class Player {
             if (this.hasFire && this.fireCooldown <= 0) {
                 const spawnX = this.facing === 1 ? this.x + this.w + 6 : this.x - 6;
                 game.fireballs.push(new Fireball(spawnX, this.y + this.h * 0.45, this.facing, false));
-                this.fireCooldown = 18;
+                this.fireCooldown = this.fireCooldownMax || 18;
                 window.sfx.fireball();
             }
         }
 
         let grav;
-        if (this.inLowGravity) {
+        const isGlidingNow = Boolean(this.hasGlide && input.jumpHeld && this.vy > 0 && !this.onGround && this.onWall === 0);
+        if (isGlidingNow) {
+            grav = 0.28;
+        } else if (this.inLowGravity) {
             grav = this.vy < 0 ? 0.42 : 0.58;
         } else if ((this.springBoostTimer || 0) > 0 && this.vy < 0) {
             grav = 0.46;
         } else {
             grav = this.vy < 0 ? 0.66 : 0.96;
         }
-        const maxFall = (this.onWall !== 0 && this.vy > 0) ? 2.8 : (this.inLowGravity ? 8.5 : 13.8);
+        const maxFall = (this.onWall !== 0 && this.vy > 0) ? 2.8 : (isGlidingNow ? 4.2 : (this.inLowGravity ? 8.5 : 13.8));
         this.vy = Math.min(this.vy + grav, maxFall);
 
         this.x += this.vx;
@@ -1542,173 +1554,58 @@ class Player {
         const airTuck = !this.onGround ? -5 : 0;
         const bodyBob = isMoving && this.onGround ? Math.abs(Math.cos(this.animTime)) * -3 : 0;
 
+        const chosenCape = this.capeColor === "rainbow"
+            ? `hsl(${(rainbowHue + 90) % 360}, 100%, 60%)`
+            : (this.capeColor || palette.scarf);
+        const scarfColor = this.hasFire ? "#ff5400" : (this.speedTimer > 0 ? "#06d6a0" : chosenCape);
+        const eyeColor = palette.isRainbow ? rainbowColor : palette.eye;
+
         if (this.heroCharId && this.heroCharId !== "default") {
+            // 1. Custom Cape & Custom Back Weapons/Wings rendered behind the active Hero Character!
+            if ((this.capeColor && this.capeColor !== "#ff2a85") || this.forceCustOverlay) {
+                this.drawCustomCapeLayer(ctx, bodyBob, scarfColor);
+            }
+            if ((this.backGearId && this.backGearId !== "katana") || this.forceCustOverlay) {
+                this.drawCustomBackGearLayer(ctx, bodyBob, primary, scarfColor);
+            }
+
+            // 2. Base Hero Character (Historical / Modern Outfit & Face)
             this.drawHeroCharacter(ctx, bodyBob, runSwing, airTuck);
+
+            // 3. Custom Armor Palette Trim & Chest Core Glow on Hero Character
+            if ((this.skinId && this.skinId !== "cyan") || this.forceCustOverlay) {
+                ctx.save();
+                ctx.strokeStyle = primary;
+                ctx.fillStyle = primary;
+                ctx.shadowColor = primary;
+                ctx.shadowBlur = 8;
+                ctx.lineWidth = 1.8;
+                ctx.strokeRect(-8.5, -34 + bodyBob, 17, 17);
+                ctx.beginPath();
+                ctx.arc(1.5, -26.5 + bodyBob, 3.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+
+            // 4. Custom Helmet / Crown / Horns / Halo on Hero Character
+            if (this.helmetId && this.helmetId !== "crest") {
+                this.drawCustomHelmetLayer(ctx, bodyBob - 5, primary, palette);
+            }
+
+            // 5. Custom Visor / Eye Effects on Hero Character
+            if (this.visorId && this.visorId !== "slit") {
+                this.drawCustomVisorLayer(ctx, bodyBob - 4.5, eyeColor);
+            }
+
             ctx.restore();
             return;
         }
 
         // 1. Flowing Multi-Segment Ninja Scarf / Cape
-        const chosenCape = this.capeColor === "rainbow"
-            ? `hsl(${(rainbowHue + 90) % 360}, 100%, 60%)`
-            : (this.capeColor || palette.scarf);
-        const scarfColor = this.hasFire ? "#ff5400" : (this.speedTimer > 0 ? "#06d6a0" : chosenCape);
-        ctx.fillStyle = scarfColor;
-        const wave1 = Math.sin(this.animTime * 0.9) * 5;
-        const wave2 = Math.cos(this.animTime * 0.9) * 7;
-        ctx.beginPath();
-        ctx.moveTo(-6, -34 + bodyBob);
-        ctx.quadraticCurveTo(-20, -32 + wave1, -28, -22 + wave2);
-        ctx.quadraticCurveTo(-18, -16 + wave2, -5, -24 + bodyBob);
-        ctx.closePath();
-        ctx.fill();
+        this.drawCustomCapeLayer(ctx, bodyBob, scarfColor);
 
-        // ==========================================
-        // 2. CUSTOM BACK WEAPONS & WINGS (12 Types!)
-        // ==========================================
-        ctx.save();
-        ctx.strokeStyle = primary;
-        ctx.fillStyle = primary;
-
-        if (this.backGearId === "dual_blades") {
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(-14, -44 + bodyBob);
-            ctx.lineTo(10, -14 + bodyBob);
-            ctx.moveTo(-14, -14 + bodyBob);
-            ctx.lineTo(10, -44 + bodyBob);
-            ctx.stroke();
-        } else if (this.backGearId === "axe") {
-            ctx.lineWidth = 3.5;
-            ctx.beginPath();
-            ctx.moveTo(-12, -45 + bodyBob);
-            ctx.lineTo(8, -15 + bodyBob);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.arc(-10, -41 + bodyBob, 9, 0.5, Math.PI * 1.4);
-            ctx.fill();
-        } else if (this.backGearId === "wings") {
-            const flap = Math.sin(this.animTime * 0.8) * 6;
-            ctx.fillStyle = scarfColor;
-            ctx.strokeStyle = primary;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(-4, -30 + bodyBob);
-            ctx.lineTo(-28, -48 + flap + bodyBob);
-            ctx.lineTo(-22, -24 + flap * 0.5 + bodyBob);
-            ctx.closePath();
-            ctx.fill();
-            ctx.stroke();
-        } else if (this.backGearId === "dragon_wings") {
-            const flap = Math.sin(this.animTime * 0.8) * 7;
-            ctx.fillStyle = "#3c096c";
-            ctx.strokeStyle = "#ff2a85";
-            ctx.lineWidth = 2.2;
-            ctx.beginPath();
-            ctx.moveTo(-4, -32 + bodyBob);
-            ctx.lineTo(-32, -54 + flap + bodyBob);
-            ctx.lineTo(-26, -36 + flap + bodyBob);
-            ctx.lineTo(-30, -24 + flap + bodyBob);
-            ctx.lineTo(-14, -22 + bodyBob);
-            ctx.closePath();
-            ctx.fill();
-            ctx.stroke();
-        } else if (this.backGearId === "angel_wings") {
-            const flap = Math.sin(this.animTime * 0.7) * 6;
-            ctx.fillStyle = "#ffffff";
-            ctx.strokeStyle = "#ffd166";
-            ctx.shadowColor = "#ffd166";
-            ctx.lineWidth = 2;
-            for (let i = 0; i < 3; i++) {
-                ctx.beginPath();
-                ctx.ellipse(-18 - i * 3, -38 + i * 6 + flap + bodyBob, 12 - i * 2, 4, -0.35, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.stroke();
-            }
-        } else if (this.backGearId === "scythe") {
-            // Grim Reaper Giant Scythe
-            ctx.strokeStyle = "#adb5bd";
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(-12, -52 + bodyBob);
-            ctx.lineTo(10, -10 + bodyBob);
-            ctx.stroke();
-            ctx.fillStyle = "#ff2a85";
-            ctx.shadowColor = "#ff2a85";
-            ctx.beginPath();
-            ctx.moveTo(-12, -52 + bodyBob);
-            ctx.quadraticCurveTo(-34, -56 + bodyBob, -28, -36 + bodyBob);
-            ctx.quadraticCurveTo(-20, -45 + bodyBob, -10, -47 + bodyBob);
-            ctx.closePath();
-            ctx.fill();
-        } else if (this.backGearId === "greatsword") {
-            // Colossal Buster Greatsword
-            ctx.fillStyle = "#2b2d42";
-            ctx.strokeStyle = primary;
-            ctx.lineWidth = 2.2;
-            ctx.save();
-            ctx.translate(-4, -28 + bodyBob);
-            ctx.rotate(-0.65);
-            ctx.fillRect(-5, -22, 10, 38);
-            ctx.strokeRect(-5, -22, 10, 38);
-            ctx.restore();
-        } else if (this.backGearId === "jetpack") {
-            // Twin Thruster Jetpack + Flame Plume
-            ctx.fillStyle = "#2b2d42";
-            ctx.strokeStyle = primary;
-            ctx.lineWidth = 2;
-            ctx.fillRect(-15, -36 + bodyBob, 8, 18);
-            ctx.strokeRect(-15, -36 + bodyBob, 8, 18);
-            ctx.fillStyle = "#ff6d00";
-            ctx.shadowColor = "#ff6d00";
-            ctx.beginPath();
-            ctx.moveTo(-14, -18 + bodyBob);
-            ctx.lineTo(-11, -6 + Math.sin(this.animTime * 3) * 4 + bodyBob);
-            ctx.lineTo(-8, -18 + bodyBob);
-            ctx.fill();
-        } else if (this.backGearId === "spider_legs") {
-            // 4 Mechanical Cyber-Spider Legs
-            ctx.strokeStyle = primary;
-            ctx.lineWidth = 2.5;
-            const wv = Math.sin(this.animTime) * 4;
-            for (let side of [-1, 1]) {
-                ctx.beginPath();
-                ctx.moveTo(-6, -28 + bodyBob);
-                ctx.lineTo(-22, -38 + side * 8 + wv + bodyBob);
-                ctx.lineTo(-30, -20 + side * 12 + bodyBob);
-                ctx.stroke();
-            }
-        } else if (this.backGearId === "bow") {
-            // Glowing Energy Bow
-            ctx.strokeStyle = "#06d6a0";
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.arc(-8, -28 + bodyBob, 16, 1.8, 4.6);
-            ctx.stroke();
-        } else if (this.backGearId === "shuriken") {
-            // Giant Spinning Fuma Shuriken on Back
-            ctx.save();
-            ctx.translate(-8, -30 + bodyBob);
-            ctx.rotate(this.animTime * 0.5);
-            ctx.fillStyle = primary;
-            for (let i = 0; i < 4; i++) {
-                ctx.rotate(Math.PI / 2);
-                ctx.beginPath();
-                ctx.moveTo(0, -3);
-                ctx.lineTo(16, 0);
-                ctx.lineTo(0, 3);
-                ctx.fill();
-            }
-            ctx.restore();
-        } else {
-            // Default: Plasma Katana
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(-12, -42 + bodyBob);
-            ctx.lineTo(10, -16 + bodyBob);
-            ctx.stroke();
-        }
-        ctx.restore();
+        // 2. Custom Back Weapons & Wings (12 Types!)
+        this.drawCustomBackGearLayer(ctx, bodyBob, primary, scarfColor);
 
         // 3. Articulated Back Leg & Armored Boot
         ctx.lineCap = "round";
@@ -1769,9 +1666,182 @@ class Player {
         ctx.fill();
         ctx.stroke();
 
-        // ==========================================
-        // 7. CUSTOM HELMETS & HEADGEAR (12 Types!)
-        // ==========================================
+        // 7. Custom Helmets & Headgear (12 Types!)
+        this.drawCustomHelmetLayer(ctx, bodyBob, primary, palette);
+
+        // 8. Custom Visors & Eyes (10 Types!)
+        this.drawCustomVisorLayer(ctx, bodyBob, eyeColor);
+
+        // 9. Articulated Front Arm & Plasma Gauntlet
+        ctx.strokeStyle = palette.armorLight;
+        ctx.lineWidth = 5.5;
+        ctx.beginPath();
+        ctx.moveTo(2, -31 + bodyBob);
+        ctx.lineTo(6 - runSwing * 0.8, -21 + bodyBob);
+        ctx.stroke();
+
+        ctx.fillStyle = this.hasFire ? "#ff7b00" : primary;
+        ctx.beginPath();
+        ctx.arc(7 - runSwing * 0.8, -20 + bodyBob, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+    drawCustomCapeLayer(ctx, bodyBob, scarfColor) {
+        ctx.save();
+        ctx.fillStyle = scarfColor;
+        const wave1 = Math.sin(this.animTime * 0.9) * 5;
+        const wave2 = Math.cos(this.animTime * 0.9) * 7;
+        ctx.beginPath();
+        ctx.moveTo(-6, -34 + bodyBob);
+        ctx.quadraticCurveTo(-20, -32 + wave1, -28, -22 + wave2);
+        ctx.quadraticCurveTo(-18, -16 + wave2, -5, -24 + bodyBob);
+        ctx.closePath();
+        ctx.fill();
+        ctx.restore();
+    }
+
+    drawCustomBackGearLayer(ctx, bodyBob, primary, scarfColor) {
+        ctx.save();
+        ctx.strokeStyle = primary;
+        ctx.fillStyle = primary;
+
+        if (this.backGearId === "dual_blades") {
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(-14, -44 + bodyBob);
+            ctx.lineTo(10, -14 + bodyBob);
+            ctx.moveTo(-14, -14 + bodyBob);
+            ctx.lineTo(10, -44 + bodyBob);
+            ctx.stroke();
+        } else if (this.backGearId === "axe") {
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            ctx.moveTo(-12, -45 + bodyBob);
+            ctx.lineTo(8, -15 + bodyBob);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(-10, -41 + bodyBob, 9, 0.5, Math.PI * 1.4);
+            ctx.fill();
+        } else if (this.backGearId === "wings") {
+            const flap = Math.sin(this.animTime * 0.8) * 6;
+            ctx.fillStyle = scarfColor;
+            ctx.strokeStyle = primary;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-4, -30 + bodyBob);
+            ctx.lineTo(-28, -48 + flap + bodyBob);
+            ctx.lineTo(-22, -24 + flap * 0.5 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        } else if (this.backGearId === "dragon_wings") {
+            const flap = Math.sin(this.animTime * 0.8) * 7;
+            ctx.fillStyle = "#3c096c";
+            ctx.strokeStyle = "#ff2a85";
+            ctx.lineWidth = 2.2;
+            ctx.beginPath();
+            ctx.moveTo(-4, -32 + bodyBob);
+            ctx.lineTo(-32, -54 + flap + bodyBob);
+            ctx.lineTo(-26, -36 + flap + bodyBob);
+            ctx.lineTo(-30, -24 + flap + bodyBob);
+            ctx.lineTo(-14, -22 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        } else if (this.backGearId === "angel_wings") {
+            const flap = Math.sin(this.animTime * 0.7) * 6;
+            ctx.fillStyle = "#ffffff";
+            ctx.strokeStyle = "#ffd166";
+            ctx.shadowColor = "#ffd166";
+            ctx.lineWidth = 2;
+            for (let i = 0; i < 3; i++) {
+                ctx.beginPath();
+                ctx.ellipse(-18 - i * 3, -38 + i * 6 + flap + bodyBob, 12 - i * 2, 4, -0.35, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            }
+        } else if (this.backGearId === "scythe") {
+            ctx.strokeStyle = "#adb5bd";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(-12, -52 + bodyBob);
+            ctx.lineTo(10, -10 + bodyBob);
+            ctx.stroke();
+            ctx.fillStyle = "#ff2a85";
+            ctx.shadowColor = "#ff2a85";
+            ctx.beginPath();
+            ctx.moveTo(-12, -52 + bodyBob);
+            ctx.quadraticCurveTo(-34, -56 + bodyBob, -28, -36 + bodyBob);
+            ctx.quadraticCurveTo(-20, -45 + bodyBob, -10, -47 + bodyBob);
+            ctx.closePath();
+            ctx.fill();
+        } else if (this.backGearId === "greatsword") {
+            ctx.fillStyle = "#2b2d42";
+            ctx.strokeStyle = primary;
+            ctx.lineWidth = 2.2;
+            ctx.save();
+            ctx.translate(-4, -28 + bodyBob);
+            ctx.rotate(-0.65);
+            ctx.fillRect(-5, -22, 10, 38);
+            ctx.strokeRect(-5, -22, 10, 38);
+            ctx.restore();
+        } else if (this.backGearId === "jetpack") {
+            ctx.fillStyle = "#2b2d42";
+            ctx.strokeStyle = primary;
+            ctx.lineWidth = 2;
+            ctx.fillRect(-15, -36 + bodyBob, 8, 18);
+            ctx.strokeRect(-15, -36 + bodyBob, 8, 18);
+            ctx.fillStyle = "#ff6d00";
+            ctx.shadowColor = "#ff6d00";
+            ctx.beginPath();
+            ctx.moveTo(-14, -18 + bodyBob);
+            ctx.lineTo(-11, -6 + Math.sin(this.animTime * 3) * 4 + bodyBob);
+            ctx.lineTo(-8, -18 + bodyBob);
+            ctx.fill();
+        } else if (this.backGearId === "spider_legs") {
+            ctx.strokeStyle = primary;
+            ctx.lineWidth = 2.5;
+            const wv = Math.sin(this.animTime) * 4;
+            for (let side of [-1, 1]) {
+                ctx.beginPath();
+                ctx.moveTo(-6, -28 + bodyBob);
+                ctx.lineTo(-22, -38 + side * 8 + wv + bodyBob);
+                ctx.lineTo(-30, -20 + side * 12 + bodyBob);
+                ctx.stroke();
+            }
+        } else if (this.backGearId === "bow") {
+            ctx.strokeStyle = "#06d6a0";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(-8, -28 + bodyBob, 16, 1.8, 4.6);
+            ctx.stroke();
+        } else if (this.backGearId === "shuriken") {
+            ctx.save();
+            ctx.translate(-8, -30 + bodyBob);
+            ctx.rotate(this.animTime * 0.5);
+            ctx.fillStyle = primary;
+            for (let i = 0; i < 4; i++) {
+                ctx.rotate(Math.PI / 2);
+                ctx.beginPath();
+                ctx.moveTo(0, -3);
+                ctx.lineTo(16, 0);
+                ctx.lineTo(0, 3);
+                ctx.fill();
+            }
+            ctx.restore();
+        } else {
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(-12, -42 + bodyBob);
+            ctx.lineTo(10, -16 + bodyBob);
+            ctx.stroke();
+        }
+        ctx.restore();
+    }
+
+    drawCustomHelmetLayer(ctx, bodyBob, primary, palette) {
         ctx.save();
         if (this.helmetId === "horns") {
             ctx.fillStyle = "#ff2a85";
@@ -1802,7 +1872,6 @@ class Player {
             ctx.ellipse(0, -55 + bodyBob + Math.sin(this.animTime * 0.5) * 2, 11, 3.5, 0, 0, Math.PI * 2);
             ctx.stroke();
         } else if (this.helmetId === "viking") {
-            // Winged Viking Horns
             ctx.fillStyle = "#e0fbfc";
             ctx.strokeStyle = primary;
             ctx.lineWidth = 1.5;
@@ -1816,7 +1885,6 @@ class Player {
             ctx.fill();
             ctx.stroke();
         } else if (this.helmetId === "wolf") {
-            // Cyber Wolf Ears
             ctx.fillStyle = palette.armorLight;
             ctx.strokeStyle = primary;
             ctx.lineWidth = 2;
@@ -1830,7 +1898,6 @@ class Player {
             ctx.fill();
             ctx.stroke();
         } else if (this.helmetId === "ronin") {
-            // Wide Neon Samurai Ronin Straw Hat (Kasa)
             ctx.fillStyle = "#1b1f3b";
             ctx.strokeStyle = primary;
             ctx.lineWidth = 2.5;
@@ -1842,7 +1909,6 @@ class Player {
             ctx.fill();
             ctx.stroke();
         } else if (this.helmetId === "spartan") {
-            // Crimson Spartan Plume Crest
             ctx.fillStyle = "#ef233c";
             ctx.beginPath();
             ctx.arc(0, -46 + bodyBob, 14, Math.PI * 1.1, Math.PI * 1.95);
@@ -1850,7 +1916,6 @@ class Player {
             ctx.closePath();
             ctx.fill();
         } else if (this.helmetId === "wizard") {
-            // Arcane Dark Wizard Pointed Hat
             ctx.fillStyle = "#3c096c";
             ctx.strokeStyle = "#ffd166";
             ctx.lineWidth = 2;
@@ -1864,7 +1929,6 @@ class Player {
             ctx.fill();
             ctx.stroke();
         } else if (this.helmetId === "antennas") {
-            // Gundam / Mecha V-Fin Antennas
             ctx.strokeStyle = "#ffd166";
             ctx.lineWidth = 2.5;
             ctx.beginPath();
@@ -1874,13 +1938,11 @@ class Player {
             ctx.lineTo(14, -59 + bodyBob);
             ctx.stroke();
         } else if (this.helmetId === "skull") {
-            // White Bone Skull Mask Plate
             ctx.fillStyle = "#f8f9fa";
             ctx.beginPath();
             ctx.arc(1, -40 + bodyBob, 8.5, 0, Math.PI * 2);
             ctx.fill();
         } else if (this.helmetId === "flames") {
-            // Blazing Super-Saiyan / Ghost-Rider Fire Hair
             ctx.fillStyle = "#ff6d00";
             const flick = Math.sin(this.animTime * 2) * 3;
             ctx.beginPath();
@@ -1894,7 +1956,6 @@ class Player {
             ctx.closePath();
             ctx.fill();
         } else {
-            // Default: Knight Fin Crest
             ctx.fillStyle = primary;
             ctx.beginPath();
             ctx.moveTo(-4, -49 + bodyBob);
@@ -1904,12 +1965,10 @@ class Player {
             ctx.fill();
         }
         ctx.restore();
+    }
 
-        // ==========================================
-        // 8. CUSTOM VISORS & EYES (10 Types!)
-        // ==========================================
+    drawCustomVisorLayer(ctx, bodyBob, eyeColor) {
         ctx.save();
-        const eyeColor = palette.isRainbow ? rainbowColor : palette.eye;
         ctx.fillStyle = eyeColor;
         ctx.strokeStyle = eyeColor;
 
@@ -1941,7 +2000,6 @@ class Player {
             ctx.arc(5, -40 + bodyBob, 1.5, 0, Math.PI * 2);
             ctx.fill();
         } else if (this.visorId === "shades") {
-            // Cyberpunk Kamina Shades
             ctx.fillStyle = "#00f2fe";
             ctx.beginPath();
             ctx.moveTo(0, -43 + bodyBob);
@@ -1976,7 +2034,6 @@ class Player {
             ctx.arc(4, -40 + bodyBob, 5, 0, Math.PI * 2);
             ctx.fill();
         } else {
-            // Default: Sharp Knight Visor Slit
             ctx.beginPath();
             ctx.moveTo(2, -42 + bodyBob);
             ctx.lineTo(10, -40 + bodyBob);
@@ -1985,21 +2042,6 @@ class Player {
             ctx.closePath();
             ctx.fill();
         }
-        ctx.restore();
-
-        // 9. Articulated Front Arm & Plasma Gauntlet
-        ctx.strokeStyle = palette.armorLight;
-        ctx.lineWidth = 5.5;
-        ctx.beginPath();
-        ctx.moveTo(2, -31 + bodyBob);
-        ctx.lineTo(6 - runSwing * 0.8, -21 + bodyBob);
-        ctx.stroke();
-
-        ctx.fillStyle = this.hasFire ? "#ff7b00" : primary;
-        ctx.beginPath();
-        ctx.arc(7 - runSwing * 0.8, -20 + bodyBob, 4, 0, Math.PI * 2);
-        ctx.fill();
-
         ctx.restore();
     }
 

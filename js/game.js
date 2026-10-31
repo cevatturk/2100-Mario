@@ -20,6 +20,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "⚔️",
         title: "Siber Gölge Şövalye (Varsayılan)",
         faceDesc: "Yüz Tipi: Neon Lazer Vizörlü Siber Maske",
+        perkDesc: "⚡ Dengeli Çeviklik: +%5 Koşu Hızı & Standart Siber Zırh",
+        bonuses: { speedBonus: 0.25 },
         desc: "Standart gelecek çağı zırhlı siber şövalye görünümü.",
         cost: 0
     },
@@ -28,6 +30,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "🎖️",
         title: "1950 Asker Kıyafeti",
         faceDesc: "Yüz Tipi: 1950'ler Kalın Bıyıklı & Sert Çeneli Gazi Yüzü",
+        perkDesc: "🛡️ Gazi Direnci: Hasar Sonrası +%30 Daha Uzun Dokunulmazlık Süresi",
+        bonuses: { invulnBonus: 20, speedBonus: 0.2 },
         desc: "1950 dönemi haki yün üniforma, çapraz deri kayış, fileli M1 çelik miğfer ve ahşap dipçikli tüfek.",
         cost: 20
     },
@@ -36,6 +40,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "🎯",
         title: "Şimdi Kullanılan Asker Kıyafeti",
         faceDesc: "Yüz Tipi: Kamuflaj Boyalı & Taktik Sakallı Komando Yüzü",
+        perkDesc: "🔥 Taktik Komando: +%20 Hızlı Ateş Topu Dolumu & +%8 Koşu Hızı",
+        bonuses: { fireCooldownReduction: 4, speedBonus: 0.42 },
         desc: "Modern dijital kamuflaj, MOLLE hücum yeleği, telsiz anteni ve 4'lü gece görüşlü (NVG) FAST balistik kask.",
         cost: 80
     },
@@ -44,6 +50,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "🎩",
         title: "Zengin Kıyafeti",
         faceDesc: "Yüz Tipi: Altın Monokl Gözlüklü & İnce Bıyıklı Milyarder Yüzü",
+        perkDesc: "🪙 Altın Mıknatısı: +%45 Ekstra Coin Şansı & +%25 Skor Çarpanı",
+        bonuses: { coinBonusChance: 0.45, scoreMult: 0.25, hasMagnet: true, magnetRadiusBonus: 45 },
         desc: "Özel dikim kruvaze siyah smokin, kırmızı ipek kravat, altın cep saati zinciri, altın baston ve silindir şapka.",
         cost: 110
     },
@@ -52,6 +60,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "⚔️",
         title: "Osmanlı Paşası Kıyafeti",
         faceDesc: "Yüz Tipi: Gür Burma Pala Bıyıklı & Paşa Sakallı Vakur Yüz",
+        perkDesc: "🛡️ Paşa Kalkanı: Bölüme Koruyucu Kalkan İle Başlama & +%20 Skor",
+        bonuses: { startShield: true, scoreMult: 0.2 },
         desc: "Altın sırma işlemeli tören üniforması, saçaklı altın apoletler, Osmanlı nişanı, kılıç ve siyah püsküllü bordo fes.",
         cost: 130
     },
@@ -60,6 +70,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "👑",
         title: "Kral Kıyafeti",
         faceDesc: "Yüz Tipi: Uzun Gür Kral Sakallı & Mavi Gözlü Hükümdar Yüzü",
+        perkDesc: "👑 Kraliyet Serveti: +1 Ekstra Can (♥) & +%35 Hazine/Skor Çarpanı",
+        bonuses: { extraHearts: 1, scoreMult: 0.35, coinBonusChance: 0.3 },
         desc: "Kakım kürklü kızıl kraliyet pelerini, altın işlemeli mor tunik, kraliyet asası ve mücevherli altın kral tacı.",
         cost: 200
     },
@@ -68,6 +80,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "🕌",
         title: "Yavuz Sultan Selim Kıyafeti",
         faceDesc: "Yüz Tipi: Sakalsız Keskin Çene, Uzun Sarkık Pala Bıyık & İnci Küpe",
+        perkDesc: "🔥 Hünkar Kudreti: +1 Can (♥), Plazma Ateşiyle Başlama & +%12 Hız",
+        bonuses: { extraHearts: 1, startFire: true, speedBonus: 0.6, scoreMult: 0.3 },
         desc: "Tarihi portreye birebir: Samur kürklü altın işlemeli kırmızı Hünkar Kaftanı ve sorguçlu burmalı Tac-ı Selimi sarığı!",
         cost: 300
     },
@@ -76,6 +90,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "🏰",
         title: "Fatih Sultan Mehmet Kıyafeti",
         faceDesc: "Yüz Tipi: Kemerli Burun, Genç Hünkar Sakalı & Kıvrık Bıyık",
+        perkDesc: "👑 Cihan Fatihi: +1 Can (♥), Başlangıç Kalkanı + Ateşi & +%40 Skor",
+        bonuses: { extraHearts: 1, startShield: true, startFire: true, scoreMult: 0.4 },
         desc: "İstanbul'un Fatihi: Altın sırma işlemeli kızıl-lacivert Hünkar Kaftanı, beyaz İmparatorluk Destar Sarığı ve Fetih Kılıcı!",
         cost: 350
     },
@@ -84,6 +100,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "🗡️",
         title: "Yeniçeri Ağası Kıyafeti",
         faceDesc: "Yüz Tipi: Uzun Pala Bıyıklı & Keskin Bakışlı Yeniçeri Yüzü",
+        perkDesc: "⚔️ Yatağan Çevikliği: +%14 Koşu Hızı & +%6 Yüksek Zıplama Gücü",
+        bonuses: { speedBonus: 0.72, jumpMultBonus: 0.06 },
         desc: "Altın tüylüklü ve kaşıklıklı beyaz keçe Yeniçeri Börkü, kırmızı dolama kaftan ve keskin Osmanlı Yatağan kılıcı!",
         cost: 160
     },
@@ -92,6 +110,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "🏹",
         title: "Mete Han (Bozkır Kağanı)",
         faceDesc: "Yüz Tipi: Bozkır Savaşçısı Pala Bıyığı & Kartal Bakışlı Yüz",
+        perkDesc: "🏹 Bozkır Rüzgarı: Üçlü Zıplama (3x Jump), +%15 Hız & Hızlı Atış",
+        bonuses: { extraJumps: 1, speedBonus: 0.78, fireCooldownReduction: 5 },
         desc: "Kurt kürklü bozkır zırhı, çift kartal tüylü altın tolga başlık, ok sadağı ve ıslıklı Türk kurma yayı!",
         cost: 240
     },
@@ -100,6 +120,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "👹",
         title: "Siber Şogun Samuray",
         faceDesc: "Yüz Tipi: Kırmızı-Siyah Menpo Savaş Maskesi & Lazer Gözler",
+        perkDesc: "⚡ Plazma Refleks: Havada Keskin Manevra, +%12 Hız & Kalkan Başlangıcı",
+        bonuses: { airControlBonus: 0.35, speedBonus: 0.62, startShield: true },
         desc: "Altın boynuzlu Kabuto samuray miğferi, neon O-Yoroi zırhı ve parlayan plazma katanası!",
         cost: 180
     },
@@ -108,6 +130,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "👨‍🚀",
         title: "Kozmik Astronot (EVA-2100)",
         faceDesc: "Yüz Tipi: Altın Yansımalı Tam Küre Uzay Kaskı Vizörü",
+        perkDesc: "🌌 Sıfır Yerçekimi Süzülüşü: Havada Yavaş Süzülme (Glide) & +%8 Zıplama",
+        bonuses: { hasGlide: true, jumpMultBonus: 0.08, airControlBonus: 0.3 },
         desc: "Derin uzay görevleri için basınçlı beyaz EVA astronot zırhı, yaşam destek çantası ve altın güneş vizörü!",
         cost: 150
     },
@@ -116,6 +140,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "❄️",
         title: "Kuzeyli Buz Valkyrie",
         faceDesc: "Yüz Tipi: Platin Örgülü Saçlar & Buz Mavisi Gözler",
+        perkDesc: "🪽 Valkyrie Kanatları: Havada Süzülme (Glide), Kalkan & +%12 Hız",
+        bonuses: { hasGlide: true, startShield: true, speedBonus: 0.62 },
         desc: "Kanatlı gümüş Valkyrie miğferi, kristal buz pelerini, Kuzey zırhı ve dondurucu buz mızrağı!",
         cost: 220
     },
@@ -124,6 +150,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "☀️",
         title: "Altın Firavun (Güneş Kralı)",
         faceDesc: "Yüz Tipi: Sürmeli Gözler & Altın Firavun Sakalı",
+        perkDesc: "☀️ Güneş Hazinesi: Otomatik Zümrüt/Kristal Mıknatısı & +%50 Coin Şansı",
+        bonuses: { hasMagnet: true, magnetRadiusBonus: 85, coinBonusChance: 0.5, scoreMult: 0.3 },
         desc: "Kobra armalı mavi-altın Nemes başlığı, geniş altın yaka zırhı ve parlayan Güneş Asası!",
         cost: 260
     },
@@ -132,6 +160,8 @@ const HERO_CHARACTERS_CATALOG = [
         icon: "🛡️",
         title: "Spartalı Komutan (Leonidas)",
         faceDesc: "Yüz Tipi: Savaş Sakallı & Sert Çeneli Spartalı Yüzü",
+        perkDesc: "🛡️ Sparta Kalkanı: +1 Ekstra Can (♥) & Hasar Sonrası Uzun Korumalı Zırh",
+        bonuses: { extraHearts: 1, invulnBonus: 25, speedBonus: 0.45 },
         desc: "Kızıl at kılı sorguçlu bronz Korint miğferi, kırmızı Sparta pelerini, yuvarlak kalkan ve mızrak!",
         cost: 190
     }
@@ -142,24 +172,27 @@ const SHOP_CATALOG = [
         id: "heart1",
         type: "upgrade",
         icon: "🛡️",
-        title: "Titanyum Zırh Kaplama",
-        desc: "Hasar aldıktan sonra koruyucu dokunulmazlık süresini uzatır! (Sabit 3 Can ♥♥♥)",
+        title: "Titanyum Zırh & +1 Ekstra Can",
+        desc: "Maksimum canını +1 kalp (♥) artırır ve hasar sonrası koruyucu dokunulmazlık süresini uzatır!",
+        perkDesc: "❤️ +1 Maksimum Can & +25 Kare Dokunulmazlık",
         cost: 25
     },
     {
         id: "heart2",
         type: "upgrade",
         icon: "⚡",
-        title: "Kuantum Hava Kontrolü",
-        desc: "Havada daha keskin manevra ve zıplama dengesi sağlar! (Sabit 3 Can ♥♥♥)",
+        title: "Kuantum Hava Kontrolü & Zıplama",
+        desc: "Havada +%35 daha keskin manevra ve +%6 daha yüksek sıçrama dengesi sağlar!",
+        perkDesc: "🚀 +%6 Yüksek Zıplama & +%35 Hava Kontrolü",
         cost: 55
     },
     {
         id: "heart3",
         type: "upgrade",
         icon: "💎",
-        title: "Kristal & Skor Çarpanı",
-        desc: "Toplanan her Kristal ve Zümrütten ekstra bonus skor kazandırır!",
+        title: "Kristal, Coin & Skor Çarpanı",
+        desc: "Toplanan her Kristal, Coin ve Zümrütten +%35 ekstra bonus skor ve ekstra Coin kazandırır!",
+        perkDesc: "💎 +%35 Skor Çarpanı & +%35 Ekstra Coin Şansı",
         cost: 90
     },
     {
@@ -168,6 +201,7 @@ const SHOP_CATALOG = [
         icon: "🛡",
         title: "Başlangıç Aether Kalkanı",
         desc: "Her bölüme otomatik koruyucu kalkan ile başla!",
+        perkDesc: "🛡 Her Bölüme Koruyucu Kalkan İle Başla",
         cost: 40
     },
     {
@@ -176,6 +210,7 @@ const SHOP_CATALOG = [
         icon: "🔥",
         title: "Başlangıç Plazma Ateşi",
         desc: "Her bölüme doğrudan Ateş Topu gücüyle başla!",
+        perkDesc: "🔥 Her Bölüme Ateş Topu Gücüyle Başla",
         cost: 65
     },
     {
@@ -184,6 +219,7 @@ const SHOP_CATALOG = [
         icon: "👢",
         title: "Hiper-Hız Çizmeleri",
         desc: "Kalıcı olarak %18 daha hızlı koş!",
+        perkDesc: "👢 +%18 Kalıcı Koşu Hızı Artışı",
         cost: 50
     },
     {
@@ -191,7 +227,8 @@ const SHOP_CATALOG = [
         type: "upgrade",
         icon: "🧲",
         title: "Antik Zümrüt & Kristal Mıknatısı",
-        desc: "Yakındaki tüm Kristal ve Antik Zümrütleri otomatik kendine çeker!",
+        desc: "Yakındaki tüm gerçek Kristal, Coin ve Antik Zümrütleri otomatik kendine çeker!",
+        perkDesc: "🧲 Geniş Alan Hazine Mıknatısı (Sahte Zümrütleri Çekmez)",
         cost: 70
     },
     {
@@ -200,6 +237,7 @@ const SHOP_CATALOG = [
         icon: "🚀",
         title: "Üçlü Zıplama Modülü (Triple Jump)",
         desc: "Havada 2 yerine tam 3 kez zıplayabilme yeteneği!",
+        perkDesc: "🚀 Havada 3 Kez Zıplama (Triple Jump)",
         cost: 110
     }
 ];
@@ -448,7 +486,7 @@ const LANG_DICT = {
     },
     ru: {
         gameTitle: "Marinext 2100",
-        seasonBadge: "40 УРОВНЕЙ • ПОЛНЫЙ СЕЗОН",
+        seasonBadge: "100 УРОВНЕЙ • 10 МИРОВ",
         profileTag: "ПРОФИЛЬ ИГРОКА",
         hudProfileTag: "ПРОФИЛЬ",
         emeraldLabel: "Древний Изумруд:",
@@ -464,7 +502,7 @@ const LANG_DICT = {
         btnOpenShop: "🛒 МАГАЗИН УЛУЧШЕНИЙ",
         btnPlayLevel: "НАЧАТЬ УРОВЕНЬ ▶",
         btnCustomizeMain: "🎨 КАСТОМИЗАЦИЯ ГЕРОЯ (❖)",
-        btnUnlockAll: "🔓 Открыть Все 40 Уровней + 50❖ (Тест)",
+        btnUnlockAll: "🔓 Открыть Все 100 Уровней + 50❖ (Тест)",
         controlsHint: "<strong>Управление:</strong> A/D или Стрелки (Бег) • W/Пробел (Двойной прыжок и от стен) • X/F/Shift (Огненный шар / Рывок)",
         previewFeatures: "<span>❖ Собирай Изумруды -> Прокачай Героя!</span><span>🚩 Чекпоинты</span><span>⚙ Пилы и Сталактиты</span><span>👑 Битвы с Боссами</span>",
         custTitle: "🎨 СТУДИЯ КАСТОМИЗАЦИИ ПЕРСОНАЖА",
@@ -539,7 +577,7 @@ const LANG_DICT = {
     },
     en: {
         gameTitle: "Marinext 2100",
-        seasonBadge: "40 LEVELS FULL CAMPAIGN",
+        seasonBadge: "100 LEVELS • 10 WORLDS FULL CAMPAIGN",
         profileTag: "PLAYER PROFILE",
         hudProfileTag: "PROFILE",
         emeraldLabel: "Ancient Emerald:",
@@ -555,7 +593,7 @@ const LANG_DICT = {
         btnOpenShop: "🛒 UPGRADE SHOP",
         btnPlayLevel: "START LEVEL ▶",
         btnCustomizeMain: "🎨 CUSTOMIZE HERO (❖)",
-        btnUnlockAll: "🔓 Unlock All 40 Levels + 50❖ (Test)",
+        btnUnlockAll: "🔓 Unlock All 100 Levels + 50❖ (Test)",
         controlsHint: "<strong>Controls:</strong> A/D or Arrows (Run) • W/Space (Double Jump & Wall Jump) • X/F/Shift (Fireball / Dash)",
         previewFeatures: "<span>❖ Collect Ancient Emeralds -> Customize Hero!</span><span>🚩 Checkpoint System</span><span>⚙ Saws & Stalactites</span><span>👑 Boss Battles</span>",
         custTitle: "🎨 CHARACTER CUSTOMIZATION STUDIO",
@@ -630,7 +668,7 @@ const LANG_DICT = {
     },
     it: {
         gameTitle: "Marinext 2100",
-        seasonBadge: "40 LIVELLI STAGIONE COMPLETA",
+        seasonBadge: "100 LIVELLI • 10 MONDI STAGIONE COMPLETA",
         profileTag: "PROFILO GIOCATORE",
         hudProfileTag: "PROFILO",
         emeraldLabel: "Smeraldo Antico:",
@@ -721,7 +759,7 @@ const LANG_DICT = {
     },
     es: {
         gameTitle: "Marinext 2100",
-        seasonBadge: "40 NIVELES TEMPORADA COMPLETA",
+        seasonBadge: "100 NIVELES • 10 MUNDOS TEMPORADA COMPLETA",
         profileTag: "PERFIL DE JUGADOR",
         hudProfileTag: "PERFIL",
         emeraldLabel: "Esmeralda Antigua:",
@@ -812,7 +850,7 @@ const LANG_DICT = {
     },
     fr: {
         gameTitle: "Marinext 2100",
-        seasonBadge: "40 NIVEAUX SAISON COMPLÈTE",
+        seasonBadge: "100 NIVEAUX • 10 MONDES SAISON COMPLÈTE",
         profileTag: "PROFIL DU JOUEUR",
         hudProfileTag: "PROFIL",
         emeraldLabel: "Émeraude Ancienne:",
@@ -903,7 +941,7 @@ const LANG_DICT = {
     },
     ko: {
         gameTitle: "Marinext 2100",
-        seasonBadge: "40 스테이지 풀 시즌",
+        seasonBadge: "100 스테이지 • 10 월드 풀 시즌",
         profileTag: "플레이어 프로필",
         hudProfileTag: "프로필",
         emeraldLabel: "고대 에메랄드:",
@@ -919,7 +957,7 @@ const LANG_DICT = {
         btnOpenShop: "🛒 강화 상점",
         btnPlayLevel: "스테이지 시작 ▶",
         btnCustomizeMain: "🎨 캐릭터 꾸미기 (❖)",
-        btnUnlockAll: "🔓 40 스테이지 전체 해금 + 50❖ (테스트)",
+        btnUnlockAll: "🔓 100 스테이지 전체 해금 + 50❖ (테스트)",
         controlsHint: "<strong>조작법:</strong> A/D 또는 방향키 (달리기) • W/스페이스바 (2단 점프 & 벽 점프) • X/F/Shift (파이어볼 / 대시)",
         previewFeatures: "<span>❖ 고대 에메랄드 수집 -> 캐릭터 꾸미기!</span><span>🚩 체크포인트 시스템</span><span>⚙ 회전 톱날 & 종유석</span><span>👑 보스전</span>",
         custTitle: "🎨 캐릭터 커스터마이징 스튜디오",
@@ -994,7 +1032,7 @@ const LANG_DICT = {
     },
     zh: {
         gameTitle: "Marinext 2100",
-        seasonBadge: "40关卡完整赛季",
+        seasonBadge: "100关卡 • 10世界完整赛季",
         profileTag: "玩家资料",
         hudProfileTag: "资料",
         emeraldLabel: "远古翡翠:",
@@ -1010,7 +1048,7 @@ const LANG_DICT = {
         btnOpenShop: "🛒 强化商店",
         btnPlayLevel: "开始关卡 ▶",
         btnCustomizeMain: "🎨 角色自定义 (❖)",
-        btnUnlockAll: "🔓 解锁全部40关 + 50❖ (测试)",
+        btnUnlockAll: "🔓 解锁全部100关 + 50❖ (测试)",
         controlsHint: "<strong>操作说明:</strong> A/D或方向键 (奔跑) • W/空格 (二段跳与蹬墙跳) • X/F/Shift (火球 / 冲刺)",
         previewFeatures: "<span>❖ 收集远古翡翠 -> 装扮角色！</span><span>🚩 存档点系统</span><span>⚙ 飞锯与钟乳石</span><span>👑 首领Boss战</span>",
         custTitle: "🎨 角色自定义工坊",
@@ -1085,7 +1123,7 @@ const LANG_DICT = {
     },
     ja: {
         gameTitle: "Marinext 2100",
-        seasonBadge: "全40ステージ完全版",
+        seasonBadge: "全100ステージ • 10ワールド完全版",
         profileTag: "プロフィール",
         hudProfileTag: "プロフィール",
         emeraldLabel: "古代エメラルド:",
@@ -1101,7 +1139,7 @@ const LANG_DICT = {
         btnOpenShop: "🛒 アップグレード店",
         btnPlayLevel: "ステージ開始 ▶",
         btnCustomizeMain: "🎨 キャラカスタマイズ (❖)",
-        btnUnlockAll: "🔓 全40ステージ解放 + 50❖ (テスト)",
+        btnUnlockAll: "🔓 全100ステージ解放 + 50❖ (テスト)",
         controlsHint: "<strong>操作方法:</strong> A/Dまたは矢印キー (走る) • W/スペース (二段ジャンプ＆壁ジャンプ) • X/F/Shift (ファイアボール / ダッシュ)",
         previewFeatures: "<span>❖ 古代エメラルド収集 -> キャラカスタム！</span><span>🚩 チェックポイント</span><span>⚙ 回転ノコギリ＆鍾乳石</span><span>👑 ボスバトル</span>",
         custTitle: "🎨 キャラクターカスタマイズスタジオ",
@@ -1189,6 +1227,10 @@ class Game {
         this.charPreviewCanvas = document.getElementById("charPreviewCanvas");
         this.charPreviewCtx = this.charPreviewCanvas ? this.charPreviewCanvas.getContext("2d") : null;
         this.charPreviewDummy = null;
+        this.activeCharFilter = "all";
+        this.rewardedAdLoading = false;
+        this.rewardedAdPreloaded = false;
+        this.wakeLockSentinel = null;
 
         this.state = "map";
         this.selectedLevel = 0;
@@ -1303,9 +1345,70 @@ class Game {
         this.buildTrollMapNodes();
         this.setupInputs();
         this.setupUI();
+        this.syncMilestoneCustomizationUnlocks();
         this.updateMapUI();
+        this.initWakeLock();
+        this.initSplashIntro();
 
         this.start120HzEngine();
+    }
+
+    async initWakeLock() {
+        const requestLock = async () => {
+            try {
+                if (typeof navigator !== "undefined" && navigator.wakeLock && typeof navigator.wakeLock.request === "function") {
+                    this.wakeLockSentinel = await navigator.wakeLock.request("screen");
+                }
+            } catch (e) {}
+        };
+        requestLock();
+        document.addEventListener("visibilitychange", () => {
+            if (!document.hidden) {
+                requestLock();
+            }
+        });
+    }
+
+    initSplashIntro() {
+        const splashEl = document.getElementById("screen-splash-intro");
+        if (!splashEl) return;
+        const heroCanvas = document.getElementById("splashHeroCanvas");
+        let splashAnimId = null;
+
+        if (heroCanvas && window.Player) {
+            const hCtx = heroCanvas.getContext("2d");
+            const dummy = new window.Player(0, 0, this.getPlayerUpgrades());
+            dummy.vx = 2.6;
+            dummy.onGround = true;
+            dummy.forceCustOverlay = true;
+            const renderSplashHero = () => {
+                if (splashEl.classList.contains("hidden")) return;
+                hCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+                dummy.animTime += 0.14;
+                hCtx.save();
+                hCtx.translate(heroCanvas.width / 2, heroCanvas.height - 8);
+                hCtx.scale(0.95, 0.95);
+                dummy.x = -dummy.w / 2;
+                dummy.y = -dummy.h;
+                dummy.draw(hCtx);
+                hCtx.restore();
+                splashAnimId = requestAnimationFrame(renderSplashHero);
+            };
+            renderSplashHero();
+        }
+
+        const dismissSplash = () => {
+            if (splashEl.classList.contains("hidden")) return;
+            splashEl.style.transition = "opacity 0.35s ease";
+            splashEl.style.opacity = "0";
+            setTimeout(() => {
+                splashEl.classList.add("hidden");
+                splashEl.style.opacity = "";
+                if (splashAnimId) cancelAnimationFrame(splashAnimId);
+            }, 350);
+        };
+        splashEl.addEventListener("click", dismissSplash);
+        setTimeout(dismissSplash, 1450);
     }
 
     detectDeviceLanguage() {
@@ -1634,7 +1737,7 @@ class Game {
     }
 
     async checkAppUpdateOnStartup() {
-        const CURRENT_VERSION_CODE = 11;
+        const CURRENT_VERSION_CODE = 12;
         let installedCode = CURRENT_VERSION_CODE;
         if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.getAppVersionInfo === "function") {
             try {
@@ -1687,14 +1790,209 @@ class Game {
         }
     }
 
+    getItemMilestoneUnlockLevel(item) {
+        if (!item || item.cost === 0) return 0;
+        const milestoneMap = {
+            helmet_horns: 3,
+            helmet_viking: 8,
+            helmet_ronin: 12,
+            helmet_wolf: 18,
+            helmet_spartan: 25,
+            helmet_crown: 35,
+            gear_dual: 4,
+            gear_bow: 9,
+            gear_axe: 14,
+            gear_greatsword: 20,
+            gear_jetpack: 28,
+            gear_wings: 40,
+            skin_crimson: 2,
+            skin_emerald: 6,
+            skin_arctic: 11,
+            skin_sakura: 16,
+            skin_stealth: 22,
+            skin_gold: 30,
+            visor_cyclops: 3,
+            visor_dual: 7,
+            visor_shades: 13,
+            visor_sharingan: 21,
+            aura_stars: 5,
+            aura_sakura: 10,
+            aura_emerald: 15,
+            aura_fire: 24,
+            aura_lightning: 32,
+            cape_gold: 2,
+            cape_emerald: 5,
+            cape_cyan: 10,
+            cape_crimson: 17,
+            cape_rainbow: 38
+        };
+        return milestoneMap[item.id] || 0;
+    }
+
+    syncMilestoneCustomizationUnlocks() {
+        let changed = false;
+        const maxCleared = Math.max(0, (this.unlockedLevels || 1) - 1);
+        for (const item of CUSTOMIZE_CATALOG) {
+            const reqLvl = this.getItemMilestoneUnlockLevel(item);
+            if (reqLvl > 0 && maxCleared >= reqLvl && !this.ownedItems.includes(item.id)) {
+                this.ownedItems.push(item.id);
+                changed = true;
+            }
+        }
+        if (changed) {
+            this.saveProgress();
+        }
+    }
+
+    getItemGameplayPerk(item) {
+        if (!item) return { desc: "⚡ Standart Siber Donanım", bonuses: {} };
+        const tier = Math.max(1, Number(item.cost) || 1);
+        if (item.category === "helmet") {
+            const inv = 6 + tier * 3;
+            const spd = +(0.08 + tier * 0.03).toFixed(2);
+            return {
+                desc: `🛡️ Zırh Koruması: +${inv} Kare Dokunulmazlık & +%${Math.round(spd * 18)} Hız`,
+                bonuses: { invulnBonus: inv, speedBonus: spd }
+            };
+        }
+        if (item.category === "backGear") {
+            const isWingOrJet = ["jetpack", "wings", "dragon_wings", "angel_wings"].includes(item.value);
+            if (isWingOrJet) {
+                return {
+                    desc: `🪽 Hava Süzülüşü (Glide) & +%${4 + tier} Yüksek Zıplama Gücü`,
+                    bonuses: { hasGlide: true, jumpMultBonus: 0.03 + tier * 0.008, airControlBonus: 0.22 }
+                };
+            }
+            const cdRed = Math.min(6, 1 + Math.floor(tier * 0.8));
+            return {
+                desc: `⚔️ Saldırı Hızı: -%${cdRed * 4} Ateş Topu Bekleme Süresi & +%${tier * 5} Skor`,
+                bonuses: { fireCooldownReduction: cdRed, scoreMult: tier * 0.05 }
+            };
+        }
+        if (item.category === "skin") {
+            const extraHp = tier >= 5 ? 1 : 0;
+            const inv = 8 + tier * 3;
+            return {
+                desc: extraHp > 0
+                    ? `❤️ Efsanevi Zırh: +1 Maksimum Can (♥) & +${inv} Kare Koruma`
+                    : `🛡️ Siber Zırh Kaplama: +${inv} Kare Koruma & +%${tier * 4} Skor`,
+                bonuses: { extraHearts: extraHp, invulnBonus: inv, scoreMult: tier * 0.04 }
+            };
+        }
+        if (item.category === "visor") {
+            const magBonus = 20 + tier * 12;
+            return {
+                desc: `👁️ Hedefleme Vizörü: +${magBonus}px Hazine Algılama & +%${tier * 6} Coin Şansı`,
+                bonuses: { magnetRadiusBonus: magBonus, coinBonusChance: tier * 0.06 }
+            };
+        }
+        if (item.category === "aura") {
+            if (item.cost === 0) {
+                return { desc: "⭕ Sade Görünüm (Ekstra Aura Yok)", bonuses: {} };
+            }
+            const scMult = +(tier * 0.06).toFixed(2);
+            return {
+                desc: `✨ Enerji Aurası: +%${Math.round(scMult * 100)} Skor Çarpanı & +${tier * 12}px Mıknatıs Alanı`,
+                bonuses: { scoreMult: scMult, hasMagnet: tier >= 3, magnetRadiusBonus: tier * 12 }
+            };
+        }
+        if (item.category === "cape") {
+            const airBonus = +(0.12 + tier * 0.04).toFixed(2);
+            const jmp = +(0.02 + tier * 0.008).toFixed(3);
+            return {
+                desc: `🧣 Aerodinamik Pelerin: +%${Math.round(airBonus * 100)} Hava Manevrası & +%${Math.round(jmp * 100)} Zıplama`,
+                bonuses: { airControlBonus: airBonus, jumpMultBonus: jmp, hasGlide: tier >= 4 }
+            };
+        }
+        return { desc: "⚡ Özel Siber Donanım", bonuses: {} };
+    }
+
     getPlayerUpgrades() {
+        let extraHearts = 0;
+        let extraJumps = this.ownedItems.includes("tripleJump") ? 1 : 0;
+        let speedBonus = this.ownedItems.includes("speedBoots") ? 0.95 : 0;
+        let airControlBonus = 0;
+        let jumpMult = 1;
+        let hasGlide = false;
+        let invulnBonus = 0;
+        let fireCooldownReduction = 0;
+        let hasMagnet = this.ownedItems.includes("emeraldMagnet");
+        let magnetRadius = 175;
+        let scoreMult = 1;
+        let coinBonusChance = 0;
+        let startShield = this.ownedItems.includes("startShield");
+        let startFire = this.ownedItems.includes("startFire");
+
+        // 1. Shop Upgrades (heart1, heart2, heart3)
+        if (this.ownedItems.includes("heart1")) {
+            extraHearts += 1;
+            invulnBonus += 25;
+        }
+        if (this.ownedItems.includes("heart2")) {
+            airControlBonus += 0.35;
+            jumpMult += 0.06;
+        }
+        if (this.ownedItems.includes("heart3")) {
+            scoreMult += 0.35;
+            coinBonusChance += 0.35;
+        }
+
+        const applyBonusObj = (b) => {
+            if (!b) return;
+            if (b.extraHearts) extraHearts += b.extraHearts;
+            if (b.extraJumps) extraJumps = Math.max(extraJumps, b.extraJumps);
+            if (b.speedBonus) speedBonus += b.speedBonus;
+            if (b.airControlBonus) airControlBonus += b.airControlBonus;
+            if (b.jumpMultBonus) jumpMult += b.jumpMultBonus;
+            if (b.hasGlide) hasGlide = true;
+            if (b.invulnBonus) invulnBonus += b.invulnBonus;
+            if (b.fireCooldownReduction) fireCooldownReduction += b.fireCooldownReduction;
+            if (b.hasMagnet) hasMagnet = true;
+            if (b.magnetRadiusBonus) magnetRadius += b.magnetRadiusBonus;
+            if (b.scoreMult) scoreMult += b.scoreMult;
+            if (b.coinBonusChance) coinBonusChance += b.coinBonusChance;
+            if (b.startShield) startShield = true;
+            if (b.startFire) startFire = true;
+        };
+
+        // 2. Active Hero Character Perks
+        const heroObj = HERO_CHARACTERS_CATALOG.find((h) => h.id === (this.equippedHeroChar || "default"));
+        if (heroObj && heroObj.bonuses) {
+            applyBonusObj(heroObj.bonuses);
+        }
+
+        // 3. Equipped Customization Item Perks
+        const equippedPairs = [
+            { cat: "helmet", val: this.equippedHelmet },
+            { cat: "backGear", val: this.equippedBackGear },
+            { cat: "skin", val: this.equippedSkin },
+            { cat: "visor", val: this.equippedVisor },
+            { cat: "aura", val: this.equippedAura },
+            { cat: "cape", val: this.equippedCape }
+        ];
+        for (const ep of equippedPairs) {
+            const itemObj = CUSTOMIZE_CATALOG.find((i) => i.category === ep.cat && i.value === ep.val);
+            if (itemObj) {
+                const perk = this.getItemGameplayPerk(itemObj);
+                if (perk && perk.bonuses) applyBonusObj(perk.bonuses);
+            }
+        }
+
         return {
-            extraHearts: 0,
-            extraJumps: this.ownedItems.includes("tripleJump") ? 1 : 0,
-            speedBonus: this.ownedItems.includes("speedBoots") ? 0.95 : 0,
-            hasMagnet: this.ownedItems.includes("emeraldMagnet"),
-            startShield: this.ownedItems.includes("startShield"),
-            startFire: this.ownedItems.includes("startFire"),
+            extraHearts: Math.min(3, extraHearts),
+            extraJumps: Math.min(2, extraJumps),
+            speedBonus: Math.min(1.65, speedBonus),
+            airControlBonus: Math.min(0.85, airControlBonus),
+            jumpMult: Math.min(1.18, jumpMult),
+            hasGlide,
+            invulnBonus: Math.min(60, invulnBonus),
+            fireCooldownMax: Math.max(10, 22 - fireCooldownReduction),
+            hasMagnet,
+            magnetRadius: Math.min(320, magnetRadius),
+            scoreMult: +Math.min(3.0, scoreMult).toFixed(2),
+            coinBonusChance: Math.min(0.85, coinBonusChance),
+            startShield,
+            startFire,
             skinId: this.equippedSkin,
             helmetId: this.equippedHelmet,
             backGearId: this.equippedBackGear,
@@ -1920,9 +2218,22 @@ class Game {
     }
 
     handleBackAction() {
+        const insuffScreen = document.getElementById("screen-insufficient-balance");
+        if (insuffScreen && !insuffScreen.classList.contains("hidden")) {
+            insuffScreen.classList.add("hidden");
+            return true;
+        }
+        const avatarPickerScreen = document.getElementById("screen-avatar-picker");
+        if (avatarPickerScreen && !avatarPickerScreen.classList.contains("hidden")) {
+            avatarPickerScreen.classList.add("hidden");
+            return true;
+        }
         const lbScreen = document.getElementById("screen-leaderboard");
         if (lbScreen && !lbScreen.classList.contains("hidden")) {
             lbScreen.classList.add("hidden");
+            if (this.state === "leaderboard_in_game") {
+                this.state = "playing";
+            }
             return true;
         }
         const feedbackScreen = document.getElementById("screen-feedback");
@@ -2259,16 +2570,54 @@ class Game {
             }
             this.openCharacterStudio();
         };
-        ["btn-open-character", "btn-character-main", "btn-hud-character", "hud-goldcoin-box", "map-goldcoin-pill"].forEach((id) => {
+        ["btn-open-character", "btn-character-main", "btn-hud-character", "map-goldcoin-pill"].forEach((id) => {
             const el = document.getElementById(id);
             if (el) el.addEventListener("click", openCharacterHandler);
         });
+
+        document.querySelectorAll("#char-filter-tabs .char-filter-tab").forEach((tabBtn) => {
+            tabBtn.addEventListener("click", () => {
+                window.sfx.coin();
+                this.activeCharFilter = tabBtn.getAttribute("data-char-filter") || "all";
+                document.querySelectorAll("#char-filter-tabs .char-filter-tab").forEach((b) => {
+                    b.classList.toggle("active", b === tabBtn);
+                });
+                this.renderCharacterItems();
+            });
+        });
+
+        const closeInsufficientModal = () => {
+            window.sfx.coin();
+            const m = document.getElementById("screen-insufficient-balance");
+            if (m) m.classList.add("hidden");
+        };
+        const btnInsuffCancel = document.getElementById("btn-insufficient-cancel");
+        if (btnInsuffCancel) btnInsuffCancel.addEventListener("click", closeInsufficientModal);
+        const btnInsuffCloseX = document.getElementById("btn-close-insufficient-x");
+        if (btnInsuffCloseX) btnInsuffCloseX.addEventListener("click", closeInsufficientModal);
 
         const closeCharacterHandler = () => {
             const modal = document.getElementById("screen-character");
             if (modal) modal.classList.add("hidden");
             if (this.player) {
+                const upg = this.getPlayerUpgrades();
                 this.player.heroCharId = this.equippedHeroChar || "default";
+                this.player.maxHp = 3 + upg.extraHearts;
+                this.player.hp = Math.min(this.player.maxHp, Math.max(this.player.hp, 3));
+                this.player.maxJumps = 2 + (upg.extraJumps || 0);
+                this.player.speedBonus = upg.speedBonus || 0;
+                this.player.airControlBonus = upg.airControlBonus || 0;
+                this.player.jumpMult = upg.jumpMult || 1;
+                this.player.hasGlide = Boolean(upg.hasGlide);
+                this.player.invulnBonus = upg.invulnBonus || 0;
+                this.player.fireCooldownMax = upg.fireCooldownMax || 22;
+                this.player.hasMagnet = Boolean(upg.hasMagnet);
+                this.player.magnetRadius = upg.magnetRadius || 175;
+                this.player.scoreMult = upg.scoreMult || 1;
+                this.player.coinBonusChance = upg.coinBonusChance || 0;
+                if (upg.startShield) this.player.hasShield = true;
+                if (upg.startFire) this.player.hasFire = true;
+                this.syncFireButtonUI();
             }
             if (this.state === "character_in_game") {
                 this.state = "playing";
@@ -2309,12 +2658,16 @@ class Game {
             }
             this.openCustomizeStudio();
         };
-        document.getElementById("btn-open-customize").addEventListener("click", openCustomizeHandler);
-        document.getElementById("btn-customize-main").addEventListener("click", openCustomizeHandler);
+        const btnOpenCustomizeEl = document.getElementById("btn-open-customize");
+        if (btnOpenCustomizeEl) btnOpenCustomizeEl.addEventListener("click", openCustomizeHandler);
+        const btnCustomizeMainEl = document.getElementById("btn-customize-main");
+        if (btnCustomizeMainEl) btnCustomizeMainEl.addEventListener("click", openCustomizeHandler);
         const hudCustBtn = document.getElementById("btn-hud-customize");
         if (hudCustBtn) hudCustBtn.addEventListener("click", openCustomizeHandler);
         const hudEmeraldBox = document.getElementById("hud-emerald-box");
         if (hudEmeraldBox) hudEmeraldBox.addEventListener("click", openCustomizeHandler);
+        const mapEmeraldPill = document.getElementById("map-emerald-pill");
+        if (mapEmeraldPill) mapEmeraldPill.addEventListener("click", openCustomizeHandler);
 
         document.getElementById("btn-modal-customize").addEventListener("click", () => {
             document.getElementById("screen-modal").classList.add("hidden");
@@ -2332,11 +2685,21 @@ class Game {
                 this.player.visorId = this.equippedVisor;
                 this.player.auraId = this.equippedAura;
                 this.player.capeColor = this.equippedCape;
+                this.player.heroCharId = this.equippedHeroChar || "default";
                 const upg = this.getPlayerUpgrades();
                 this.player.maxHp = 3 + upg.extraHearts;
+                this.player.hp = Math.min(this.player.maxHp, Math.max(this.player.hp, 3));
                 this.player.maxJumps = 2 + (upg.extraJumps || 0);
                 this.player.speedBonus = upg.speedBonus || 0;
+                this.player.airControlBonus = upg.airControlBonus || 0;
+                this.player.jumpMult = upg.jumpMult || 1;
+                this.player.hasGlide = Boolean(upg.hasGlide);
+                this.player.invulnBonus = upg.invulnBonus || 0;
+                this.player.fireCooldownMax = upg.fireCooldownMax || 22;
                 this.player.hasMagnet = Boolean(upg.hasMagnet);
+                this.player.magnetRadius = upg.magnetRadius || 175;
+                this.player.scoreMult = upg.scoreMult || 1;
+                this.player.coinBonusChance = upg.coinBonusChance || 0;
                 if (upg.startShield) this.player.hasShield = true;
                 if (upg.startFire) this.player.hasFire = true;
                 this.syncFireButtonUI();
@@ -2366,6 +2729,13 @@ class Game {
             window.sfx.coin();
             this.openShop();
         });
+        const mapCrystalPill = document.getElementById("map-crystal-pill");
+        if (mapCrystalPill) {
+            mapCrystalPill.addEventListener("click", () => {
+                window.sfx.coin();
+                this.openShop();
+            });
+        }
 
         const closeShopHandler = () => {
             document.getElementById("screen-shop").classList.add("hidden");
@@ -2658,18 +3028,25 @@ class Game {
         }
 
         // 🏆 Hybrid Neon Leaderboard & Google Play Games Rankings Modal
-        const btnMapLeaderboard = document.getElementById("btn-map-leaderboard");
-        if (btnMapLeaderboard) {
-            btnMapLeaderboard.addEventListener("click", () => {
-                this.resetInputs();
-                window.sfx.emerald();
-                this.openLeaderboardModal();
-            });
-        }
+        const openLbFromAnyTrigger = () => {
+            this.resetInputs();
+            window.sfx.emerald();
+            if (this.state === "playing") {
+                this.state = "leaderboard_in_game";
+            }
+            this.openLeaderboardModal();
+        };
+        ["btn-map-leaderboard", "hud-goldcoin-box", "hud-score-box"].forEach((id) => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener("click", openLbFromAnyTrigger);
+        });
         const closeLbHandler = () => {
             window.sfx.coin();
             const lbModal = document.getElementById("screen-leaderboard");
             if (lbModal) lbModal.classList.add("hidden");
+            if (this.state === "leaderboard_in_game") {
+                this.state = "playing";
+            }
         };
         const btnCloseLbX = document.getElementById("btn-close-leaderboard-x");
         if (btnCloseLbX) btnCloseLbX.addEventListener("click", closeLbHandler);
@@ -2780,6 +3157,33 @@ class Game {
                 if (e.target === profileOverlay) {
                     closeProfileHandler();
                 }
+            });
+        }
+
+        // Dedicated 30-Avatar Picker Modal (Opened from Profile Screen button or avatar)
+        const openAvatarPickerHandler = () => {
+            window.sfx.emerald();
+            const pickerModal = document.getElementById("screen-avatar-picker");
+            if (pickerModal) pickerModal.classList.remove("hidden");
+        };
+        const btnOpenAvatarPicker = document.getElementById("btn-open-avatar-picker");
+        if (btnOpenAvatarPicker) btnOpenAvatarPicker.addEventListener("click", openAvatarPickerHandler);
+        const profileHeroAvatar = document.getElementById("profile-hero-avatar");
+        if (profileHeroAvatar) profileHeroAvatar.addEventListener("click", openAvatarPickerHandler);
+
+        const closeAvatarPickerHandler = () => {
+            window.sfx.coin();
+            const pickerModal = document.getElementById("screen-avatar-picker");
+            if (pickerModal) pickerModal.classList.add("hidden");
+        };
+        const btnCloseAvatarPicker = document.getElementById("btn-close-avatar-picker");
+        if (btnCloseAvatarPicker) btnCloseAvatarPicker.addEventListener("click", closeAvatarPickerHandler);
+        const btnCloseAvatarPickerX = document.getElementById("btn-close-avatar-picker-x");
+        if (btnCloseAvatarPickerX) btnCloseAvatarPickerX.addEventListener("click", closeAvatarPickerHandler);
+        const avatarPickerOverlay = document.getElementById("screen-avatar-picker");
+        if (avatarPickerOverlay) {
+            avatarPickerOverlay.addEventListener("click", (e) => {
+                if (e.target === avatarPickerOverlay) closeAvatarPickerHandler();
             });
         }
 
@@ -3247,18 +3651,112 @@ class Game {
         } catch (e) {}
     }
 
+    openInsufficientBalanceModal(currencyType = "gold", missingAmount = 10, itemTitle = "") {
+        const modal = document.getElementById("screen-insufficient-balance");
+        if (!modal) return;
+        const iconEl = document.getElementById("insufficient-icon");
+        const titleEl = document.getElementById("insufficient-title");
+        const descEl = document.getElementById("insufficient-desc");
+        const watchBtn = document.getElementById("btn-insufficient-watch-ad");
+
+        window.sfx.blockHit();
+
+        if (currencyType === "emerald") {
+            if (iconEl) iconEl.textContent = "❖";
+            if (titleEl) titleEl.textContent = "ANTİK ZÜMRÜT (❖) BAKİYESİ YETERSİZ!";
+            if (descEl) {
+                descEl.innerHTML = `<strong>${itemTitle}</strong> özelliğini açmak için <strong>${missingAmount} ❖ Antik Zümrüt</strong> eksik.<br>Kısa bir ödüllü reklam izleyerek anında <strong>+10 ❖ Antik Zümrüt + 25 ✪ Coin</strong> hediye alabilir veya bölümleri geçerek kazanabilirsin!`;
+            }
+            if (watchBtn) {
+                watchBtn.textContent = "🎬 Reklam İzle & +10 ❖ Zümrüt Hediye Al";
+                watchBtn.onclick = () => {
+                    modal.classList.add("hidden");
+                    this.showRewardedAd(
+                        "🎁 Hediye Antik Zümrüt Paketi (+10 ❖ Zümrüt & +25 ✪ Coin)",
+                        "Reklam tamamlandığında anında +10 ❖ Antik Zümrüt ve +25 ✪ Coin hesabına eklenecek!",
+                        () => {
+                            this.addEmeralds(10, true);
+                            this.addGoldCoins(25, true);
+                            this.renderCustomizeItems();
+                            this.renderCharacterItems();
+                            this.updateMapUI();
+                            if (this.player) this.updateHUD();
+                        }
+                    );
+                };
+            }
+        } else if (currencyType === "crystal") {
+            if (iconEl) iconEl.textContent = "◆";
+            if (titleEl) titleEl.textContent = "MAVİ KRİSTAL (◆) BAKİYESİ YETERSİZ!";
+            if (descEl) {
+                descEl.innerHTML = `<strong>${itemTitle}</strong> güçlendirmesini açmak için <strong>${missingAmount} ◆ Kristal</strong> eksik.<br>Kısa bir ödüllü reklam izleyerek anında <strong>+80 ◆ Mavi Kristal + 5 ❖ Zümrüt</strong> hediye alabilir veya vazgeçebilirsin!`;
+            }
+            if (watchBtn) {
+                watchBtn.textContent = "🎬 Reklam İzle & +80 ◆ Kristal Hediye Al";
+                watchBtn.onclick = () => {
+                    modal.classList.add("hidden");
+                    this.showRewardedAd(
+                        "🎁 Hediye Kristal Paketi (+80 ◆ Kristal & +5 ❖ Zümrüt)",
+                        "Reklam tamamlandığında anında +80 ◆ Mavi Kristal ve +5 ❖ Antik Zümrüt hesabına eklenecek!",
+                        () => {
+                            this.addCrystals(80, true);
+                            this.addEmeralds(5, true);
+                            this.renderCustomizeItems();
+                            const shopScreen = document.getElementById("screen-shop");
+                            if (shopScreen && !shopScreen.classList.contains("hidden")) {
+                                this.openShop();
+                            }
+                            this.updateMapUI();
+                            if (this.player) this.updateHUD();
+                        }
+                    );
+                };
+            }
+        } else {
+            if (iconEl) iconEl.textContent = "🪙";
+            if (titleEl) titleEl.textContent = "ALTIN COİN (✪) BAKİYESİ YETERSİZ!";
+            if (descEl) {
+                descEl.innerHTML = `<strong>${itemTitle}</strong> karakterini açmak için <strong>${missingAmount} ✪ Coin</strong> eksik.<br>İstersen kısa bir reklam izleyip anında <strong>+50 ✪ Altın Coin Hediye</strong> alabilir, istersen vazgeçebilirsin!`;
+            }
+            if (watchBtn) {
+                watchBtn.textContent = "🎬 Reklam İzle & +50 ✪ Coin Hediye Al";
+                watchBtn.onclick = () => {
+                    modal.classList.add("hidden");
+                    this.showRewardedAd(
+                        "🪙 Hediye Karakter Coin Paketi (+50 ✪ Coin & +5 ❖ Zümrüt)",
+                        "Reklam tamamlandığında anında +50 ✪ Altın Coin ve +5 ❖ Antik Zümrüt cüzdanına eklenecek!",
+                        () => {
+                            this.addGoldCoins(50, true);
+                            this.addEmeralds(5, true);
+                            this.renderCharacterItems();
+                            this.renderCustomizeItems();
+                            this.updateMapUI();
+                            if (this.player) this.updateHUD();
+                        }
+                    );
+                };
+            }
+        }
+
+        modal.classList.remove("hidden");
+    }
+
     openCustomizeStudio() {
+        this.syncMilestoneCustomizationUnlocks();
         this.previewDummy = new window.Player(0, 0, this.getPlayerUpgrades());
         this.previewDummy.vx = 2.5;
         this.previewDummy.onGround = true;
+        this.previewDummy.forceCustOverlay = true;
         this.renderCustomizeItems();
         document.getElementById("screen-customize").classList.remove("hidden");
     }
 
     renderCustomizeItems() {
+        this.syncMilestoneCustomizationUnlocks();
         document.getElementById("cust-wallet-emeralds").textContent = `${this.walletEmeralds} ❖  |  ${this.walletCoins} ◆`;
         const container = document.getElementById("cust-items-container");
         container.innerHTML = "";
+        const maxClearedLevel = Math.max(0, (this.unlockedLevels || 1) - 1);
 
         if (this.activeCustTab === "upgrade") {
             SHOP_CATALOG.forEach((item) => {
@@ -3267,7 +3765,9 @@ class Game {
                 const card = document.createElement("div");
                 card.className = `shop-card ${isOwned ? "owned" : ""}`;
 
-                let btnLabel = `SATIN AL (${item.cost} ◆ Kristal)`;
+                let btnLabel = canAfford
+                    ? `SATIN AL (${item.cost} ◆ Kristal)`
+                    : `🎬 KRİSTAL AL / AÇ (${item.cost} ◆)`;
                 let btnClass = "shop-buy-btn";
                 let disabled = false;
 
@@ -3275,29 +3775,34 @@ class Game {
                     btnLabel = "✓ AKTİF GÜÇLENDİRME";
                     btnClass += " equipped";
                     disabled = true;
-                } else if (!canAfford) {
-                    disabled = true;
                 }
 
                 card.innerHTML = `
                     <div>
                         <div class="shop-card-top">
                             <span class="shop-icon">${item.icon}</span>
-                            <h4>${item.title}</h4>
+                            <div>
+                                <h4>${item.title}</h4>
+                                <span class="char-status-badge ${isOwned ? "owned" : "locked"}">${isOwned ? "✓ SATIN ALINDI" : item.cost + " ◆ Kristal"}</span>
+                            </div>
                         </div>
+                        <div class="item-perk-pill">${item.perkDesc || "⚡ Kalıcı Güçlendirme"}</div>
                         <p>${item.desc}</p>
                     </div>
                     <button class="${btnClass}" ${disabled ? "disabled" : ""}>${btnLabel}</button>
                 `;
 
                 card.querySelector("button").addEventListener("click", () => {
-                    if (!isOwned && this.walletCoins >= item.cost) {
-                        this.walletCoins -= item.cost;
-                        this.ownedItems.push(item.id);
-                        window.sfx.buy();
-                        this.saveProgress();
-                        this.renderCustomizeItems();
+                    if (isOwned) return;
+                    if (this.walletCoins < item.cost) {
+                        this.openInsufficientBalanceModal("crystal", item.cost - this.walletCoins, item.title);
+                        return;
                     }
+                    this.walletCoins -= item.cost;
+                    this.ownedItems.push(item.id);
+                    window.sfx.buy();
+                    this.saveProgress();
+                    this.renderCustomizeItems();
                 });
                 container.appendChild(card);
             });
@@ -3307,6 +3812,7 @@ class Game {
         const items = CUSTOMIZE_CATALOG.filter((item) => item.category === this.activeCustTab);
 
         items.forEach((item) => {
+            const milestoneLvl = this.getItemMilestoneUnlockLevel(item);
             const isOwned = this.ownedItems.includes(item.id) || item.cost === 0;
             let isEquipped = false;
             if (item.category === "helmet") isEquipped = this.equippedHelmet === item.value;
@@ -3317,39 +3823,94 @@ class Game {
             if (item.category === "cape") isEquipped = this.equippedCape === item.value;
 
             const canAfford = this.walletEmeralds >= item.cost;
+            const perk = this.getItemGameplayPerk(item);
 
             const card = document.createElement("div");
             card.className = `shop-card ${isOwned ? "owned" : ""}`;
+            if (isEquipped) {
+                card.style.borderColor = "#06d6a0";
+                card.style.boxShadow = "0 0 16px rgba(6, 214, 160, 0.35)";
+            }
 
-            let btnLabel = `AÇ (${item.cost} ❖ Zümrüt)`;
+            let btnLabel = canAfford
+                ? `AÇ (${item.cost} ❖ Zümrüt)`
+                : `🎬 ZÜMRÜT AL / AÇ (${item.cost} ❖)`;
             let btnClass = "shop-buy-btn emerald-buy";
             let disabled = false;
 
             if (isEquipped) {
-                btnLabel = "✓ KUŞANILDI";
+                btnLabel = "✓ KUŞANILDI (AKTİF)";
                 btnClass = "shop-buy-btn equipped";
                 disabled = true;
             } else if (isOwned) {
-                btnLabel = "KUŞAN";
-            } else if (!canAfford) {
-                disabled = true;
+                btnLabel = "KUŞAN & AKTİF ET";
+            }
+
+            let milestoneHtml = "";
+            if (milestoneLvl > 0) {
+                if (maxClearedLevel >= milestoneLvl) {
+                    milestoneHtml = `<div style="font-size:10px;font-weight:800;color:#6ee7b7;margin-top:2px;">🏆 Bölüm ${milestoneLvl} Başarı Hediyesi (Açıldı ✓)</div>`;
+                } else {
+                    milestoneHtml = `<div style="font-size:10px;font-weight:800;color:#ffd166;margin-top:2px;">🏆 Bölüm ${milestoneLvl} Hediyesi veya ${item.cost} ❖ Zümrüt</div>`;
+                }
             }
 
             card.innerHTML = `
                 <div>
                     <div class="shop-card-top">
                         <span class="shop-icon">${item.icon}</span>
-                        <h4>${item.title}</h4>
+                        <div>
+                            <h4>${item.title}</h4>
+                            <span class="char-status-badge ${isEquipped ? "equipped" : (isOwned ? "owned" : "locked")}">
+                                ${isEquipped ? "👑 KUŞANILDI" : (isOwned ? "✓ AÇIK / SAHİPSİN" : item.cost + " ❖ Zümrüt")}
+                            </span>
+                            ${milestoneHtml}
+                        </div>
                     </div>
+                    <div class="item-perk-pill">${perk.desc}</div>
                     <p>${item.desc}</p>
                 </div>
                 <button class="${btnClass}" ${disabled ? "disabled" : ""}>${btnLabel}</button>
             `;
 
+            const applyPreviewItem = (targetItem) => {
+                if (!this.previewDummy) return;
+                this.previewDummy.heroCharId = this.equippedHeroChar || "default";
+                this.previewDummy.skinId = targetItem.category === "skin" ? targetItem.value : this.equippedSkin;
+                this.previewDummy.helmetId = targetItem.category === "helmet" ? targetItem.value : this.equippedHelmet;
+                this.previewDummy.backGearId = targetItem.category === "backGear" ? targetItem.value : this.equippedBackGear;
+                this.previewDummy.visorId = targetItem.category === "visor" ? targetItem.value : this.equippedVisor;
+                this.previewDummy.auraId = targetItem.category === "aura" ? targetItem.value : this.equippedAura;
+                this.previewDummy.capeColor = targetItem.category === "cape" ? targetItem.value : this.equippedCape;
+                this.previewDummy.forceCustOverlay = true;
+                const perkEl = document.getElementById("cust-preview-perk-badge");
+                if (perkEl) {
+                    const p = this.getItemGameplayPerk(targetItem);
+                    perkEl.textContent = p.desc;
+                }
+            };
+
+            card.addEventListener("mouseenter", () => applyPreviewItem(item));
+            card.addEventListener("mouseleave", () => {
+                if (!this.previewDummy) return;
+                this.previewDummy.heroCharId = this.equippedHeroChar || "default";
+                this.previewDummy.skinId = this.equippedSkin;
+                this.previewDummy.helmetId = this.equippedHelmet;
+                this.previewDummy.backGearId = this.equippedBackGear;
+                this.previewDummy.visorId = this.equippedVisor;
+                this.previewDummy.auraId = this.equippedAura;
+                this.previewDummy.capeColor = this.equippedCape;
+                this.previewDummy.forceCustOverlay = true;
+            });
+
             const btn = card.querySelector("button");
             btn.addEventListener("click", () => {
+                applyPreviewItem(item);
                 if (!isOwned) {
-                    if (this.walletEmeralds < item.cost) return;
+                    if (this.walletEmeralds < item.cost) {
+                        this.openInsufficientBalanceModal("emerald", item.cost - this.walletEmeralds, item.title);
+                        return;
+                    }
                     this.walletEmeralds -= item.cost;
                     this.ownedItems.push(item.id);
                     window.sfx.emerald();
@@ -3365,12 +3926,14 @@ class Game {
                 if (item.category === "cape") this.equippedCape = item.value;
 
                 if (this.previewDummy) {
+                    this.previewDummy.heroCharId = this.equippedHeroChar || "default";
                     this.previewDummy.skinId = this.equippedSkin;
                     this.previewDummy.helmetId = this.equippedHelmet;
                     this.previewDummy.backGearId = this.equippedBackGear;
                     this.previewDummy.visorId = this.equippedVisor;
                     this.previewDummy.auraId = this.equippedAura;
                     this.previewDummy.capeColor = this.equippedCape;
+                    this.previewDummy.forceCustOverlay = true;
                 }
 
                 this.saveProgress();
@@ -3380,12 +3943,19 @@ class Game {
             container.appendChild(card);
         });
 
-        // Update Summary Text
+        // Update Summary Text & Active Hero + Customization Perk Badge
+        const activeHeroObj = HERO_CHARACTERS_CATALOG.find((c) => c.id === (this.equippedHeroChar || "default")) || HERO_CHARACTERS_CATALOG[0];
         const skinTitle = (CUSTOMIZE_CATALOG.find((i) => i.category === "skin" && i.value === this.equippedSkin) || {}).title || "";
         const helmetTitle = (CUSTOMIZE_CATALOG.find((i) => i.category === "helmet" && i.value === this.equippedHelmet) || {}).title || "";
         const gearTitle = (CUSTOMIZE_CATALOG.find((i) => i.category === "backGear" && i.value === this.equippedBackGear) || {}).title || "";
         const auraTitle = (CUSTOMIZE_CATALOG.find((i) => i.category === "aura" && i.value === this.equippedAura) || {}).title || "";
-        document.getElementById("preview-summary-text").textContent = `${skinTitle} • ${helmetTitle} • ${gearTitle} • ${auraTitle}`;
+        document.getElementById("preview-summary-text").textContent = `${activeHeroObj.title} • ${skinTitle} • ${helmetTitle} • ${gearTitle} • ${auraTitle}`;
+
+        const upg = this.getPlayerUpgrades();
+        const perkBadgeEl = document.getElementById("cust-preview-perk-badge");
+        if (perkBadgeEl) {
+            perkBadgeEl.textContent = `⚡ Toplam Güç: ${3 + upg.extraHearts}♥ Can • +%${Math.round(upg.speedBonus * 18)} Hız • x${upg.scoreMult} Skor${upg.hasGlide ? " • 🪽 Süzülme" : ""}`;
+        }
     }
 
     drawCustomizePreview() {
@@ -3441,8 +4011,38 @@ class Game {
         if (!container) return;
         container.innerHTML = "";
 
-        HERO_CHARACTERS_CATALOG.forEach((item) => {
-            const isOwned = (this.ownedCharacters && this.ownedCharacters.includes(item.id)) || item.cost === 0;
+        const ownedSet = new Set(["default", ...(this.ownedCharacters || [])]);
+        const totalCount = HERO_CHARACTERS_CATALOG.length;
+        const ownedCount = HERO_CHARACTERS_CATALOG.filter((c) => ownedSet.has(c.id) || c.cost === 0).length;
+        const lockedCount = totalCount - ownedCount;
+
+        // Update Filter Tab Counts
+        document.querySelectorAll("#char-filter-tabs .char-filter-tab").forEach((tabBtn) => {
+            const f = tabBtn.getAttribute("data-char-filter");
+            if (f === "all") tabBtn.textContent = `🌟 Tüm Karakterler (${totalCount})`;
+            else if (f === "owned") tabBtn.textContent = `✅ Satın Alınanlar (${ownedCount})`;
+            else if (f === "locked") tabBtn.textContent = `🔒 Satın Alınabilir (${lockedCount})`;
+        });
+
+        const filterMode = this.activeCharFilter || "all";
+        const filteredList = HERO_CHARACTERS_CATALOG.filter((item) => {
+            const isOwned = ownedSet.has(item.id) || item.cost === 0;
+            if (filterMode === "owned") return isOwned;
+            if (filterMode === "locked") return !isOwned;
+            return true;
+        });
+
+        if (filteredList.length === 0) {
+            const emptyBox = document.createElement("div");
+            emptyBox.style.cssText = "grid-column: 1 / -1; padding: 24px; text-align: center; color: #94a3b8; font-weight: 700; border: 1px dashed rgba(255,209,102,0.3); border-radius: 12px;";
+            emptyBox.textContent = filterMode === "locked"
+                ? "🎉 Tebrikler! Oyundaki tüm karakterlerin tamamını satın aldın!"
+                : "Henüz bu filtrede karakter bulunmuyor.";
+            container.appendChild(emptyBox);
+        }
+
+        filteredList.forEach((item) => {
+            const isOwned = ownedSet.has(item.id) || item.cost === 0;
             const isEquipped = (this.equippedHeroChar || "default") === item.id;
             const canAfford = (this.walletGoldCoins || 0) >= item.cost;
 
@@ -3453,19 +4053,24 @@ class Game {
                 card.style.boxShadow = "0 0 18px rgba(255, 209, 102, 0.35)";
             }
 
-            let btnLabel = `SATIN AL (${item.cost} ✪ Coin)`;
+            let btnLabel = canAfford
+                ? `🪙 SATIN AL (${item.cost} ✪ Coin)`
+                : `🎬 COİN AL / AÇ (${item.cost} ✪ Coin)`;
             let btnClass = "shop-buy-btn";
             let disabled = false;
 
             if (isEquipped) {
-                btnLabel = "✓ GİYİLDİ (AKTİF KARAKTER)";
+                btnLabel = "👑 AKTİF KARAKTER (SEÇİLİ)";
                 btnClass = "shop-buy-btn equipped";
                 disabled = true;
             } else if (isOwned) {
-                btnLabel = "KIYAFETİ & YÜZÜ GİYDİR";
-            } else if (!canAfford) {
-                disabled = true;
+                btnLabel = "✓ KARAKTERİ SEÇ VE GİYDİR";
             }
+
+            const statusBadgeClass = isEquipped ? "equipped" : (isOwned ? "owned" : "locked");
+            const statusBadgeText = isEquipped
+                ? "👑 AKTİF KARAKTER"
+                : (isOwned ? "✓ SATIN ALINDI" : `🔒 ${item.cost} ✪ Coin`);
 
             card.innerHTML = `
                 <div>
@@ -3473,22 +4078,43 @@ class Game {
                         <span class="shop-icon">${item.icon}</span>
                         <div>
                             <h4 style="color:#ffd166;">${item.title}</h4>
-                            <small style="color:#06d6a0; font-weight:700; display:block; margin-top:2px;">${item.cost === 0 ? "ÜCRETSİZ" : item.cost + " ✪ Coin"}</small>
+                            <span class="char-status-badge ${statusBadgeClass}">${statusBadgeText}</span>
                         </div>
                     </div>
+                    <div class="item-perk-pill">${item.perkDesc || "⚡ Özel Kahraman Yeteneği"}</div>
                     <p style="color:#ff9ebb; font-weight:700; font-size:11.5px; margin-bottom:4px;">👤 ${item.faceDesc}</p>
                     <p>${item.desc}</p>
                 </div>
                 <button class="${btnClass}" ${disabled ? "disabled" : ""}>${btnLabel}</button>
             `;
 
+            const updatePreviewForChar = (targetChar) => {
+                if (this.charPreviewDummy) {
+                    this.charPreviewDummy.heroCharId = targetChar.id;
+                }
+                const sumEl = document.getElementById("char-preview-summary");
+                if (sumEl) {
+                    sumEl.textContent = `${targetChar.title} • ${targetChar.faceDesc}`;
+                }
+                const perkEl = document.getElementById("char-preview-perk-badge");
+                if (perkEl) {
+                    perkEl.textContent = targetChar.perkDesc || "⚡ Özel Kahraman Yeteneği";
+                }
+            };
+
             const btn = card.querySelector("button");
             btn.addEventListener("click", () => {
+                updatePreviewForChar(item);
                 if (!isOwned) {
-                    if ((this.walletGoldCoins || 0) < item.cost) return;
+                    if ((this.walletGoldCoins || 0) < item.cost) {
+                        this.openInsufficientBalanceModal("gold", item.cost - (this.walletGoldCoins || 0), item.title);
+                        return;
+                    }
                     this.walletGoldCoins -= item.cost;
                     if (!this.ownedCharacters) this.ownedCharacters = ["default"];
-                    this.ownedCharacters.push(item.id);
+                    if (!this.ownedCharacters.includes(item.id)) {
+                        this.ownedCharacters.push(item.id);
+                    }
                     window.sfx.buy();
                 } else {
                     window.sfx.coin();
@@ -3511,24 +4137,10 @@ class Game {
             });
 
             // Hovering or clicking the card also previews the character & face live!
-            card.addEventListener("mouseenter", () => {
-                if (this.charPreviewDummy) {
-                    this.charPreviewDummy.heroCharId = item.id;
-                }
-                const sumEl = document.getElementById("char-preview-summary");
-                if (sumEl) {
-                    sumEl.textContent = `${item.title} • ${item.faceDesc}`;
-                }
-            });
+            card.addEventListener("mouseenter", () => updatePreviewForChar(item));
             card.addEventListener("mouseleave", () => {
                 const activeItem = HERO_CHARACTERS_CATALOG.find((c) => c.id === (this.equippedHeroChar || "default")) || HERO_CHARACTERS_CATALOG[0];
-                if (this.charPreviewDummy) {
-                    this.charPreviewDummy.heroCharId = activeItem.id;
-                }
-                const sumEl = document.getElementById("char-preview-summary");
-                if (sumEl) {
-                    sumEl.textContent = `${activeItem.title} • ${activeItem.faceDesc}`;
-                }
+                updatePreviewForChar(activeItem);
             });
 
             container.appendChild(card);
@@ -3538,6 +4150,10 @@ class Game {
         const sumEl = document.getElementById("char-preview-summary");
         if (sumEl) {
             sumEl.textContent = `${activeItem.title} • ${activeItem.faceDesc}`;
+        }
+        const perkEl = document.getElementById("char-preview-perk-badge");
+        if (perkEl) {
+            perkEl.textContent = activeItem.perkDesc || "⚡ Özel Kahraman Yeteneği";
         }
     }
 
@@ -3590,7 +4206,7 @@ class Game {
             const card = document.createElement("div");
             card.className = `shop-card ${isOwned ? "owned" : ""}`;
 
-            let btnLabel = `SATIN AL (${item.cost} ◆)`;
+            let btnLabel = canAfford ? `SATIN AL (${item.cost} ◆)` : `🎬 KRİSTAL AL / AÇ (${item.cost} ◆)`;
             let btnClass = "shop-buy-btn";
             let disabled = false;
 
@@ -3598,16 +4214,18 @@ class Game {
                 btnLabel = "✓ AKTİF GÜÇLENDİRME";
                 btnClass += " equipped";
                 disabled = true;
-            } else if (!canAfford) {
-                disabled = true;
             }
 
             card.innerHTML = `
                 <div>
                     <div class="shop-card-top">
                         <span class="shop-icon">${item.icon}</span>
-                        <h4>${item.title}</h4>
+                        <div>
+                            <h4>${item.title}</h4>
+                            <span class="char-status-badge ${isOwned ? "owned" : "locked"}">${isOwned ? "✓ SATIN ALINDI" : item.cost + " ◆ Kristal"}</span>
+                        </div>
                     </div>
+                    <div class="item-perk-pill">${item.perkDesc || "⚡ Kalıcı Güçlendirme"}</div>
                     <p>${item.desc}</p>
                 </div>
                 <button class="${btnClass}" ${disabled ? "disabled" : ""}>${btnLabel}</button>
@@ -3615,13 +4233,16 @@ class Game {
 
             const btn = card.querySelector("button");
             btn.addEventListener("click", () => {
-                if (!isOwned && this.walletCoins >= item.cost) {
-                    this.walletCoins -= item.cost;
-                    this.ownedItems.push(item.id);
-                    window.sfx.buy();
-                    this.saveProgress();
-                    this.openShop();
+                if (isOwned) return;
+                if (this.walletCoins < item.cost) {
+                    this.openInsufficientBalanceModal("crystal", item.cost - this.walletCoins, item.title);
+                    return;
                 }
+                this.walletCoins -= item.cost;
+                this.ownedItems.push(item.id);
+                window.sfx.buy();
+                this.saveProgress();
+                this.openShop();
             });
 
             container.appendChild(card);
@@ -3631,17 +4252,23 @@ class Game {
     }
 
     updateMapUI() {
+        if (this.selectedLevel >= this.unlockedLevels) {
+            this.selectedLevel = Math.max(0, this.unlockedLevels - 1);
+        }
         document.getElementById("map-wallet-coins").textContent = this.walletCoins;
         document.getElementById("map-wallet-emeralds").textContent = this.walletEmeralds;
         const mapGoldEl = document.getElementById("map-wallet-goldcoins");
         if (mapGoldEl) mapGoldEl.textContent = this.walletGoldCoins || 0;
 
+        let selectedNodeEl = null;
         document.querySelectorAll("#level-nodes-container .map-node").forEach((node, idx) => {
             const worldIdx = Math.floor(idx / 10);
             const visibleInFilter = this.selectedWorldFilter === -1 || this.selectedWorldFilter === worldIdx;
             node.style.display = visibleInFilter ? "" : "none";
             node.classList.toggle("unlocked", idx < this.unlockedLevels);
-            node.classList.toggle("selected", idx === this.selectedLevel);
+            const isSel = idx === this.selectedLevel;
+            node.classList.toggle("selected", isSel);
+            if (isSel && visibleInFilter) selectedNodeEl = node;
             const labelEl = node.querySelector(".node-label");
             if (labelEl) {
                 labelEl.textContent = this.getLocalizedLevelInfo(idx, false).shortName;
@@ -3653,10 +4280,23 @@ class Game {
             }
         });
 
+        if (selectedNodeEl && typeof selectedNodeEl.scrollIntoView === "function") {
+            try {
+                selectedNodeEl.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+            } catch (e) {}
+        }
+
         const info = this.getLocalizedLevelInfo(this.selectedLevel, false);
         document.getElementById("preview-world").textContent = info.world;
         document.getElementById("preview-title").textContent = info.name;
         document.getElementById("preview-desc").textContent = info.desc;
+
+        const playBtn = document.getElementById("btn-play-level");
+        if (playBtn) {
+            const d = LANG_DICT[this.lang] || LANG_DICT.tr;
+            playBtn.textContent = `${d.levelWord ? d.levelWord.toUpperCase() + " " + (this.selectedLevel + 1) + " • " : ""}${d.btnPlayLevel || "BÖLÜME BAŞLA ▶"}`;
+            playBtn.classList.add("play-btn-guiding");
+        }
     }
 
     startLevel(levelIdx, isTroll = this.isTrollMode) {
@@ -3781,10 +4421,11 @@ class Game {
         this.lastTime = performance.now();
         this.levelStartTimeMs = performance.now();
 
-        ["screen-map", "screen-shop", "screen-customize", "screen-character", "screen-modal", "screen-settings", "screen-profile", "screen-language", "screen-troll", "screen-ad-overlay", "screen-ad-consent", "screen-feedback", "screen-leaderboard"].forEach((id) => {
+        ["screen-map", "screen-shop", "screen-customize", "screen-character", "screen-modal", "screen-settings", "screen-profile", "screen-avatar-picker", "screen-insufficient-balance", "screen-language", "screen-troll", "screen-ad-overlay", "screen-ad-consent", "screen-feedback", "screen-leaderboard"].forEach((id) => {
             const el = document.getElementById(id);
             if (el) el.classList.add("hidden");
         });
+        this.preloadRewardedAd();
         document.getElementById("hud").classList.remove("hidden");
         document.getElementById("touch-controls").classList.remove("hidden");
         document.getElementById("hud-checkpoint").classList.add("hidden");
@@ -3878,8 +4519,12 @@ class Game {
         if (dblBtn) dblBtn.classList.add("hidden");
         const revBtn = document.getElementById("btn-ad-revive");
         if (revBtn) {
+            revBtn.disabled = false;
+            revBtn.style.opacity = "1";
+            revBtn.innerHTML = "🎬 Reklam İzle &amp; Kaldığın Yerden Canlan (+3 ♥)";
             if (!this.reviveUsedInLevel) {
                 revBtn.classList.remove("hidden");
+                this.preloadRewardedAd();
             } else {
                 revBtn.classList.add("hidden");
             }
@@ -3911,6 +4556,7 @@ class Game {
                 this.unlockedLevels = this.selectedLevel + 2;
             }
         }
+        this.syncMilestoneCustomizationUnlocks();
         this.saveProgress();
         this.syncLeaderboardToPlayGames();
 
@@ -3987,7 +4633,8 @@ class Game {
                             });
                         }
                     } catch (err) {}
-                }, 2000);
+                    this.preloadRewardedAd();
+                }, 1200);
             }
         } catch (e) {
             // Browser environment fallback
@@ -4029,7 +4676,7 @@ class Game {
 
         const reportPayload = {
             app: "Marinext 2100",
-            version: "1.1.5 (code 9)",
+            version: "1.1.8 (code 12)",
             stars,
             category: cat,
             message: rawText || "(Yıldız puanı gönderildi)",
@@ -4091,7 +4738,7 @@ class Game {
     // ============================================================================
     getPlayerLeaderboardMetrics() {
         const totalStars = (this.starsPerLevel || []).reduce((acc, s) => acc + (Number(s) || 0), 0);
-        const clearedLevels = Math.max(1, (this.unlockedLevels || 1) - 1, (this.starsPerLevel || []).filter((s) => s > 0).length);
+        const clearedLevels = Math.max(0, (this.unlockedLevels || 1) - 1, (this.starsPerLevel || []).filter((s) => s > 0).length);
         const bossesDefeated = Math.floor(clearedLevels / 5);
         const computedScore = Math.max(
             Number(this.totalCampaignScore) || 0,
@@ -4100,7 +4747,7 @@ class Game {
         const treasurePoints = (this.walletEmeralds || 0) * 10 + (this.walletGoldCoins || 0) + (this.ownedCharacters ? this.ownedCharacters.length * 35 : 35);
         const speedMs = (this.bestSpeedrunMs && this.bestSpeedrunMs > 0)
             ? this.bestSpeedrunMs
-            : Math.max(14800, 42500 - clearedLevels * 260 - totalStars * 45);
+            : (clearedLevels > 0 ? Math.max(14800, 42500 - clearedLevels * 260 - totalStars * 45) : 999999);
         return {
             score: computedScore,
             progress: clearedLevels,
@@ -4133,16 +4780,23 @@ class Game {
                 ) {
                     continue;
                 }
+                const entryCountry = r.country || "🇹🇷";
+                if (scope === "tr" && entryCountry !== "🇹🇷") {
+                    continue;
+                }
+                if (scope === "weekly" && r.weeklyActive === false) {
+                    continue;
+                }
                 entries.push({
                     isMe: false,
                     name: String(r.name).slice(0, 26),
                     avatar: r.avatar || "🎮",
                     heroTitle: r.heroTitle || "Marinext 2100 Oyuncusu",
-                    country: r.country || "🇹🇷",
+                    country: entryCountry,
                     score: Math.max(0, Number(r.score) || 0),
-                    progress: Math.max(1, Math.min(100, Number(r.progress) || 1)),
+                    progress: Math.max(0, Math.min(100, Number(r.progress) || 0)),
                     emerald: Math.max(0, Number(r.emerald) || 0),
-                    speedrun: Math.max(4000, Number(r.speedrun) || 25000)
+                    speedrun: Math.max(4000, Number(r.speedrun) || 999999)
                 });
             }
         }
@@ -4175,13 +4829,17 @@ class Game {
 
     formatLeaderboardMetricValue(entry, category = "score") {
         if (category === "progress") {
-            const bosses = Math.floor((entry.progress || 1) / 5);
-            return `Bölüm ${entry.progress}/100 • ${bosses} Boss`;
+            const prog = Number(entry.progress) || 0;
+            const bosses = Math.floor(prog / 5);
+            return `Bölüm ${prog}/100 • ${bosses} Boss`;
         }
         if (category === "emerald") {
-            return `${entry.emerald.toLocaleString("tr-TR")} ❖ Hazine Puanı`;
+            return `${(entry.emerald || 0).toLocaleString("tr-TR")} ❖ Hazine Puanı`;
         }
         if (category === "speedrun") {
+            if (!entry.speedrun || entry.speedrun >= 999000) {
+                return "⏱️ Henüz Rekor Yok";
+            }
             const sec = ((entry.speedrun || 25000) / 1000).toFixed(2);
             return `⚡ ${sec} sn`;
         }
@@ -4209,35 +4867,52 @@ class Game {
         const list = this.getLeaderboardCompetitors(cat, scope);
         const me = list.find((e) => e.isMe) || list[list.length - 1];
         const league = this.getLeagueInfoByRank(me.rank);
+        const myMetrics = this.getPlayerLeaderboardMetrics();
+        const eligibleForReward = myMetrics.progress >= 1 || myMetrics.score >= 1000;
 
         const badgeEl = document.getElementById("lb-league-badge");
         if (badgeEl) badgeEl.textContent = league.label;
 
+        const scopeLabel = scope === "tr" ? "🇹🇷 Türkiye Sıralaması" : (scope === "weekly" ? "🔥 Bu Hafta Aktif" : "🌍 Dünya Geneli");
         const syncEl = document.getElementById("lb-sync-status");
         if (syncEl) {
+            syncEl.style.color = "#06d6a0";
             syncEl.textContent = this.playGamesAuthed
-                ? `● Sadece Marinext 2100 Gerçek Oyuncuları (${list.length} Oyuncu) • Play Games Bağlı (${this.playGamesPlayerName || this.playerName})`
-                : `● Sadece Marinext 2100 Gerçek Oyuncuları (${list.length} Oyuncu • Simülasyon/Bot Yok)`;
+                ? `● ${scopeLabel} • Sadece Marinext 2100 Gerçek Oyuncuları (${list.length} Oyuncu) • Play Games Bağlı (${this.playGamesPlayerName || this.playerName})`
+                : `● ${scopeLabel} • Sadece Marinext 2100 Gerçek Oyuncuları (${list.length} Oyuncu • Simülasyon/Bot Yok)`;
         }
 
-        // 1. Render Top 3 Podium
+        // 1. Render Top 3 Podium (with clean placeholders if fewer than 3 real players)
         const podiumContainer = document.getElementById("lb-podium-container");
         if (podiumContainer) {
             podiumContainer.innerHTML = "";
             const medals = ["🥇 1.", "🥈 2.", "🥉 3."];
-            list.slice(0, 3).forEach((entry, idx) => {
+            for (let idx = 0; idx < 3; idx++) {
+                const entry = list[idx];
                 const card = document.createElement("div");
                 card.className = `lb-podium-card rank-${idx + 1}`;
-                card.innerHTML = `
-                    <div class="lb-avatar-box" style="width:36px;height:36px;font-size:20px;border-color:#ffd166;">${entry.avatar}</div>
-                    <div style="min-width:0;flex:1;">
-                        <div style="font-size:11px;font-weight:900;color:#ffd166;">${medals[idx]} ${entry.country} ${entry.isMe ? "• SEN" : ""}</div>
-                        <div style="font-size:13px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${entry.name}</div>
-                        <div style="font-size:11.5px;font-weight:800;color:#06d6a0;">${this.formatLeaderboardMetricValue(entry, cat)}</div>
-                    </div>
-                `;
+                if (entry) {
+                    card.innerHTML = `
+                        <div class="lb-avatar-box" style="width:36px;height:36px;font-size:20px;border-color:#ffd166;">${entry.avatar}</div>
+                        <div style="min-width:0;flex:1;">
+                            <div style="font-size:11px;font-weight:900;color:#ffd166;">${medals[idx]} ${entry.country} ${entry.isMe ? "• SEN" : ""}</div>
+                            <div style="font-size:13px;font-weight:800;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${entry.name}</div>
+                            <div style="font-size:11.5px;font-weight:800;color:#06d6a0;">${this.formatLeaderboardMetricValue(entry, cat)}</div>
+                        </div>
+                    `;
+                } else {
+                    card.style.opacity = "0.55";
+                    card.innerHTML = `
+                        <div class="lb-avatar-box" style="width:36px;height:36px;font-size:18px;border-color:rgba(255,255,255,0.2);">⏳</div>
+                        <div style="min-width:0;flex:1;">
+                            <div style="font-size:11px;font-weight:900;color:#94a3b8;">${medals[idx]} BOŞ KÜRSÜ</div>
+                            <div style="font-size:12px;font-weight:700;color:#cbd5e1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Yeni Şampiyon Bekleniyor</div>
+                            <div style="font-size:10.5px;font-weight:700;color:#64748b;">Play Games ile katıl!</div>
+                        </div>
+                    `;
+                }
                 podiumContainer.appendChild(card);
-            });
+            }
         }
 
         // 2. Render Full Rankings List (Only Real Players of Marinext 2100)
@@ -4284,7 +4959,9 @@ class Game {
 
         const targetHintEl = document.getElementById("lb-my-target-hint");
         if (targetHintEl) {
-            if (me.rank > 1) {
+            if (!eligibleForReward) {
+                targetHintEl.textContent = "🎯 Lig ödülünü açmak için en az 1 bölüm tamamla veya 1.000 puana ulaş!";
+            } else if (me.rank > 1) {
                 const above = list[me.rank - 2];
                 if (cat === "speedrun") {
                     const diffSec = Math.max(0.05, (me.speedrun - above.speedrun) / 1000).toFixed(2);
@@ -4294,7 +4971,7 @@ class Game {
                     targetHintEl.textContent = `Hedef #${me.rank - 1} (${above.name}): +${diff.toLocaleString("tr-TR")} fark kaldı!`;
                 }
             } else {
-                targetHintEl.textContent = "👑 Zirvedesin! Tüm dünyada 1. sıradasın!";
+                targetHintEl.textContent = "👑 Zirvedesin! Aktif sıralamada 1. sıradasın!";
             }
         }
 
@@ -4305,6 +4982,9 @@ class Game {
             if (alreadyClaimed) {
                 rewardBtn.textContent = "✓ Lig Ödülü Alındı";
                 rewardBtn.style.opacity = "0.65";
+            } else if (!eligibleForReward) {
+                rewardBtn.textContent = "🔒 Ödül İçin 1 Bölüm Bitir";
+                rewardBtn.style.opacity = "0.75";
             } else {
                 rewardBtn.textContent = `🎁 Ödül Al (+${league.rewardCoins}✪ +${league.rewardEmeralds}❖)`;
                 rewardBtn.style.opacity = "1";
@@ -4319,6 +4999,18 @@ class Game {
         const me = list.find((e) => e.isMe) || list[list.length - 1];
         const league = this.getLeagueInfoByRank(me.rank);
         const rewardKey = `${cat}_${league.id}`;
+        const myMetrics = this.getPlayerLeaderboardMetrics();
+        const eligibleForReward = myMetrics.progress >= 1 || myMetrics.score >= 1000;
+
+        if (!eligibleForReward) {
+            window.sfx.blockHit();
+            const syncEl = document.getElementById("lb-sync-status");
+            if (syncEl) {
+                syncEl.style.color = "#ffd166";
+                syncEl.textContent = "🎯 Lig ödülünü alabilmek için önce en az 1 bölümü zaferle tamamlamalısın!";
+            }
+            return;
+        }
 
         if (!Array.isArray(this.claimedLbLeagues)) this.claimedLbLeagues = [];
         if (this.claimedLbLeagues.includes(rewardKey)) {
@@ -4385,7 +5077,59 @@ class Game {
         );
     }
 
+    async preloadRewardedAd() {
+        if (this._rewardedAdPreloading || this._rewardedAdPreloaded) return;
+        const capAdMob = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
+        if (!capAdMob || typeof capAdMob.prepareRewardVideoAd !== "function") return;
+        this._rewardedAdPreloading = true;
+        try {
+            await capAdMob.prepareRewardVideoAd({
+                adId: ADMOB_CONFIG.rewardedAdUnitId,
+                isTesting: ADMOB_CONFIG.isTesting
+            });
+            this._rewardedAdPreloaded = true;
+        } catch (e) {
+            this._rewardedAdPreloaded = false;
+        } finally {
+            this._rewardedAdPreloading = false;
+        }
+    }
+
     async showRewardedAd(adTitle, adRewardDesc, onRewardGranted) {
+        if (this._adRequestInFlight) return;
+        this._adRequestInFlight = true;
+
+        // Instant visual feedback on single tap (prevents user feeling they need to click 2-3 times!)
+        const activeAdButtons = [
+            document.getElementById("btn-ad-revive"),
+            document.getElementById("btn-ad-double"),
+            document.getElementById("btn-insuff-watch-ad")
+        ].filter((b) => b && !b.classList.contains("hidden"));
+
+        const savedBtnStates = activeAdButtons.map((b) => ({
+            el: b,
+            html: b.innerHTML,
+            disabled: b.disabled,
+            opacity: b.style.opacity
+        }));
+
+        activeAdButtons.forEach((b) => {
+            b.disabled = true;
+            b.style.opacity = "0.8";
+            b.innerHTML = "⏳ Reklam Yükleniyor, Lütfen Bekleyin...";
+        });
+
+        const restoreButtons = () => {
+            savedBtnStates.forEach((s) => {
+                if (s.el) {
+                    s.el.disabled = false;
+                    s.el.style.opacity = s.opacity || "1";
+                    s.el.innerHTML = s.html;
+                }
+            });
+            this._adRequestInFlight = false;
+        };
+
         const capAdMob = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.AdMob;
         if (capAdMob && typeof capAdMob.prepareRewardVideoAd === "function") {
             try {
@@ -4393,35 +5137,48 @@ class Game {
                     window.sfx.adPlaying = true;
                     window.sfx.suspendAudio();
                 }
-                await capAdMob.prepareRewardVideoAd({
-                    adId: ADMOB_CONFIG.rewardedAdUnitId,
-                    isTesting: ADMOB_CONFIG.isTesting
+                if (!this._rewardedAdPreloaded) {
+                    await capAdMob.prepareRewardVideoAd({
+                        adId: ADMOB_CONFIG.rewardedAdUnitId,
+                        isTesting: ADMOB_CONFIG.isTesting
+                    });
+                }
+                this._rewardedAdPreloaded = false;
+                activeAdButtons.forEach((b) => {
+                    b.innerHTML = "📺 Reklam Açılıyor...";
                 });
                 const rewardItem = await capAdMob.showRewardVideoAd();
                 if (window.sfx) {
                     window.sfx.adPlaying = false;
                     window.sfx.resumeAudio();
                 }
+                restoreButtons();
+                setTimeout(() => this.preloadRewardedAd(), 800);
                 if (rewardItem) {
                     this.lastRewardedAdTime = performance.now();
                     onRewardGranted();
                 }
                 return;
             } catch (e) {
+                this._rewardedAdPreloaded = false;
                 if (window.sfx) {
                     window.sfx.adPlaying = false;
                     window.sfx.resumeAudio();
                 }
+                restoreButtons();
+                setTimeout(() => this.preloadRewardedAd(), 1500);
                 // Google Play Deceptive Ads Compliance: On native Android, never show a simulated HTML ad screen
                 if (this.isNativeAndroid()) {
-                    alert("Şu anda uygun video reklam bulunamadı veya internet bağlantınız kapalı. Lütfen biraz sonra tekrar deneyin.");
+                    alert("Şu anda uygun video reklam yüklenemedi veya internet bağlantınız kapalı. Lütfen birkaç saniye sonra tekrar deneyin.");
                     return;
                 }
             }
         } else if (this.isNativeAndroid()) {
+            restoreButtons();
             return;
         }
 
+        restoreButtons();
         this.playInteractiveAdOverlay("ÖDÜLLÜ BONUS VİDEO", "🎁", adTitle, adRewardDesc, 5, () => {
             this.lastRewardedAdTime = performance.now();
             onRewardGranted();
@@ -5162,15 +5919,17 @@ class Game {
         }
 
         // Collect Coins & Ancient Emeralds (❖) + Magnet Attraction
+        const magnetRange = (this.player && this.player.magnetRadius) || 175;
+        const scoreMult = (this.player && this.player.scoreMult) || 1;
         for (const c of this.coins) {
             if (c.collected) continue;
             c.anim += 0.08;
             const dx = (this.player.x + this.player.w / 2) - c.x;
             const dy = (this.player.y + this.player.h / 2) - c.y;
             const dist = Math.hypot(dx, dy);
-            if (this.player.hasMagnet && !c.isTrollTeleport && !c.isFakeEmerald && dist < 175 && dist > 5) {
-                c.x += (dx / dist) * 6.5;
-                c.y += (dy / dist) * 6.5;
+            if (this.player.hasMagnet && !c.isTrollTeleport && !c.isFakeEmerald && dist < magnetRange && dist > 5) {
+                c.x += (dx / dist) * 6.8;
+                c.y += (dy / dist) * 6.8;
             }
             if (dist < 32) {
                 if (c.type === "emerald" && c.isTrollTeleport) {
@@ -5203,7 +5962,7 @@ class Game {
                 c.collected = true;
                 if (c.type === "emerald") {
                     this.addEmeralds(1);
-                    this.score += 500;
+                    this.score += Math.round(500 * scoreMult);
                     window.sfx.emerald();
                     this.spawnParticles(c.x, c.y, 18, "#06d6a0", 4.5);
                     this.floatingTexts.push(
@@ -5215,21 +5974,23 @@ class Game {
                         )
                     );
                 } else if (c.type === "gold_coin") {
-                    this.addGoldCoins(2);
-                    this.score += 120;
+                    const bonusTrig = this.player && this.player.coinBonusChance && Math.random() < this.player.coinBonusChance;
+                    const coinGain = bonusTrig ? 3 : 2;
+                    this.addGoldCoins(coinGain);
+                    this.score += Math.round(120 * scoreMult);
                     window.sfx.coin();
                     this.spawnParticles(c.x, c.y, 12, "#ffd166", 3.6);
                     this.floatingTexts.push(
                         new window.FloatingText(
                             c.x,
                             c.y - 12,
-                            "+2 ✪ COİN!",
+                            `+${coinGain} ✪ COİN!`,
                             "#ffd166"
                         )
                     );
                 } else {
                     this.addCrystals(1);
-                    this.score += 50;
+                    this.score += Math.round(50 * scoreMult);
                     window.sfx.coin();
                     this.spawnParticles(c.x, c.y, 8, "#00f2fe", 2.8);
                 }
