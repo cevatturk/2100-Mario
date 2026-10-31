@@ -1737,7 +1737,7 @@ class Game {
     }
 
     async checkAppUpdateOnStartup() {
-        const CURRENT_VERSION_CODE = 12;
+        const CURRENT_VERSION_CODE = 13;
         let installedCode = CURRENT_VERSION_CODE;
         if (window.MarinextCloudBridge && typeof window.MarinextCloudBridge.getAppVersionInfo === "function") {
             try {
@@ -4676,7 +4676,7 @@ class Game {
 
         const reportPayload = {
             app: "Marinext 2100",
-            version: "1.1.8 (code 12)",
+            version: "1.1.9 (code 13)",
             stars,
             category: cat,
             message: rawText || "(Yıldız puanı gönderildi)",

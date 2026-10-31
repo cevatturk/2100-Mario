@@ -225,9 +225,10 @@ function normalizeLevelCollectibles(
     checkpoints = [],
     saws = []
 ) {
-    const targetEmeralds = isBossLevel ? 5 : 12;
-    const targetCrystals = isBossLevel ? 8 : 25;
-    const targetGoldCoins = isBossLevel ? 8 : 16;
+    const lengthRatio = Math.max(1, (portal ? portal.x : 3200) / (68 * TILE_SIZE));
+    const targetEmeralds = isBossLevel ? 6 : Math.min(26, Math.round(12 + (lengthRatio - 1) * 7));
+    const targetCrystals = isBossLevel ? 10 : Math.min(68, Math.round(25 + (lengthRatio - 1) * 20));
+    const targetGoldCoins = isBossLevel ? 10 : Math.min(42, Math.round(16 + (lengthRatio - 1) * 12));
 
     // Convert any coin-dispensing mystery blocks to power-ups so crystal count is strictly controlled
     const powerCycle = ['shield', 'fire', 'speed'];
@@ -564,7 +565,18 @@ function createLevelData(levelIndex) {
             coins.push({ x: 45 * TILE_SIZE, y: 11.1 * TILE_SIZE, type: 'emerald' });
 
             coins.push({ x: 60 * TILE_SIZE, y: 11.1 * TILE_SIZE, type: 'emerald' });
-            portal = { x: 63 * TILE_SIZE, y: 12 * TILE_SIZE - 86 };
+
+            // Act 3 (Progressive Easy Extension): Second Checkpoint + Sky Steps + Bonus Balcony
+            checkpoints.push({ x: 62.5 * TILE_SIZE, y: 12 * TILE_SIZE - 64 });
+            mysteryBlocks.push({ x: 64.5 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'fire' });
+            addGround(67, 10.2, 4.5, 0.8, 'platform');
+            addGround(73, 8.6, 5.0, 0.8, 'platform');
+            addCoinArc(67.5 * TILE_SIZE, 8.8 * TILE_SIZE, 6);
+            coins.push({ x: 75.5 * TILE_SIZE, y: 7.6 * TILE_SIZE, type: 'emerald' });
+
+            addGround(78, 12, 11, 5);
+            enemies.push({ x: 81 * TILE_SIZE, y: 11 * TILE_SIZE, type: 'slime', minX: 78.5 * TILE_SIZE, maxX: 84 * TILE_SIZE });
+            portal = { x: 86 * TILE_SIZE, y: 12 * TILE_SIZE - 86 };
             break;
         }
 
@@ -599,41 +611,54 @@ function createLevelData(levelIndex) {
             addCrumble(49.5, 9.2, 2.5);
             coins.push({ x: 50.5 * TILE_SIZE, y: 8.3 * TILE_SIZE, type: 'emerald' });
 
-            addGround(55, 10, 16, 7);
-            enemies.push({ x: 60 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'crawler', minX: 56 * TILE_SIZE, maxX: 64 * TILE_SIZE });
+            addGround(55, 10, 14, 7);
+            checkpoints.push({ x: 56.5 * TILE_SIZE, y: 10 * TILE_SIZE - 64 });
+            mysteryBlocks.push({ x: 59 * TILE_SIZE, y: 6.5 * TILE_SIZE, content: 'shield' });
+            enemies.push({ x: 61 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'crawler', minX: 57 * TILE_SIZE, maxX: 65 * TILE_SIZE });
             enemies.push({ x: 65 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 61 * TILE_SIZE, maxX: 68 * TILE_SIZE });
-            coins.push({ x: 66 * TILE_SIZE, y: 9.1 * TILE_SIZE, type: 'emerald' });
 
-            portal = { x: 69 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+            // Act 3: Moving Lift Canyon + Upper Emerald Balcony
+            hazards.push({ x: 69 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 14 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+            addGround(69, 14, 14, 3);
+            addMovingPlatform(70.5, 9.5, 76.5, 7.5, 3.4, 1.25);
+            addGround(78, 7.2, 4.5, 0.8, 'platform');
+            coins.push({ x: 80.2 * TILE_SIZE, y: 6.2 * TILE_SIZE, type: 'emerald' });
+
+            addGround(83, 10, 13, 7);
+            enemies.push({ x: 87 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'crawler', minX: 84 * TILE_SIZE, maxX: 91 * TILE_SIZE });
+            portal = { x: 93 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
             break;
         }
 
         case 2: {
-            // BÖLÜM 3 (BOSS 1 - KRİSTAL DEV): 10 Can
-            addGround(0, 12, 44, 5);
+            // BÖLÜM 3 (BOSS 1 - KRİSTAL DEV): 10 Can + Kristal Sarkıt Yağmuru
+            addGround(0, 12, 46, 5);
             addGround(0, 0, 2, 12, 'wall');
-            addGround(42, 0, 2, 12, 'wall');
+            addGround(44, 0, 2, 12, 'wall');
 
-            signs.push({ x: 240, y: 12 * TILE_SIZE - 55, text: "BOSS 1: Kristal Dev! Güçlendirmeleri Al ve İlerle!" });
+            signs.push({ x: 240, y: 12 * TILE_SIZE - 55, text: "BOSS 1: Kristal Dev! Tavan Kristallerinden Kaç ve Kafasına Zıpla!" });
             mysteryBlocks.push({ x: 7 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'shield' });
             mysteryBlocks.push({ x: 9 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'fire' });
             checkpoints.push({ x: 12 * TILE_SIZE, y: 12 * TILE_SIZE - 64 });
 
-            addGround(17, 9, 4, 0.7, 'platform');
-            addGround(25, 7.2, 5, 0.7, 'platform');
-            addGround(33, 9, 4, 0.7, 'platform');
+            addJumpPad(15.5, 12, -24.8);
+            addGround(17, 9, 4.5, 0.7, 'platform');
+            addGround(25.5, 6.8, 5.5, 0.7, 'platform');
+            addGround(34.5, 9, 4.5, 0.7, 'platform');
+            addJumpPad(40.5, 12, -24.8);
             coins.push({ x: 19 * TILE_SIZE, y: 8.1 * TILE_SIZE, type: 'emerald' });
 
             bossConfig = {
                 name: "KRİSTAL DEV (BOSS 1)",
                 hp: 10,
-                x: 31 * TILE_SIZE,
+                x: 32 * TILE_SIZE,
                 y: 12 * TILE_SIZE - 110,
                 minX: 15 * TILE_SIZE,
-                maxX: 40 * TILE_SIZE,
-                variant: 1
+                maxX: 42 * TILE_SIZE,
+                variant: 1,
+                bossType: 1
             };
-            portal = { x: 27 * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
+            portal = { x: 28 * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
             break;
         }
 
@@ -667,13 +692,24 @@ function createLevelData(levelIndex) {
             }
             coins.push({ x: 46.8 * TILE_SIZE, y: 11.1 * TILE_SIZE, type: 'emerald' });
 
-            addGround(46, 12, 28, 5);
+            addGround(46, 12, 26, 5);
             addSaw(56, 11.8, 62, 11.8, 1.5, 26);
             enemies.push({ x: 64 * TILE_SIZE, y: 11 * TILE_SIZE, type: 'golem', minX: 62 * TILE_SIZE, maxX: 69 * TILE_SIZE });
-            enemies.push({ x: 68 * TILE_SIZE, y: 11 * TILE_SIZE, type: 'crawler', minX: 63 * TILE_SIZE, maxX: 71 * TILE_SIZE });
-            coins.push({ x: 68 * TILE_SIZE, y: 11.1 * TILE_SIZE, type: 'emerald' });
+            checkpoints.push({ x: 70 * TILE_SIZE, y: 12 * TILE_SIZE - 64 });
+            mysteryBlocks.push({ x: 71 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'fire' });
 
-            portal = { x: 72 * TILE_SIZE, y: 12 * TILE_SIZE - 86 };
+            // Act 3: Jump Pad Sky Islands + Saw Gauntlet
+            addJumpPad(70.8, 12, -25.2);
+            hazards.push({ x: 72 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 16 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+            addGround(72, 14, 16, 3);
+            addGround(74, 7.5, 5.0, 0.8, 'platform');
+            addMovingPlatform(80, 7.5, 85, 6.2, 3.2, 1.3);
+            coins.push({ x: 76.5 * TILE_SIZE, y: 6.5 * TILE_SIZE, type: 'emerald' });
+
+            addGround(88, 11, 14, 6);
+            enemies.push({ x: 92 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 89 * TILE_SIZE, maxX: 97 * TILE_SIZE });
+            enemies.push({ x: 95 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'crawler', minX: 90 * TILE_SIZE, maxX: 98 * TILE_SIZE });
+            portal = { x: 99 * TILE_SIZE, y: 11 * TILE_SIZE - 86 };
             break;
         }
 
@@ -724,47 +760,60 @@ function createLevelData(levelIndex) {
             coins.push({ x: 55 * TILE_SIZE, y: 7.6 * TILE_SIZE, type: 'emerald' });
             coins.push({ x: 60 * TILE_SIZE, y: 8.3 * TILE_SIZE, type: 'emerald' });
 
-            // Final section & Exit Portal
-            addGround(63, 10, 16, 7);
-            enemies.push({ x: 67 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 64 * TILE_SIZE, maxX: 72 * TILE_SIZE });
-            enemies.push({ x: 72 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'sentinel', minX: 68 * TILE_SIZE, maxX: 75 * TILE_SIZE });
-            portal = { x: 76 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+            // Checkpoint 2 + Act 3: Wind Turbine & Laser Bastion
+            addGround(63, 10, 14, 7);
+            checkpoints.push({ x: 64.5 * TILE_SIZE, y: 10 * TILE_SIZE - 64 });
+            mysteryBlocks.push({ x: 67 * TILE_SIZE, y: 6.5 * TILE_SIZE, content: 'shield' });
+            enemies.push({ x: 70 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 65 * TILE_SIZE, maxX: 75 * TILE_SIZE });
+
+            hazards.push({ x: 77 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 16 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+            addGround(77, 14, 16, 3);
+            addWindZone(78.5, 3, 5.5, 10.5, 0.24, -0.74, 'bottom');
+            addGround(84.5, 6.5, 6.5, 0.9, 'platform');
+            enemies.push({ x: 87.5 * TILE_SIZE, y: 5.5 * TILE_SIZE, type: 'sentinel', minX: 85 * TILE_SIZE, maxX: 90.5 * TILE_SIZE });
+
+            addGround(93, 10, 15, 7);
+            enemies.push({ x: 98 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'sentinel', minX: 94 * TILE_SIZE, maxX: 103 * TILE_SIZE });
+            portal = { x: 105 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
             break;
         }
 
         case 5: {
-            // BÖLÜM 6 (BOSS 2 - ZİNDAN CELLADI): 15 Can + Arena Testeresi + Portallar
-            addGround(0, 12, 46, 5);
+            // BÖLÜM 6 (BOSS 2 - ZİNDAN CELLADI): 15 Can + Gölge Işınlanması & Çapraz Tırpan
+            addGround(0, 12, 48, 5);
             addGround(0, 0, 2, 12, 'wall');
-            addGround(44, 0, 2, 12, 'wall');
+            addGround(46, 0, 2, 12, 'wall');
 
-            signs.push({ x: 240, y: 12 * TILE_SIZE - 55, text: "BOSS 2: Zindan Celladı! Daha Hızlı ve Testereli Arena!" });
+            signs.push({ x: 240, y: 12 * TILE_SIZE - 55, text: "BOSS 2: Zindan Celladı! Gölge Adımı ve Tırpan Dalgasına Dikkat!" });
             mysteryBlocks.push({ x: 6 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'shield' });
             mysteryBlocks.push({ x: 8 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'fire' });
             mysteryBlocks.push({ x: 10 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'speed' });
             checkpoints.push({ x: 12 * TILE_SIZE, y: 12 * TILE_SIZE - 64 });
 
-            addGround(17, 8.8, 4, 0.7, 'platform');
-            addGround(26, 6.8, 5, 0.7, 'platform');
-            addGround(35, 8.8, 4, 0.7, 'platform');
-            addSaw(25, 11.8, 32, 11.8, 1.5, 22);
+            addJumpPad(15.5, 12, -24.8);
+            addGround(17.5, 8.8, 4.2, 0.7, 'platform');
+            addGround(26.5, 6.5, 5.2, 0.7, 'platform');
+            addGround(36, 8.8, 4.2, 0.7, 'platform');
+            addJumpPad(42.5, 12, -24.8);
+            addSaw(25, 11.8, 33, 11.8, 1.5, 22);
 
             teleporters.push({
-                x1: 15.5 * TILE_SIZE, y1: 12 * TILE_SIZE - 56,
-                x2: 28 * TILE_SIZE, y2: 6.8 * TILE_SIZE - 56,
+                x1: 14.5 * TILE_SIZE, y1: 12 * TILE_SIZE - 56,
+                x2: 28.5 * TILE_SIZE, y2: 6.5 * TILE_SIZE - 56,
                 color: "#00f2fe"
             });
 
             bossConfig = {
                 name: "ZİNDAN CELLADI (BOSS 2)",
                 hp: 15,
-                x: 34 * TILE_SIZE,
+                x: 35 * TILE_SIZE,
                 y: 12 * TILE_SIZE - 110,
                 minX: 15 * TILE_SIZE,
-                maxX: 42 * TILE_SIZE,
-                variant: 2
+                maxX: 44 * TILE_SIZE,
+                variant: 2,
+                bossType: 2
             };
-            portal = { x: 28 * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
+            portal = { x: 29 * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
             break;
         }
 
@@ -802,10 +851,22 @@ function createLevelData(levelIndex) {
             addSaw(62.5, 3.5, 62.5, 10.5, 1.7, 26);
             coins.push({ x: 59 * TILE_SIZE, y: 6.6 * TILE_SIZE, type: 'emerald' });
 
-            addGround(68, 10, 15, 7);
-            enemies.push({ x: 72 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 69 * TILE_SIZE, maxX: 77 * TILE_SIZE });
-            enemies.push({ x: 76 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'crawler', minX: 70 * TILE_SIZE, maxX: 79 * TILE_SIZE });
-            portal = { x: 80 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+            // Checkpoint 2 + Act 3: High-Altitude Elevator & Dual Balcony
+            addGround(68, 10, 13, 7);
+            checkpoints.push({ x: 69.5 * TILE_SIZE, y: 10 * TILE_SIZE - 64 });
+            mysteryBlocks.push({ x: 72 * TILE_SIZE, y: 6.5 * TILE_SIZE, content: 'fire' });
+            enemies.push({ x: 75 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 70 * TILE_SIZE, maxX: 79 * TILE_SIZE });
+
+            hazards.push({ x: 81 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 18 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+            addGround(81, 14, 18, 3);
+            addMovingPlatform(82.5, 9.5, 88.5, 6.2, 3.5, 1.35);
+            addGround(90.5, 6.0, 6.5, 0.9, 'platform');
+            enemies.push({ x: 93.5 * TILE_SIZE, y: 5.0 * TILE_SIZE, type: 'sentinel', minX: 91 * TILE_SIZE, maxX: 96.5 * TILE_SIZE });
+
+            addGround(99, 10, 15, 7);
+            enemies.push({ x: 104 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 100 * TILE_SIZE, maxX: 109 * TILE_SIZE });
+            enemies.push({ x: 107 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'crawler', minX: 101 * TILE_SIZE, maxX: 110 * TILE_SIZE });
+            portal = { x: 111 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
             break;
         }
 
@@ -848,10 +909,24 @@ function createLevelData(levelIndex) {
             addSaw(69, 3.5, 69, 10.5, 1.8, 26);
             coins.push({ x: 66 * TILE_SIZE, y: 5.6 * TILE_SIZE, type: 'emerald' });
 
-            addGround(72, 10, 15, 7);
-            enemies.push({ x: 76 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 73 * TILE_SIZE, maxX: 81 * TILE_SIZE });
-            enemies.push({ x: 80 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'sentinel', minX: 75 * TILE_SIZE, maxX: 83 * TILE_SIZE });
-            portal = { x: 84 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
+            // Checkpoint 2 + Act 3: Laser & Jump Pad Fortress
+            addGround(72, 10, 13, 7);
+            checkpoints.push({ x: 73.5 * TILE_SIZE, y: 10 * TILE_SIZE - 64 });
+            mysteryBlocks.push({ x: 76 * TILE_SIZE, y: 6.5 * TILE_SIZE, content: 'shield' });
+            enemies.push({ x: 79 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 74 * TILE_SIZE, maxX: 83 * TILE_SIZE });
+            addJumpPad(83.5, 10, -25.2);
+
+            hazards.push({ x: 85 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 19 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+            addGround(85, 14, 19, 3);
+            addGround(87, 6.2, 7.5, 0.9, 'platform');
+            addLaserGate(91, 2.7, 3.5, 140, 62, 0);
+            addCrumble(96, 7.5, 2.6);
+            addCrumble(100, 8.8, 2.6);
+
+            addGround(104, 10, 16, 7);
+            enemies.push({ x: 109 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 105 * TILE_SIZE, maxX: 114 * TILE_SIZE });
+            enemies.push({ x: 113 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'sentinel', minX: 107 * TILE_SIZE, maxX: 116 * TILE_SIZE });
+            portal = { x: 117 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
             break;
         }
 
@@ -886,25 +961,37 @@ function createLevelData(levelIndex) {
             });
             addGround(48, 2, 2, 10, 'wall');
 
-            addGround(50, 11, 32, 6);
+            addGround(50, 11, 28, 6);
             gravityZones.push({ x: 54 * TILE_SIZE, y: 2 * TILE_SIZE, w: 16 * TILE_SIZE, h: 9 * TILE_SIZE });
             addSaw(55, 10.8, 63, 10.8, 1.8, 26);
             addSaw(63, 10.8, 70, 10.8, 1.8, 26);
             addSaw(62, 5, 62, 9.5, 1.6, 24);
-            enemies.push({ x: 71 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 68 * TILE_SIZE, maxX: 77 * TILE_SIZE });
-            enemies.push({ x: 75 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'sentinel', minX: 70 * TILE_SIZE, maxX: 78 * TILE_SIZE });
-            enemies.push({ x: 73 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'crawler', minX: 67 * TILE_SIZE, maxX: 78 * TILE_SIZE });
+            enemies.push({ x: 71 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'golem', minX: 68 * TILE_SIZE, maxX: 76 * TILE_SIZE });
             coins.push({ x: 53 * TILE_SIZE, y: 10.1 * TILE_SIZE, type: 'emerald' });
 
-            portal = { x: 79 * TILE_SIZE, y: 11 * TILE_SIZE - 86 };
+            // Checkpoint 2 + Act 3: Wind Updraft Canyon & Elite Citadel
+            checkpoints.push({ x: 75.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
+            mysteryBlocks.push({ x: 76.5 * TILE_SIZE, y: 7.5 * TILE_SIZE, content: 'fire' });
+            hazards.push({ x: 78 * TILE_SIZE, y: 13.5 * TILE_SIZE, w: 22 * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+            addGround(78, 14, 22, 3);
+            addWindZone(79.5, 2.5, 5.5, 11.0, 0.25, -0.76, 'bottom');
+            addGround(86, 5.8, 7.0, 0.9, 'platform');
+            enemies.push({ x: 89 * TILE_SIZE, y: 4.8 * TILE_SIZE, type: 'sentinel', minX: 86.5 * TILE_SIZE, maxX: 92.5 * TILE_SIZE });
+            addMovingPlatform(94, 6.5, 98.5, 8.8, 3.2, 1.4);
+
+            addGround(100, 10, 18, 7);
+            addLaserGate(104, 6.5, 3.5, 135, 65, 0);
+            enemies.push({ x: 108 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'golem', minX: 105 * TILE_SIZE, maxX: 114 * TILE_SIZE });
+            enemies.push({ x: 112 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'sentinel', minX: 106 * TILE_SIZE, maxX: 115 * TILE_SIZE });
+            portal = { x: 115 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
             break;
         }
 
         case 9: {
-            // BÖLÜM 10 (BOSS 3 - KARANLIK İMPARATOR): 18 Can + Çift Testereli Arena + Portallar
-            addGround(0, 12, 48, 5);
+            // BÖLÜM 10 (BOSS 3 - KARANLIK İMPARATOR): 18 Can + Hiçlik Sütunları & 3'lü Küre
+            addGround(0, 12, 50, 5);
             addGround(0, 0, 2, 12, 'wall');
-            addGround(46, 0, 2, 12, 'wall');
+            addGround(48, 0, 2, 12, 'wall');
 
             signs.push({ x: 250, y: 12 * TILE_SIZE - 55, text: "BÖLÜM 10 BOSS SAVAŞI (18 CAN): KARANLIK İMPARATOR!" });
             mysteryBlocks.push({ x: 6 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'shield' });
@@ -912,33 +999,37 @@ function createLevelData(levelIndex) {
             mysteryBlocks.push({ x: 10 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'speed' });
             checkpoints.push({ x: 12.5 * TILE_SIZE, y: 12 * TILE_SIZE - 64 });
 
-            gravityZones.push({ x: 24 * TILE_SIZE, y: 2 * TILE_SIZE, w: 10 * TILE_SIZE, h: 10 * TILE_SIZE });
+            gravityZones.push({ x: 24 * TILE_SIZE, y: 2 * TILE_SIZE, w: 12 * TILE_SIZE, h: 10 * TILE_SIZE });
 
-            addGround(17, 8.8, 4.5, 0.7, 'platform');
-            addGround(26.5, 6.2, 5, 0.7, 'platform');
-            addGround(36.5, 8.8, 4.5, 0.7, 'platform');
+            addJumpPad(15.8, 12, -24.8);
+            addGround(17.5, 8.8, 4.5, 0.7, 'platform');
+            addGround(27, 6.0, 5.5, 0.7, 'platform');
+            addGround(37.5, 8.8, 4.5, 0.7, 'platform');
+            addJumpPad(44.2, 12, -24.8);
 
             addSaw(20, 11.8, 26, 11.8, 1.5, 20);
-            addSaw(32, 11.8, 38, 11.8, 1.5, 20);
+            addSaw(33, 11.8, 39, 11.8, 1.5, 20);
 
             teleporters.push({
-                x1: 15.5 * TILE_SIZE, y1: 12 * TILE_SIZE - 56,
-                x2: 43.5 * TILE_SIZE, y2: 12 * TILE_SIZE - 56,
+                x1: 14.5 * TILE_SIZE, y1: 12 * TILE_SIZE - 56,
+                x2: 45.5 * TILE_SIZE, y2: 12 * TILE_SIZE - 56,
                 color: "#ff2a85"
             });
 
-            coins.push({ x: 19 * TILE_SIZE, y: 7.9 * TILE_SIZE, type: 'emerald' });
+            coins.push({ x: 19.5 * TILE_SIZE, y: 7.9 * TILE_SIZE, type: 'emerald' });
 
             bossConfig = {
                 name: "KARANLIK İMPARATOR (BOSS 3)",
                 hp: 18,
-                x: 35 * TILE_SIZE,
+                x: 36 * TILE_SIZE,
                 y: 12 * TILE_SIZE - 110,
                 minX: 15 * TILE_SIZE,
-                maxX: 43 * TILE_SIZE,
-                variant: 3
+                maxX: 45 * TILE_SIZE,
+                variant: 3,
+                bossType: 3,
+                isWorldLord: true
             };
-            portal = { x: 29 * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
+            portal = { x: 29.5 * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
             break;
         }
 
@@ -948,70 +1039,81 @@ function createLevelData(levelIndex) {
             const subIdx = levelIndex % 10;               // 0..9 within World
 
             if (info.isBossLevel) {
-                // BOSS ARENAS (Levels 15, 20, 25, ..., 100) — Unique Arena Mechanics per World!
-                const bossHp = levelIndex === 99 ? 55 : (18 + Math.floor((levelIndex - 10) * 0.36));
+                // BOSS ARENAS (Levels 15, 20, 25, ..., 100) — Unique Boss Archetypes (4..12) & Progressive Arenas!
+                const bossHp = levelIndex === 99 ? 55 : (18 + Math.floor((levelIndex - 10) * 0.38));
                 const arenaStyle = Math.floor(levelIndex / 5) % 4;
                 const mainSurface = (worldIdx === 4) ? 'ice' : ((worldIdx === 7 && arenaStyle === 2) ? 'boost' : 'normal');
+                const bossType = Math.min(12, worldIdx + 3); // World 1->4 (Magma), World 2->5 (Mecha), ..., World 9->12 (Cosmic Emperor)
+                const isWorldLord = (subIdx === 9);
+                const arenaWidthTiles = 54 + Math.min(8, worldIdx);
 
-                addGround(0, 12, 52, 5, 'ground', mainSurface);
+                addGround(0, 12, arenaWidthTiles, 5, 'ground', mainSurface);
                 addGround(0, 0, 2, 12, 'wall');
-                addGround(50, 0, 2, 12, 'wall');
+                addGround(arenaWidthTiles - 2, 0, 2, 12, 'wall');
 
-                signs.push({ x: 250, y: 12 * TILE_SIZE - 55, text: `${info.name} (${bossHp} CAN) — Taktiksel Boss Arenası!` });
+                signs.push({ x: 250, y: 12 * TILE_SIZE - 55, text: `${info.name} (${bossHp} CAN) — Özel Yetenekli Boss Arenası!` });
                 mysteryBlocks.push({ x: 6 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'shield' });
                 mysteryBlocks.push({ x: 8 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'fire' });
                 mysteryBlocks.push({ x: 10 * TILE_SIZE, y: 8.5 * TILE_SIZE, content: 'speed' });
                 checkpoints.push({ x: 12.5 * TILE_SIZE, y: 12 * TILE_SIZE - 64 });
 
-                // Interactive Boss Arena Elements (Jump Pads, Wind Updrafts, Low-Gravity, Saws, Teleporters)
-                addJumpPad(16.2, 12, -18.5);
-                addJumpPad(44.2, 12, -18.5);
+                // Interactive Boss Arena Elements (Jump Pads, High Escape Balconies, Wind Updrafts, Low-Gravity, Saws, Teleporters)
+                addJumpPad(16.2, 12, -25.2);
+                addJumpPad(arenaWidthTiles - 7.5, 12, -25.2);
+
+                // High tactical escape balconies for dodging Sky Lightning, Meteors, Blizzard & Solar Beams
+                addGround(20, 4.8, 4.2, 0.7, 'platform');
+                addGround(arenaWidthTiles - 16, 4.8, 4.2, 0.7, 'platform');
+                mysteryBlocks.push({ x: 21.5 * TILE_SIZE, y: 1.8 * TILE_SIZE, content: 'shield' });
 
                 if (arenaStyle === 0) {
-                    addGround(18, 8.6, 4.5, 0.7, 'platform', mainSurface);
-                    addGround(28, 6.0, 5.5, 0.7, 'platform');
-                    addGround(39, 8.6, 4.5, 0.7, 'platform', mainSurface);
-                    addSaw(21, 11.8, 28, 11.8, 1.45, 20);
-                    addSaw(34, 11.8, 41, 11.8, 1.45, 20);
+                    addGround(18, 8.6, 4.8, 0.7, 'platform', mainSurface);
+                    addGround(29, 6.2, 6.0, 0.7, 'platform');
+                    addGround(arenaWidthTiles - 13, 8.6, 4.8, 0.7, 'platform', mainSurface);
+                    addSaw(21, 11.8, 29, 11.8, 1.45, 20);
+                    addSaw(35, 11.8, 43, 11.8, 1.45, 20);
                 } else if (arenaStyle === 1) {
-                    addWindZone(26, 4, 8, 8, 0, -0.58);
-                    addGround(18, 8.2, 5.0, 0.7, 'platform');
-                    addGround(38, 8.2, 5.0, 0.7, 'platform');
-                    addSaw(22, 11.8, 38, 11.8, 1.6, 22);
+                    addWindZone(27, 4, 8, 8, 0, -0.62, 'bottom');
+                    addGround(18, 8.2, 5.2, 0.7, 'platform');
+                    addGround(arenaWidthTiles - 14, 8.2, 5.2, 0.7, 'platform');
+                    addSaw(22, 11.8, 39, 11.8, 1.6, 22);
                 } else if (arenaStyle === 2) {
-                    gravityZones.push({ x: 22 * TILE_SIZE, y: 2 * TILE_SIZE, w: 16 * TILE_SIZE, h: 10 * TILE_SIZE });
-                    addGround(18, 8.8, 4.5, 0.7, 'platform');
-                    addGround(28, 5.8, 5.0, 0.7, 'platform');
-                    addGround(38, 8.8, 4.5, 0.7, 'platform');
-                    addLaserGate(24, 8.5, 3.5, 160, 70, 0);
-                    addLaserGate(36, 8.5, 3.5, 160, 70, 80);
+                    gravityZones.push({ x: 22 * TILE_SIZE, y: 2 * TILE_SIZE, w: 18 * TILE_SIZE, h: 10 * TILE_SIZE });
+                    addGround(18, 8.8, 4.8, 0.7, 'platform');
+                    addGround(29, 5.8, 5.5, 0.7, 'platform');
+                    addGround(arenaWidthTiles - 14, 8.8, 4.8, 0.7, 'platform');
+                    addLaserGate(24, 8.5, 3.5, 160, 68, 0);
+                    addLaserGate(38, 8.5, 3.5, 160, 68, 80);
                 } else {
-                    addMovingPlatform(19, 8.5, 26, 8.5, 3.8, 1.3);
-                    addMovingPlatform(34, 8.5, 41, 8.5, 3.8, 1.3);
-                    addGround(28, 5.8, 5.0, 0.7, 'platform');
-                    addSaw(24, 11.8, 36, 11.8, 1.55, 21);
+                    addMovingPlatform(19, 8.5, 26.5, 8.5, 3.8, 1.35);
+                    addMovingPlatform(35, 8.5, 42.5, 8.5, 3.8, 1.35);
+                    addGround(29, 5.8, 5.5, 0.7, 'platform');
+                    addSaw(24, 11.8, 37, 11.8, 1.55, 21);
                 }
 
                 teleporters.push({
                     x1: 14.5 * TILE_SIZE, y1: 12 * TILE_SIZE - 56,
-                    x2: 46.5 * TILE_SIZE, y2: 12 * TILE_SIZE - 56,
+                    x2: (arenaWidthTiles - 5.5) * TILE_SIZE, y2: 12 * TILE_SIZE - 56,
                     color: info.themeColor || "#ff2a85"
                 });
 
                 coins.push({ x: 20 * TILE_SIZE, y: 7.5 * TILE_SIZE, type: 'emerald' });
-                coins.push({ x: 30.5 * TILE_SIZE, y: 4.9 * TILE_SIZE, type: 'emerald' });
-                coins.push({ x: 40.5 * TILE_SIZE, y: 7.5 * TILE_SIZE, type: 'emerald' });
+                coins.push({ x: 31.5 * TILE_SIZE, y: 4.9 * TILE_SIZE, type: 'emerald' });
+                coins.push({ x: (arenaWidthTiles - 11.5) * TILE_SIZE, y: 7.5 * TILE_SIZE, type: 'emerald' });
 
                 bossConfig = {
                     name: info.name.toUpperCase(),
                     hp: bossHp,
-                    x: 37 * TILE_SIZE,
+                    x: (arenaWidthTiles - 14) * TILE_SIZE,
                     y: 12 * TILE_SIZE - 110,
                     minX: 15 * TILE_SIZE,
-                    maxX: 46 * TILE_SIZE,
-                    variant: ((levelIndex % 3) + 1)
+                    maxX: (arenaWidthTiles - 5) * TILE_SIZE,
+                    variant: ((levelIndex % 3) + 1),
+                    bossType,
+                    isWorldLord,
+                    levelIndex
                 };
-                portal = { x: 30.5 * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
+                portal = { x: Math.floor(arenaWidthTiles * 0.58) * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
             } else {
                 // ============================================================================
                 // 8 DISTINCT SURPRISING LEVEL ARCHETYPES FOR LEVELS 11..99
@@ -1310,6 +1412,210 @@ function createLevelData(levelIndex) {
                     enemies.push({ x: 80 * TILE_SIZE, y: 9 * TILE_SIZE, type: 'crawler', minX: 74 * TILE_SIZE, maxX: 83 * TILE_SIZE });
                     portal = { x: 84 * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
                 }
+
+                // ============================================================================
+                // PROGRESSIVE MULTI-ACT EXTENSION GENERATOR (LEVELS 11..99)
+                // Levels grow progressively longer and richer in detail from World 2 to World 10!
+                // ============================================================================
+                const diffRatio = Math.max(0, Math.min(1, (levelIndex - 10) / 88));
+                const extraActs = 1 + (levelIndex >= 32 ? 1 : 0) + (levelIndex >= 64 ? 1 : 0);
+                const powerRotation = ['shield', 'fire', 'speed'];
+                let curX = 86;
+
+                // Convert the end of Act 2 into Checkpoint #2 Bastion
+                addGround(83, 10, 5, 7, 'ground', worldSurface);
+                checkpoints.push({ x: 84.2 * TILE_SIZE, y: 10 * TILE_SIZE - 64 });
+                mysteryBlocks.push({
+                    x: 85.8 * TILE_SIZE,
+                    y: 6.5 * TILE_SIZE,
+                    content: powerRotation[levelIndex % 3]
+                });
+
+                for (let actIdx = 0; actIdx < extraActs; actIdx++) {
+                    const modType = (levelIndex + actIdx * 3) % 6;
+                    const stretch = Math.floor(worldIdx * 0.6) + (subIdx >= 5 ? 2 : 0);
+                    const sawSpeed = 1.45 + diffRatio * 0.45;
+                    const laserPeriod = Math.round(150 - diffRatio * 25);
+                    const laserOn = Math.round(62 + diffRatio * 12);
+
+                    if (modType === 0) {
+                        // MODULE 0: Split-Level Lava Canyon + High Secret Balcony + Moving Lift
+                        const canyonW = 20 + stretch;
+                        addJumpPad(curX - 0.8, 10, -25.4);
+                        hazards.push({ x: curX * TILE_SIZE, y: 13.5 * TILE_SIZE, w: canyonW * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                        addGround(curX, 14, canyonW, 3);
+
+                        // Lower main route: Moving platform + crumble bridge
+                        addMovingPlatform(curX + 1.5, 9.8, curX + 7.5, 8.5, 3.5, 1.3 + diffRatio * 0.25);
+                        addCrumble(curX + 9.5, 9.2, 2.6);
+                        addGround(curX + 13.5, 8.6, canyonW - 14.5, 0.9, 'platform', worldSurface);
+                        enemies.push({
+                            x: (curX + 15.5) * TILE_SIZE,
+                            y: 7.6 * TILE_SIZE,
+                            type: 'crawler',
+                            minX: (curX + 14) * TILE_SIZE,
+                            maxX: (curX + canyonW - 2) * TILE_SIZE
+                        });
+
+                        // Upper bonus balcony route
+                        addGround(curX + 3.0, 5.0, 7.5, 0.8, 'platform');
+                        coins.push({ x: (curX + 6.5) * TILE_SIZE, y: 4.0 * TILE_SIZE, type: 'emerald' });
+                        addCoinArc((curX + 3.8) * TILE_SIZE, 3.8 * TILE_SIZE, 5, 44, 28);
+                        if (diffRatio > 0.35) {
+                            addSaw(curX + 11.5, 4.2, curX + 11.5, 9.8, sawSpeed, 22);
+                        }
+                        curX += canyonW;
+                    } else if (modType === 1) {
+                        // MODULE 1: Wind Turbine Gorge & Sky Islands
+                        const gorgeW = 21 + stretch;
+                        hazards.push({ x: curX * TILE_SIZE, y: 13.5 * TILE_SIZE, w: gorgeW * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                        addGround(curX, 14, gorgeW, 3);
+
+                        addWindZone(curX + 1.2, 2.5, 5.5, 11.0, 0.24, -0.76, 'bottom');
+                        addGround(curX + 7.2, 6.0, 6.2, 0.9, 'platform', worldSurface);
+                        enemies.push({
+                            x: (curX + 9.8) * TILE_SIZE,
+                            y: 5.0 * TILE_SIZE,
+                            type: 'sentinel',
+                            minX: (curX + 7.6) * TILE_SIZE,
+                            maxX: (curX + 12.8) * TILE_SIZE
+                        });
+                        addSaw(curX + 14.2, 3.8, curX + 14.2, 10.5, sawSpeed, 23);
+
+                        addWindZone(curX + 15.2, 3.0, 5.0, 10.5, 0.22, -0.74, 'bottom');
+                        coins.push({ x: (curX + 17.5) * TILE_SIZE, y: 4.5 * TILE_SIZE, type: 'emerald' });
+                        curX += gorgeW;
+                    } else if (modType === 2) {
+                        // MODULE 2: Timed Laser Fortress Corridor + Upper Roof Bypass
+                        const fortW = 20 + stretch;
+                        addGround(curX, 11, fortW, 6, 'ground', worldSurface);
+                        addGround(curX + 2.5, 6.5, fortW - 5, 0.9, 'wall'); // Mid ceiling / upper deck floor
+
+                        addLaserGate(curX + 4.5, 7.4, 3.6, laserPeriod, laserOn, 0);
+                        enemies.push({
+                            x: (curX + 8.0) * TILE_SIZE,
+                            y: 10 * TILE_SIZE,
+                            type: 'golem',
+                            minX: (curX + 5.5) * TILE_SIZE,
+                            maxX: (curX + 11.5) * TILE_SIZE
+                        });
+                        addLaserGate(curX + 12.5, 7.4, 3.6, laserPeriod, laserOn, 55);
+                        if (fortW >= 22) {
+                            addLaserGate(curX + 17.5, 7.4, 3.6, laserPeriod, laserOn, 105);
+                        }
+
+                        // Upper roof route via Jump Pad
+                        addJumpPad(curX + 0.8, 11, -25.2);
+                        enemies.push({
+                            x: (curX + 10.5) * TILE_SIZE,
+                            y: 5.5 * TILE_SIZE,
+                            type: 'sentinel',
+                            minX: (curX + 4.0) * TILE_SIZE,
+                            maxX: (curX + fortW - 4.0) * TILE_SIZE
+                        });
+                        coins.push({ x: (curX + 11.0) * TILE_SIZE, y: 5.4 * TILE_SIZE, type: 'emerald' });
+                        curX += fortW;
+                    } else if (modType === 3) {
+                        // MODULE 3: Stalactite Crumble Cavern + Vertical Elevator Tower
+                        const cavW = 21 + stretch;
+                        hazards.push({ x: curX * TILE_SIZE, y: 13.5 * TILE_SIZE, w: cavW * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                        addGround(curX, 14, cavW, 3);
+                        addGround(curX + 1, 1.0, 13, 1.2, 'wall');
+
+                        for (let k = 0; k < 3; k++) {
+                            addCrumble(curX + 1.5 + k * 4.2, 9.8 - (k % 2) * 1.1, 2.5);
+                            stalactites.push({ x: (curX + 2.5 + k * 4.2) * TILE_SIZE, y: 2.2 * TILE_SIZE });
+                        }
+                        addMovingPlatform(curX + 14.2, 10.2, curX + 14.2, 5.8, 3.4, 1.35 + diffRatio * 0.2);
+                        addGround(curX + 18.0, 6.2, cavW - 18.5, 0.9, 'platform', worldSurface);
+                        coins.push({ x: (curX + 19.5) * TILE_SIZE, y: 5.2 * TILE_SIZE, type: 'emerald' });
+                        curX += cavW;
+                    } else if (modType === 4) {
+                        // MODULE 4: Zero-Gravity Space Anomaly & Turbo Boost Ramp
+                        const spaceW = 21 + stretch;
+                        gravityZones.push({ x: curX * TILE_SIZE, y: 1 * TILE_SIZE, w: spaceW * TILE_SIZE, h: 12 * TILE_SIZE });
+                        hazards.push({ x: curX * TILE_SIZE, y: 13.5 * TILE_SIZE, w: spaceW * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                        addGround(curX, 14, spaceW, 3);
+
+                        addGround(curX + 1.5, 9.2, 5.0, 0.9, 'platform', 'boost');
+                        addSaw(curX + 8.0, 3.8, curX + 8.0, 10.5, sawSpeed, 24);
+                        addGround(curX + 10.0, 6.5, 5.2, 0.9, 'platform', worldSurface);
+                        enemies.push({
+                            x: (curX + 12.2) * TILE_SIZE,
+                            y: 5.5 * TILE_SIZE,
+                            type: 'sentinel',
+                            minX: (curX + 10.4) * TILE_SIZE,
+                            maxX: (curX + 14.8) * TILE_SIZE
+                        });
+                        addSaw(curX + 16.5, 4.0, curX + 16.5, 10.8, sawSpeed, 24);
+                        addCrumble(curX + 18.2, 8.2, 2.6);
+                        coins.push({ x: (curX + 12.6) * TILE_SIZE, y: 5.4 * TILE_SIZE, type: 'emerald' });
+                        curX += spaceW;
+                    } else {
+                        // MODULE 5: Wormhole Teleporter Puzzle & Twin Wall-Jump Chimney
+                        const puzW = 20 + stretch;
+                        addGround(curX, 11, 10, 6, 'ground', worldSurface);
+                        addGround(curX + 8.5, 2.5, 1.8, 8.5, 'wall');
+                        teleporters.push({
+                            x1: (curX + 6.5) * TILE_SIZE,
+                            y1: 11 * TILE_SIZE - 56,
+                            x2: (curX + 12.0) * TILE_SIZE,
+                            y2: 6.2 * TILE_SIZE - 56,
+                            color: info.themeColor || "#00f2fe"
+                        });
+
+                        hazards.push({ x: (curX + 10) * TILE_SIZE, y: 13.5 * TILE_SIZE, w: (puzW - 10) * TILE_SIZE, h: 3 * TILE_SIZE, type: 'lava' });
+                        addGround(curX + 10, 14, puzW - 10, 3);
+                        addGround(curX + 11.0, 6.2, 6.5, 0.9, 'platform', worldSurface);
+                        enemies.push({
+                            x: (curX + 14.0) * TILE_SIZE,
+                            y: 5.2 * TILE_SIZE,
+                            type: 'golem',
+                            minX: (curX + 11.5) * TILE_SIZE,
+                            maxX: (curX + 17.0) * TILE_SIZE
+                        });
+                        addCrumble(curX + 18.2, 7.8, 2.6);
+                        coins.push({ x: (curX + 14.5) * TILE_SIZE, y: 5.1 * TILE_SIZE, type: 'emerald' });
+                        curX += puzW;
+                    }
+
+                    // Intermediate Checkpoint Bastion between extra acts
+                    if (actIdx < extraActs - 1) {
+                        addGround(curX, 10.5, 12, 6.5, 'ground', worldSurface);
+                        checkpoints.push({ x: (curX + 2.0) * TILE_SIZE, y: 10.5 * TILE_SIZE - 64 });
+                        mysteryBlocks.push({
+                            x: (curX + 4.5) * TILE_SIZE,
+                            y: 7.0 * TILE_SIZE,
+                            content: powerRotation[(levelIndex + actIdx + 1) % 3]
+                        });
+                        enemies.push({
+                            x: (curX + 7.5) * TILE_SIZE,
+                            y: 9.5 * TILE_SIZE,
+                            type: actIdx % 2 === 0 ? 'golem' : 'crawler',
+                            minX: (curX + 5.0) * TILE_SIZE,
+                            maxX: (curX + 11.0) * TILE_SIZE
+                        });
+                        curX += 12;
+                    }
+                }
+
+                // Grand Finale Bastion & Exit Portal
+                addGround(curX, 10, 15, 7, 'ground', worldSurface);
+                enemies.push({
+                    x: (curX + 4.5) * TILE_SIZE,
+                    y: 9 * TILE_SIZE,
+                    type: 'golem',
+                    minX: (curX + 1.5) * TILE_SIZE,
+                    maxX: (curX + 9.5) * TILE_SIZE
+                });
+                enemies.push({
+                    x: (curX + 8.5) * TILE_SIZE,
+                    y: 9 * TILE_SIZE,
+                    type: 'sentinel',
+                    minX: (curX + 3.5) * TILE_SIZE,
+                    maxX: (curX + 11.5) * TILE_SIZE
+                });
+                portal = { x: (curX + 12.5) * TILE_SIZE, y: 10 * TILE_SIZE - 86 };
             }
             break;
         }
@@ -1465,7 +1771,9 @@ function createTrollLevelData(trollIndex) {
             y: 12 * TILE_SIZE - 110,
             minX: 15 * TILE_SIZE,
             maxX: 43 * TILE_SIZE,
-            variant: ((idx % 3) + 1)
+            variant: ((idx % 3) + 1),
+            bossType: idx === 4 ? 4 : (idx === 9 ? 10 : 12),
+            isWorldLord: true
         };
         portal = { x: 29.5 * TILE_SIZE, y: 12 * TILE_SIZE - 86, lockedUntilBossDead: true };
     } else {
@@ -1515,13 +1823,24 @@ function createTrollLevelData(trollIndex) {
         addGround(50, 7.6, 6.5, 0.8, 'platform', false);
         addSaw(58, 10.8, 63, 10.8, 1.4 + (idx % 3) * 0.15, 22);
 
-        // 1 Real Emerald on upper route + 1 Teleport-to-Start Trap Emerald right before portal!
+        // 1 Real Emerald on upper route + 1 Teleport-to-Start Trap Emerald
         coins.push({ x: 53 * TILE_SIZE, y: 7.6 * TILE_SIZE - 34, type: 'emerald', isTrollTeleport: false }); // REAL EMERALD
-        coins.push({ x: 64.5 * TILE_SIZE, y: 11 * TILE_SIZE - 34, type: 'emerald', isTrollTeleport: true }); // TROLL EMERALD NEAR PORTAL!
+        coins.push({ x: 64.5 * TILE_SIZE, y: 11 * TILE_SIZE - 34, type: 'emerald', isTrollTeleport: true }); // TROLL EMERALD!
 
         enemies.push({ x: 62 * TILE_SIZE, y: 10 * TILE_SIZE, type: 'sentinel', minX: 57 * TILE_SIZE, maxX: 66 * TILE_SIZE });
 
-        portal = { x: 67.5 * TILE_SIZE, y: 11 * TILE_SIZE - 86 };
+        // Section 4: Progressive Troll Extension (Scales with Troll Level idx!)
+        const extraTrollTiles = 16 + idx * 2;
+        checkpoints.push({ x: 67.5 * TILE_SIZE, y: 11 * TILE_SIZE - 64 });
+        addGround(70.2, 10.5, 6, 6.5, 'ground', false);
+        addGround(76.2, 10.5, 4.0, 6.5, 'ground', true); // SPECIFIC TRAP FLOOR #3
+        addGround(80.2, 10.5, extraTrollTiles, 6.5, 'ground', false);
+        addGround(75.2, 7.2, 6.2, 0.8, 'platform', false); // Safe upper bypass
+        mysteryBlocks.push({ x: 77.5 * TILE_SIZE, y: 3.8 * TILE_SIZE, content: 'shield' });
+        addSaw(83, 10.3, 88 + Math.min(6, idx), 10.3, 1.55 + (idx % 3) * 0.15, 22);
+        enemies.push({ x: (85 + idx) * TILE_SIZE, y: 9.5 * TILE_SIZE, type: 'golem', minX: 81 * TILE_SIZE, maxX: (80 + extraTrollTiles - 3) * TILE_SIZE });
+
+        portal = { x: (80.2 + extraTrollTiles - 2.5) * TILE_SIZE, y: 10.5 * TILE_SIZE - 86 };
     }
 
     normalizeLevelCollectibles(

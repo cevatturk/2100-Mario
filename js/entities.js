@@ -677,15 +677,96 @@ class Enemy {
     }
 }
 
-// 3 Distinct Anatomical Bosses with Tactical Attack & Defense Rhythm
+// 12 Distinct World Boss Archetypes with Progressive Special Abilities, Telegraphed Hazards & Unique Anatomy
+const BOSS_PROFILES = {
+    1: {
+        title: "KRİSTAL DEV",
+        armorTop: "#0e3b5c", armorMid: "#072238", armorBot: "#03101c",
+        glow: "#00f2fe", secondary: "#90e0ef", eye: "#00f2fe",
+        specialName: "💎 KRİSTAL SARKIT YAĞMURU!"
+    },
+    2: {
+        title: "ZİNDAN CELLADI",
+        armorTop: "#3b0d26", armorMid: "#210615", armorBot: "#0f0209",
+        glow: "#ff2a85", secondary: "#ffd166", eye: "#ff2a85",
+        specialName: "🩸 GÖLGE ADIMI & İNFAZ TIRPANI!"
+    },
+    3: {
+        title: "KARANLIK İMPARATOR",
+        armorTop: "#2f1952", armorMid: "#190c2e", armorBot: "#0a0414",
+        glow: "#ffd166", secondary: "#b537f2", eye: "#ff2a85",
+        specialName: "👑 HİÇLİK SÜTUNLARI & ÜÇLÜ KÜRE!"
+    },
+    4: {
+        title: "MAGMA TİTANI",
+        armorTop: "#4a1508", armorMid: "#290a04", armorBot: "#140401",
+        glow: "#ff5400", secondary: "#ffbe0b", eye: "#ffbe0b",
+        specialName: "🌋 VOLKANİK METEOR YAĞMURU!"
+    },
+    5: {
+        title: "HİPER-MEKA KRALI",
+        armorTop: "#1f2b4d", armorMid: "#10172b", armorBot: "#070b14",
+        glow: "#00f2fe", secondary: "#b537f2", eye: "#06d6a0",
+        specialName: "🤖 KUANTUM IŞINLANMA & FÜZE BARAJI!"
+    },
+    6: {
+        title: "KOZMİK KAOS EJDERİ",
+        armorTop: "#38124a", armorMid: "#1e0829", armorBot: "#0d0212",
+        glow: "#b537f2", secondary: "#ff2a85", eye: "#ffd166",
+        specialName: "🐉 EJDERHA UÇUŞU & ALEV NEFESİ!"
+    },
+    7: {
+        title: "EBEDİ BUZ KRALI",
+        armorTop: "#163e5c", armorMid: "#0b2538", armorBot: "#05121c",
+        glow: "#90e0ef", secondary: "#00f2fe", eye: "#ffffff",
+        specialName: "❄️ KUTUP TİPİSİ İTİŞİ & BUZ MIZRAĞI!"
+    },
+    8: {
+        title: "ÖLÜMSÜZ SİBER FİRAVUN",
+        armorTop: "#47350e", armorMid: "#261c06", armorBot: "#120d02",
+        glow: "#ffd166", secondary: "#00f2fe", eye: "#06d6a0",
+        specialName: "☀️ GÜNEŞ DİSKİ LAZER SÜTUNLARI!"
+    },
+    9: {
+        title: "STRATOSFER GÖK TİTANI",
+        armorTop: "#123845", armorMid: "#091f26", armorBot: "#040e12",
+        glow: "#00f5d4", secondary: "#fee440", eye: "#fee440",
+        specialName: "🌩️ GÖKYÜZÜ YILDIRIM SÜTUNLARI!"
+    },
+    10: {
+        title: "İMPARATOR SİBER SHOGUN",
+        armorTop: "#3d0a1d", armorMid: "#210410", armorBot: "#0f0107",
+        glow: "#ff007f", secondary: "#ffd166", eye: "#00f2fe",
+        specialName: "⚔️ İAİDO İKİLİ KESİŞ & SHURIKEN!"
+    },
+    11: {
+        title: "ZIRHLI KALE KOMUTANI",
+        armorTop: "#3b2314", armorMid: "#21120a", armorBot: "#100804",
+        glow: "#ff9f1c", secondary: "#e71d36", eye: "#ff9f1c",
+        specialName: "💣 KUŞATMA HAVAN TOPU BOMBARDIMANI!"
+    },
+    12: {
+        title: "EVREN HÜKÜMDARI",
+        armorTop: "#2b1055", armorMid: "#15072b", armorBot: "#080212",
+        glow: "#ff2a85", secondary: "#00f2fe", eye: "#ffd166",
+        specialName: "🌌 KOZMİK KIYAMET: IŞINLANMA & YILDIRIM!"
+    }
+};
+
 class AbyssBoss {
     constructor(cfg) {
         this.name = cfg.name || "KARANLIK MUHAFIZ";
-        this.variant = cfg.variant || 1; // 1: Crystal Behemoth, 2: Cyber Executioner, 3: Abyssal Emperor
+        this.variant = cfg.variant || 1;
+        this.bossType = cfg.bossType || this.variant || 1; // 1..12 distinct boss archetypes
+        this.isWorldLord = Boolean(cfg.isWorldLord);
+        this.levelIndex = cfg.levelIndex || 0;
+
+        const sizeScale = Math.min(4, Math.floor((this.bossType - 1) / 3));
+        this.w = 96 + sizeScale * 6 + (this.isWorldLord ? 6 : 0);
+        this.h = 114 + sizeScale * 5 + (this.isWorldLord ? 6 : 0);
         this.x = cfg.x;
         this.y = cfg.y;
-        this.w = 96 + (this.variant - 1) * 8;
-        this.h = 114 + (this.variant - 1) * 6;
+        this.groundY = cfg.y + 110;
         this.minX = cfg.minX;
         this.maxX = cfg.maxX;
         this.vx = 0;
@@ -698,15 +779,25 @@ class AbyssBoss {
 
         this.state = 'shield_patrol';
         this.shieldActive = true;
-        this.timer = 70;
-        this.stateMaxTimer = 70;
+        this.timer = 68;
+        this.stateMaxTimer = 68;
         this.slamsRemaining = 0;
         this.hitsTakenInWindow = 0;
+        this.cycleCount = 0;
+        this.dashChainLeft = 0;
+        this.isFlying = false;
+        this.blizzardActive = false;
 
         this.invuln = 0;
         this.anim = 0;
         this.shockwaves = [];
+        this.warnings = [];
+        this.afterimages = [];
         this.statusText = "🛡 SAVUNMA & HAZIRLIK";
+    }
+
+    getProfile() {
+        return BOSS_PROFILES[this.bossType] || BOSS_PROFILES[1];
     }
 
     enterState(newState, duration, statusText = "") {
@@ -716,27 +807,293 @@ class AbyssBoss {
         if (statusText) this.statusText = statusText;
     }
 
+    pushAfterimage(color) {
+        this.afterimages.push({
+            x: this.x,
+            y: this.y,
+            w: this.w,
+            h: this.h,
+            facing: this.facing,
+            color: color || this.getProfile().glow,
+            life: 18,
+            maxLife: 18
+        });
+    }
+
+    pickSafeTeleportX(player) {
+        const leftCandidate = this.minX + 36;
+        const rightCandidate = this.maxX - this.w - 36;
+        const midCandidate = (leftCandidate + rightCandidate) * 0.5;
+        const candidates = [leftCandidate, rightCandidate, midCandidate].sort(
+            (a, b) => Math.abs(b - player.x) - Math.abs(a - player.x)
+        );
+        return Math.max(leftCandidate, Math.min(rightCandidate, candidates[0]));
+    }
+
+    triggerSpecialTelegraph(player, game, isEnraged) {
+        const prof = this.getProfile();
+        window.sfx.bossRoar();
+        this.vx = 0;
+        this.facing = player.x > this.x ? 1 : -1;
+        const countBonus = (this.isWorldLord ? 1 : 0) + (isEnraged ? 1 : 0);
+        const arenaW = Math.max(300, this.maxX - this.minX);
+
+        if (this.bossType === 1) {
+            // Crystal Behemoth: Falling Crystal Shards from Ceiling
+            const shardCount = 3 + countBonus;
+            for (let i = 0; i < shardCount; i++) {
+                const tx = i === 0
+                    ? Math.max(this.minX + 40, Math.min(this.maxX - 40, player.x + (Math.random() - 0.5) * 60))
+                    : this.minX + 50 + ((i + 0.3) / shardCount) * (arenaW - 100);
+                this.warnings.push({
+                    kind: 'crystal_warn',
+                    x: tx - 12,
+                    y: this.groundY - 380,
+                    groundY: this.groundY,
+                    w: 24,
+                    h: 380,
+                    timer: 36 + i * 6,
+                    maxTimer: 36 + i * 6,
+                    color: "#00f2fe"
+                });
+            }
+            this.enterState('special_attack', 54, prof.specialName);
+        } else if (this.bossType === 2) {
+            // Cyber Executioner: Shadow Step + Double Crescent Scythe Wave
+            this.enterState('special_attack', 52, prof.specialName);
+        } else if (this.bossType === 3) {
+            // Abyssal Emperor: Void Ground Pillars + 3-Way Dark Orb Fan
+            const pillarCount = 3 + countBonus;
+            for (let i = 0; i < pillarCount; i++) {
+                const px = i === 0
+                    ? Math.max(this.minX + 45, Math.min(this.maxX - 65, player.x))
+                    : this.minX + 60 + (i / pillarCount) * (arenaW - 120);
+                this.warnings.push({
+                    kind: 'void_pillar_warn',
+                    x: px - 18,
+                    y: this.groundY - 110,
+                    groundY: this.groundY,
+                    w: 36,
+                    h: 110,
+                    timer: 38,
+                    maxTimer: 38,
+                    color: "#b537f2"
+                });
+            }
+            this.enterState('special_attack', 58, prof.specialName);
+        } else if (this.bossType === 4) {
+            // Magma Titan: Volcanic Meteor Shower
+            const meteorCount = 4 + countBonus;
+            for (let i = 0; i < meteorCount; i++) {
+                const mx = i === 0
+                    ? Math.max(this.minX + 40, Math.min(this.maxX - 40, player.x + (Math.random() - 0.5) * 80))
+                    : this.minX + 45 + ((i + 0.25) / meteorCount) * (arenaW - 90);
+                this.warnings.push({
+                    kind: 'meteor_warn',
+                    x: mx - 16,
+                    y: this.groundY - 400,
+                    groundY: this.groundY,
+                    w: 32,
+                    h: 400,
+                    timer: 32 + i * 7,
+                    maxTimer: 32 + i * 7,
+                    color: "#ff5400"
+                });
+            }
+            this.enterState('special_attack', 64, prof.specialName);
+        } else if (this.bossType === 5) {
+            // Hyper-Mecha King: Quantum Blink Teleport + Homing Missile Pod Salvo
+            this.enterState('special_attack', 58, prof.specialName);
+        } else if (this.bossType === 6) {
+            // Cosmic Chaos Dragon: Aerial Hover Flight + Angled Dragon Breath
+            this.isFlying = true;
+            this.vy = -12.5;
+            this.enterState('special_attack', 84, prof.specialName);
+        } else if (this.bossType === 7) {
+            // Frost Giant King: Blizzard Gale Wind Push + Ice Lance Barrage
+            this.blizzardActive = true;
+            this.enterState('special_attack', 72, prof.specialName);
+        } else if (this.bossType === 8) {
+            // Cyber Pharaoh: Floating Solar Sun Disks & Vertical Sun Beams
+            const diskCount = 3 + countBonus;
+            for (let i = 0; i < diskCount; i++) {
+                const dx = i === 0
+                    ? Math.max(this.minX + 50, Math.min(this.maxX - 50, player.x))
+                    : this.minX + 60 + (i / diskCount) * (arenaW - 120);
+                this.warnings.push({
+                    kind: 'solar_disk',
+                    x: dx - 16,
+                    y: this.groundY - 390,
+                    groundY: this.groundY,
+                    w: 32,
+                    h: 390,
+                    timer: 40 + i * 5,
+                    maxTimer: 40 + i * 5,
+                    color: "#ffd166"
+                });
+            }
+            this.enterState('special_attack', 66, prof.specialName);
+        } else if (this.bossType === 9) {
+            // Stratosphere Storm Titan: Sky Lightning Columns
+            const boltCount = 4 + countBonus;
+            for (let i = 0; i < boltCount; i++) {
+                const lx = i === 0
+                    ? Math.max(this.minX + 45, Math.min(this.maxX - 45, player.x))
+                    : this.minX + 50 + ((i + 0.2) / boltCount) * (arenaW - 100);
+                this.warnings.push({
+                    kind: 'lightning_warn',
+                    x: lx - 15,
+                    y: this.groundY - 420,
+                    groundY: this.groundY,
+                    w: 30,
+                    h: 420,
+                    timer: 36 + i * 6,
+                    maxTimer: 36 + i * 6,
+                    color: "#00f5d4"
+                });
+            }
+            this.enterState('special_attack', 66, prof.specialName);
+        } else if (this.bossType === 10) {
+            // Cyber Shogun: Iaido Double-Dash & Neon Shuriken Storm
+            this.dashChainLeft = 1 + (isEnraged ? 1 : 0);
+            this.enterState('special_attack', 46, prof.specialName);
+        } else if (this.bossType === 11) {
+            // Armored Fortress Commander: Siege Mortar Barrage
+            this.enterState('special_attack', 62, prof.specialName);
+        } else {
+            // Boss 12 (Universe Emperor / Final Boss): Multi-Hazard Cosmic Apocalypse
+            const strikeCount = 3 + countBonus;
+            for (let i = 0; i < strikeCount; i++) {
+                const lx = i === 0
+                    ? Math.max(this.minX + 45, Math.min(this.maxX - 45, player.x))
+                    : this.minX + 55 + (i / strikeCount) * (arenaW - 110);
+                this.warnings.push({
+                    kind: i % 2 === 0 ? 'lightning_warn' : 'meteor_warn',
+                    x: lx - 16,
+                    y: this.groundY - 420,
+                    groundY: this.groundY,
+                    w: 32,
+                    h: 420,
+                    timer: 36 + i * 6,
+                    maxTimer: 36 + i * 6,
+                    color: i % 2 === 0 ? "#00f2fe" : "#ff2a85"
+                });
+            }
+            this.enterState('special_attack', 68, prof.specialName);
+        }
+    }
+
     update(solids, player, game) {
         if (this.dead) return;
         this.anim += 0.14;
         if (this.invuln > 0) this.invuln--;
 
         const isEnraged = this.hp <= this.maxHp * 0.45;
-        const speedMult = (isEnraged ? 1.28 : 1.0) * (1 + (this.variant - 1) * 0.12);
+        const tierFactor = 1 + Math.min(0.42, (this.bossType - 1) * 0.035);
+        const speedMult = (isEnraged ? 1.24 : 1.0) * tierFactor;
 
         this.timer--;
 
+        // Update Telegraphed Warnings and spawn real hazards when timer reaches 0
+        for (let i = this.warnings.length - 1; i >= 0; i--) {
+            const w = this.warnings[i];
+            w.timer--;
+            if (w.timer <= 0) {
+                if (w.kind === 'crystal_warn') {
+                    window.sfx.blockHit();
+                    this.shockwaves.push({
+                        kind: 'crystal_shard',
+                        x: w.x,
+                        y: w.y,
+                        vx: 0,
+                        vy: 7.4,
+                        w: 22,
+                        h: 38,
+                        life: 70,
+                        color: "#00f2fe"
+                    });
+                } else if (w.kind === 'void_pillar_warn') {
+                    window.sfx.bossHit();
+                    game.shakeScreen(8);
+                    game.spawnParticles(w.x + w.w / 2, w.groundY, 12, "#b537f2", 4);
+                    this.shockwaves.push({
+                        kind: 'void_pillar',
+                        x: w.x,
+                        y: w.groundY - 105,
+                        vx: 0,
+                        vy: 0,
+                        w: 34,
+                        h: 105,
+                        life: 32,
+                        color: "#b537f2"
+                    });
+                } else if (w.kind === 'meteor_warn') {
+                    window.sfx.fireball();
+                    this.shockwaves.push({
+                        kind: 'meteor',
+                        x: w.x,
+                        y: w.y,
+                        vx: (Math.random() - 0.5) * 1.4,
+                        vy: 7.2,
+                        w: 28,
+                        h: 28,
+                        life: 75,
+                        color: "#ff5400"
+                    });
+                } else if (w.kind === 'solar_disk') {
+                    window.sfx.bossHit();
+                    game.shakeScreen(9);
+                    this.shockwaves.push({
+                        kind: 'solar_beam',
+                        x: w.x,
+                        y: w.y,
+                        vx: 0,
+                        vy: 0,
+                        w: 30,
+                        h: w.h,
+                        life: 30,
+                        color: "#ffd166"
+                    });
+                } else if (w.kind === 'lightning_warn') {
+                    window.sfx.bossHit();
+                    game.shakeScreen(10);
+                    game.spawnParticles(w.x + w.w / 2, w.groundY, 14, "#00f5d4", 5);
+                    this.shockwaves.push({
+                        kind: 'lightning',
+                        x: w.x,
+                        y: w.y,
+                        vx: 0,
+                        vy: 0,
+                        w: 28,
+                        h: w.h,
+                        life: 26,
+                        color: w.color || "#00f5d4"
+                    });
+                }
+                this.warnings.splice(i, 1);
+            }
+        }
+
+        // Update Ghost Afterimages
+        for (let i = this.afterimages.length - 1; i >= 0; i--) {
+            this.afterimages[i].life--;
+            if (this.afterimages[i].life <= 0) this.afterimages.splice(i, 1);
+        }
+
         if (this.state === 'shield_patrol') {
             this.shieldActive = true;
+            this.isFlying = false;
+            this.blizzardActive = false;
             this.facing = player.x > this.x ? 1 : -1;
-            this.vx = this.facing * 1.8 * speedMult;
+            this.vx = this.facing * 1.85 * speedMult;
             this.x += this.vx;
 
             if (this.timer <= 0) {
                 this.vx = 0;
-                this.slamsRemaining = this.variant + (isEnraged ? 1 : 0);
+                const baseSlams = Math.min(3, 1 + Math.floor(this.bossType / 4));
+                this.slamsRemaining = baseSlams + (isEnraged ? 1 : 0);
                 window.sfx.bossRoar();
-                this.enterState('telegraph_slam', 42, "⚠️ ZIPLAMA & ŞOK DALGASI GELİYOR!");
+                this.enterState('telegraph_slam', 38, "⚠️ ZIPLAMA & ŞOK DALGASI GELİYOR!");
             }
         } else if (this.state === 'telegraph_slam') {
             this.shieldActive = true;
@@ -745,44 +1102,194 @@ class AbyssBoss {
             if (this.timer <= 0) {
                 this.state = 'jump_slam';
                 this.statusText = "💥 ŞOK DALGASI SALDIRISI!";
-                this.vy = -15.5;
+                this.vy = -15.6;
                 const targetDx = (player.x - this.x);
-                this.vx = Math.max(-5.8, Math.min(5.8, targetDx * 0.024)) * speedMult;
+                this.vx = Math.max(-6.2, Math.min(6.2, targetDx * 0.025)) * speedMult;
             }
         } else if (this.state === 'jump_slam') {
             this.shieldActive = true;
             this.x += this.vx;
+        } else if (this.state === 'special_attack') {
+            this.shieldActive = true;
+            this.facing = player.x > this.x ? 1 : -1;
+
+            // Boss-specific active behaviors during special_attack
+            if (this.bossType === 2 && this.timer === 34) {
+                // Cyber Executioner: Shadow-Step teleport + Crescent Scythe Wave
+                this.pushAfterimage("#ff2a85");
+                this.x = this.pickSafeTeleportX(player);
+                this.facing = player.x > this.x ? 1 : -1;
+                game.spawnParticles(this.x + this.w / 2, this.y + this.h / 2, 18, "#ff2a85", 5);
+                window.sfx.fireball();
+                this.shockwaves.push({
+                    kind: 'scythe_wave',
+                    x: this.x + this.w / 2,
+                    y: this.y + 34,
+                    vx: this.facing * 7.6 * speedMult,
+                    vy: 0,
+                    w: 34,
+                    h: 52,
+                    life: 85,
+                    color: "#ff2a85"
+                });
+            } else if (this.bossType === 3 && this.timer === 36) {
+                // Abyssal Emperor: 3-Way Dark Fireball Fan
+                window.sfx.fireball();
+                for (const vyVal of [-2.4, 0, 2.0]) {
+                    game.fireballs.push(new Fireball(this.x + this.w / 2, this.y + 44, this.facing, true, vyVal, 0.92));
+                }
+            } else if (this.bossType === 5) {
+                // Hyper-Mecha: Quantum Blink at frame 42, then Shoulder Missile Salvo at 30, 20, 10
+                if (this.timer === 44) {
+                    this.pushAfterimage("#00f2fe");
+                    this.x = this.pickSafeTeleportX(player);
+                    this.facing = player.x > this.x ? 1 : -1;
+                    game.spawnParticles(this.x + this.w / 2, this.y + this.h / 2, 20, "#00f2fe", 5);
+                }
+                if (this.timer === 32 || this.timer === 20 || this.timer === 8) {
+                    window.sfx.fireball();
+                    const missileY = this.y + (this.timer === 20 ? 22 : 52);
+                    this.shockwaves.push({
+                        kind: 'plasma_missile',
+                        x: this.x + this.w / 2,
+                        y: missileY,
+                        vx: this.facing * 8.2,
+                        vy: (this.timer === 20 ? -0.6 : 0.4),
+                        w: 28,
+                        h: 14,
+                        life: 80,
+                        color: "#00f2fe"
+                    });
+                }
+            } else if (this.bossType === 6) {
+                // Cosmic Chaos Dragon: Hover across arena & rain angled dragon fireballs
+                const hoverTargetY = this.groundY - 260;
+                if (this.y > hoverTargetY) {
+                    this.vy = -5.5;
+                } else {
+                    this.vy = Math.sin(this.anim * 2) * 1.2;
+                }
+                this.vx = this.facing * 3.4 * speedMult;
+                this.x += this.vx;
+                if (this.timer % 18 === 0 && this.timer > 14) {
+                    window.sfx.fireball();
+                    game.fireballs.push(new Fireball(this.x + this.w / 2, this.y + 70, this.facing, true, 3.6, 0.95));
+                }
+                if (this.timer <= 8) {
+                    this.isFlying = false;
+                }
+            } else if (this.bossType === 7) {
+                // Frost Giant King: Blizzard wind pushes player & fires ice lances
+                const pushDir = this.facing;
+                player.vx = Math.max(-8.5, Math.min(8.5, player.vx + pushDir * 0.36));
+                if (this.timer === 48 || this.timer === 24) {
+                    window.sfx.fireball();
+                    this.shockwaves.push({
+                        kind: 'ice_lance',
+                        x: this.x + this.w / 2,
+                        y: this.y + (this.timer === 48 ? 36 : 64),
+                        vx: this.facing * 7.8,
+                        vy: 0,
+                        w: 34,
+                        h: 14,
+                        life: 85,
+                        color: "#90e0ef"
+                    });
+                }
+            } else if (this.bossType === 10 && (this.timer === 32 || this.timer === 16)) {
+                // Cyber Shogun: Throw Spinning Neon Shurikens before double Iaido dash
+                window.sfx.fireball();
+                this.shockwaves.push({
+                    kind: 'shuriken',
+                    x: this.x + this.w / 2,
+                    y: this.y + (this.timer === 32 ? 34 : 62),
+                    vx: this.facing * 8.4,
+                    vy: 0,
+                    w: 24,
+                    h: 24,
+                    life: 80,
+                    color: "#ff007f"
+                });
+            } else if (this.bossType === 11 && (this.timer === 46 || this.timer === 28 || this.timer === 12)) {
+                // Fortress Commander: Lobbed Siege Mortar Shells
+                window.sfx.fireball();
+                const distToPlayer = (player.x - this.x);
+                const lobVx = Math.max(-7.5, Math.min(7.5, distToPlayer * 0.022 + (Math.random() - 0.5) * 2.2));
+                this.shockwaves.push({
+                    kind: 'mortar',
+                    x: this.x + this.w / 2,
+                    y: this.y + 16,
+                    vx: lobVx,
+                    vy: -11.8,
+                    ay: 0.42,
+                    groundY: this.groundY,
+                    w: 22,
+                    h: 22,
+                    life: 95,
+                    color: "#ff9f1c"
+                });
+            } else if (this.bossType === 12 && this.timer === 42) {
+                // Universe Emperor: Quantum Teleport + Starburst Fan
+                this.pushAfterimage("#ff2a85");
+                this.x = this.pickSafeTeleportX(player);
+                this.facing = player.x > this.x ? 1 : -1;
+                window.sfx.fireball();
+                for (const vyVal of [-2.8, -1.0, 0.8, 2.4]) {
+                    game.fireballs.push(new Fireball(this.x + this.w / 2, this.y + 44, this.facing, true, vyVal, 0.95));
+                }
+            }
+
+            if (this.timer <= 0) {
+                this.isFlying = false;
+                this.blizzardActive = false;
+                this.enterState('telegraph_dash', 36, "⚠️ ATILMA SALDIRISINA HAZIRLANIYOR!");
+            }
         } else if (this.state === 'telegraph_dash') {
             this.shieldActive = true;
             this.vx = 0;
             this.facing = player.x > this.x ? 1 : -1;
 
-            if (this.timer === 24) {
+            if (this.timer === 22) {
                 window.sfx.fireball();
-                game.fireballs.push(new Fireball(this.x + this.w / 2, this.y + 48, this.facing, true, 0, 0.85));
-                if (this.variant >= 2) {
-                    game.fireballs.push(new Fireball(this.x + this.w / 2, this.y + 32, this.facing, true, -2.2, 0.9));
+                game.fireballs.push(new Fireball(this.x + this.w / 2, this.y + 48, this.facing, true, 0, 0.88));
+                if (this.bossType >= 2) {
+                    game.fireballs.push(new Fireball(this.x + this.w / 2, this.y + 30, this.facing, true, -2.1, 0.92));
                 }
             }
 
             if (this.timer <= 0) {
                 window.sfx.bossRoar();
-                this.vx = this.facing * (7.2 + this.variant * 0.7) * speedMult;
-                this.enterState('dash', 72, "⚡ YILDIRIM ATILMASI!");
+                const dashSpeed = (7.4 + Math.min(3.2, this.bossType * 0.25)) * speedMult;
+                this.vx = this.facing * dashSpeed;
+                this.enterState('dash', 68, "⚡ YILDIRIM ATILMASI!");
             }
         } else if (this.state === 'dash') {
             this.shieldActive = true;
             this.x += this.vx;
+            if (this.bossType === 10 && this.timer % 4 === 0) {
+                this.pushAfterimage("#ff007f");
+            }
 
             if (this.x <= this.minX + 4 || this.x + this.w >= this.maxX - 4 || this.timer <= 0) {
-                this.vx = 0;
-                game.shakeScreen(14);
-                window.sfx.blockHit();
-                game.spawnParticles(this.x + this.w / 2, this.y + 30, 22, "#00f2fe", 5);
-                this.shieldActive = false;
-                this.hitsTakenInWindow = 0;
-                this.enterState('vulnerable', 215, "🎯 KALKAN KAPANDI! ŞİMDİ VUR!");
-                game.floatingTexts.push(new FloatingText(this.x + this.w / 2, this.y - 12, "🎯 KALKAN KAPANDI! KAFASINA ZIPLA!", "#06d6a0"));
+                if (this.dashChainLeft > 0) {
+                    // Cyber Shogun / Enraged Double-Dash Rebound!
+                    this.dashChainLeft--;
+                    this.facing = player.x > this.x ? 1 : -1;
+                    const reboundSpeed = (8.0 + Math.min(3.0, this.bossType * 0.22)) * speedMult;
+                    this.vx = this.facing * reboundSpeed;
+                    window.sfx.bossRoar();
+                    game.shakeScreen(10);
+                    this.enterState('dash', 54, "⚔️ İKİNCİ İAİDO ATILMASI!");
+                } else {
+                    this.vx = 0;
+                    game.shakeScreen(14);
+                    window.sfx.blockHit();
+                    game.spawnParticles(this.x + this.w / 2, this.y + 30, 22, "#00f2fe", 5);
+                    this.shieldActive = false;
+                    this.hitsTakenInWindow = 0;
+                    this.enterState('vulnerable', 215, "🎯 KALKAN KAPANDI! ŞİMDİ VUR!");
+                    game.floatingTexts.push(new FloatingText(this.x + this.w / 2, this.y - 12, "🎯 KALKAN KAPANDI! KAFASINA ZIPLA!", "#06d6a0"));
+                }
             }
         } else if (this.state === 'vulnerable') {
             this.shieldActive = false;
@@ -792,13 +1299,15 @@ class AbyssBoss {
                 this.shieldActive = true;
                 window.sfx.powerUpSpawn();
                 game.spawnParticles(this.x + this.w / 2, this.y + this.h / 2, 18, "#ff2a85", 4);
-                this.enterState('shield_patrol', 65, "🛡 KALKAN YENİLENDİ!");
+                this.enterState('shield_patrol', 62, "🛡 KALKAN YENİLENDİ!");
             }
         }
 
         this.x = Math.max(this.minX, Math.min(this.maxX - this.w, this.x));
 
-        this.vy = Math.min(this.vy + 0.82, 17);
+        if (!this.isFlying) {
+            this.vy = Math.min(this.vy + 0.82, 17);
+        }
         this.y += this.vy;
 
         for (const s of solids) {
@@ -809,19 +1318,21 @@ class AbyssBoss {
                 this.y + this.h > s.y &&
                 this.y < s.y + s.h
             ) {
+                this.groundY = s.y;
                 if (this.state === 'jump_slam' && this.vy > 2) {
                     game.shakeScreen(15);
                     window.sfx.bossHit();
-                    const swSpeed = (6.0 + this.variant * 0.9) * (isEnraged ? 1.15 : 1.0);
-                    this.shockwaves.push({ x: this.x, y: s.y - 24, vx: -swSpeed, w: 30, h: 24, life: 110 });
-                    this.shockwaves.push({ x: this.x + this.w - 30, y: s.y - 24, vx: swSpeed, w: 30, h: 24, life: 110 });
-                    game.spawnParticles(this.x + this.w / 2, s.y, 24, "#ff2a85", 5);
+                    const prof = this.getProfile();
+                    const swSpeed = (6.0 + Math.min(3.2, this.bossType * 0.25)) * (isEnraged ? 1.15 : 1.0);
+                    this.shockwaves.push({ kind: 'shockwave', x: this.x, y: s.y - 24, vx: -swSpeed, vy: 0, w: 30, h: 24, life: 110, color: prof.glow });
+                    this.shockwaves.push({ kind: 'shockwave', x: this.x + this.w - 30, y: s.y - 24, vx: swSpeed, vy: 0, w: 30, h: 24, life: 110, color: prof.glow });
+                    game.spawnParticles(this.x + this.w / 2, s.y, 24, prof.glow, 5);
 
                     this.slamsRemaining--;
                     if (this.slamsRemaining > 0) {
-                        this.enterState('telegraph_slam', 26, `⚠️ ŞOK DALGASI (${this.slamsRemaining} KALDI)!`);
+                        this.enterState('telegraph_slam', 25, `⚠️ ŞOK DALGASI (${this.slamsRemaining} KALDI)!`);
                     } else {
-                        this.enterState('telegraph_dash', 42, "⚠️ ATILMA SALDIRISINA HAZIRLANIYOR!");
+                        this.triggerSpecialTelegraph(player, game, isEnraged);
                     }
                 }
                 this.y = s.y - this.h;
@@ -831,8 +1342,24 @@ class AbyssBoss {
 
         for (let i = this.shockwaves.length - 1; i >= 0; i--) {
             const sw = this.shockwaves[i];
-            sw.x += sw.vx;
+            sw.x += (sw.vx || 0);
+            sw.y += (sw.vy || 0);
+            if (sw.ay) sw.vy = (sw.vy || 0) + sw.ay;
             sw.life--;
+
+            // Check ground impact for falling meteors, crystal shards & siege mortars
+            if ((sw.kind === 'meteor' || sw.kind === 'crystal_shard' || sw.kind === 'mortar') && sw.y + sw.h >= this.groundY) {
+                game.spawnParticles(sw.x + sw.w / 2, this.groundY, 12, sw.color || "#ff5400", 4);
+                if (sw.kind === 'mortar') {
+                    window.sfx.bossHit();
+                    game.shakeScreen(8);
+                    this.shockwaves.push({ kind: 'shockwave', x: sw.x - 10, y: this.groundY - 20, vx: -5.6, vy: 0, w: 24, h: 20, life: 45, color: "#ff9f1c" });
+                    this.shockwaves.push({ kind: 'shockwave', x: sw.x + 10, y: this.groundY - 20, vx: 5.6, vy: 0, w: 24, h: 20, life: 45, color: "#ff9f1c" });
+                }
+                this.shockwaves.splice(i, 1);
+                continue;
+            }
+
             if (sw.life <= 0) this.shockwaves.splice(i, 1);
         }
     }
@@ -858,6 +1385,8 @@ class AbyssBoss {
         if (this.hp <= 0) {
             this.dead = true;
             this.shockwaves = [];
+            this.warnings = [];
+            this.afterimages = [];
             window.sfx.victory();
             game.shakeScreen(18);
             game.spawnParticles(this.x + this.w / 2, this.y + this.h / 2, 24, "#ff2a85", 5.5);
@@ -873,7 +1402,7 @@ class AbyssBoss {
 
         if (isStomp || this.hitsTakenInWindow >= 3) {
             this.shieldActive = true;
-            this.enterState('shield_patrol', 60, "🛡 KALKAN YENİLENDİ! DİKKAT!");
+            this.enterState('shield_patrol', 58, "🛡 KALKAN YENİLENDİ! DİKKAT!");
         }
         return true;
     }
@@ -881,16 +1410,156 @@ class AbyssBoss {
     draw(ctx) {
         if (this.dead) return;
         ctx.save();
+        const prof = this.getProfile();
 
-        // Draw Shockwaves
+        // 0. Draw Blizzard Wind Streaks for Boss 7
+        if (this.blizzardActive) {
+            ctx.save();
+            ctx.strokeStyle = "rgba(144, 224, 239, 0.45)";
+            ctx.lineWidth = 2.5;
+            for (let i = 0; i < 10; i++) {
+                const wx = this.minX + ((this.anim * 90 * (this.facing > 0 ? 1 : -1) + i * 130) % Math.max(300, this.maxX - this.minX));
+                const wy = this.groundY - 40 - (i * 32);
+                ctx.beginPath();
+                ctx.moveTo(wx, wy);
+                ctx.lineTo(wx + this.facing * 55, wy);
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+
+        // 1. Draw Telegraphed Warnings (Lightning Sightlines, Solar Disks, Meteor Reticles, Void Rifts)
+        for (const w of this.warnings) {
+            ctx.save();
+            const pulse = 0.45 + 0.35 * Math.sin(this.anim * 5);
+            ctx.strokeStyle = w.color || "#ffd166";
+            ctx.fillStyle = w.color || "#ffd166";
+            ctx.globalAlpha = pulse;
+
+            if (w.kind === 'solar_disk') {
+                // Floating Egyptian Sun Disk + vertical target beam
+                ctx.beginPath();
+                ctx.arc(w.x + w.w / 2, w.y + 24, 18, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.setLineDash([8, 6]);
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(w.x + w.w / 2, w.y + 42);
+                ctx.lineTo(w.x + w.w / 2, w.groundY);
+                ctx.stroke();
+            } else if (w.kind === 'void_pillar_warn') {
+                ctx.fillRect(w.x, w.groundY - 10, w.w, 10);
+                ctx.setLineDash([6, 6]);
+                ctx.lineWidth = 2.5;
+                ctx.strokeRect(w.x, w.groundY - w.h, w.w, w.h);
+            } else {
+                // Sky Lightning / Meteor / Crystal vertical warning line + floor target ring
+                ctx.setLineDash([10, 8]);
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(w.x + w.w / 2, w.y);
+                ctx.lineTo(w.x + w.w / 2, w.groundY);
+                ctx.stroke();
+
+                ctx.setLineDash([]);
+                ctx.beginPath();
+                ctx.ellipse(w.x + w.w / 2, w.groundY - 4, 20, 6, 0, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+
+        // 2. Draw Active Boss Hazards & Shockwaves
         for (const sw of this.shockwaves) {
-            ctx.fillStyle = "#ff2a85";
+            ctx.save();
+            const c = sw.color || "#ff2a85";
+            ctx.fillStyle = c;
+            ctx.strokeStyle = "#ffffff";
+            if (sw.kind === 'meteor') {
+                ctx.beginPath();
+                ctx.arc(sw.x + sw.w / 2, sw.y + sw.h / 2, sw.w / 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = "#ffbe0b";
+                ctx.beginPath();
+                ctx.moveTo(sw.x + 4, sw.y + 8);
+                ctx.lineTo(sw.x + sw.w / 2, sw.y - 22);
+                ctx.lineTo(sw.x + sw.w - 4, sw.y + 8);
+                ctx.fill();
+            } else if (sw.kind === 'crystal_shard') {
+                ctx.beginPath();
+                ctx.moveTo(sw.x, sw.y);
+                ctx.lineTo(sw.x + sw.w, sw.y);
+                ctx.lineTo(sw.x + sw.w / 2, sw.y + sw.h);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+            } else if (sw.kind === 'scythe_wave') {
+                ctx.beginPath();
+                ctx.arc(sw.x + sw.w / 2, sw.y + sw.h / 2, sw.h / 2, -Math.PI * 0.45, Math.PI * 0.45);
+                ctx.lineWidth = 6;
+                ctx.strokeStyle = c;
+                ctx.stroke();
+            } else if (sw.kind === 'void_pillar' || sw.kind === 'solar_beam') {
+                ctx.fillStyle = c;
+                ctx.fillRect(sw.x, sw.y, sw.w, sw.h);
+                ctx.fillStyle = "#ffffff";
+                ctx.fillRect(sw.x + sw.w * 0.28, sw.y, sw.w * 0.44, sw.h);
+            } else if (sw.kind === 'lightning') {
+                ctx.strokeStyle = c;
+                ctx.lineWidth = 8;
+                ctx.beginPath();
+                const lx = sw.x + sw.w / 2;
+                ctx.moveTo(lx, sw.y);
+                for (let y = sw.y + 35; y <= sw.y + sw.h; y += 35) {
+                    const jag = ((Math.floor(y / 35) % 2 === 0) ? -10 : 10);
+                    ctx.lineTo(lx + jag, y);
+                }
+                ctx.stroke();
+                ctx.strokeStyle = "#ffffff";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            } else if (sw.kind === 'shuriken') {
+                ctx.translate(sw.x + sw.w / 2, sw.y + sw.h / 2);
+                ctx.rotate(this.anim * 4);
+                for (let k = 0; k < 4; k++) {
+                    ctx.rotate(Math.PI / 2);
+                    ctx.beginPath();
+                    ctx.moveTo(0, -3);
+                    ctx.lineTo(14, 0);
+                    ctx.lineTo(0, 3);
+                    ctx.fill();
+                }
+            } else if (sw.kind === 'plasma_missile' || sw.kind === 'ice_lance') {
+                ctx.beginPath();
+                ctx.roundRect(sw.x, sw.y, sw.w, sw.h, 5);
+                ctx.fill();
+                ctx.stroke();
+            } else if (sw.kind === 'mortar') {
+                ctx.beginPath();
+                ctx.arc(sw.x + sw.w / 2, sw.y + sw.h / 2, sw.w / 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+            } else {
+                // Default Spike Shockwave
+                ctx.beginPath();
+                ctx.moveTo(sw.x, sw.y + sw.h);
+                ctx.lineTo(sw.x + sw.w / 2, sw.y);
+                ctx.lineTo(sw.x + sw.w, sw.y + sw.h);
+                ctx.closePath();
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        // 3. Draw Ghost Afterimages
+        for (const ai of this.afterimages) {
+            ctx.save();
+            ctx.globalAlpha = (ai.life / ai.maxLife) * 0.38;
+            ctx.fillStyle = ai.color;
             ctx.beginPath();
-            ctx.moveTo(sw.x, sw.y + sw.h);
-            ctx.lineTo(sw.x + sw.w / 2, sw.y);
-            ctx.lineTo(sw.x + sw.w, sw.y + sw.h);
-            ctx.closePath();
+            ctx.roundRect(ai.x + 12, ai.y + 10, ai.w - 24, ai.h - 10, 12);
             ctx.fill();
+            ctx.restore();
         }
 
         const cx = this.x + this.w / 2;
@@ -917,54 +1586,130 @@ class AbyssBoss {
 
         const crouch = isTelegraph ? 14 : (isVulnerable ? 12 : 0);
         const walkSwing = Math.abs(this.vx) > 0.2 ? Math.sin(this.anim * 1.5) * 8 : 0;
-
-        const variantColors = ["#00f2fe", "#b537f2", "#ffd166"];
-        const mainGlow = isVulnerable ? "#06d6a0" : (isTelegraph ? "#ffd166" : variantColors[this.variant - 1]);
+        const mainGlow = isVulnerable ? "#06d6a0" : (isTelegraph ? "#ffd166" : prof.glow);
 
         // ==========================================
-        // ARTICULATED BOSS ANATOMY
+        // ARTICULATED 12-ARCHETYPE BOSS ANATOMY
         // ==========================================
         ctx.save();
         ctx.translate(cx, bottomY);
         ctx.scale(this.facing, 1);
 
-        // 0. Variant 3 (Abyssal Emperor) Dark Matter Wings!
-        if (this.variant === 3) {
-            const wingFlap = Math.sin(this.anim * 1.2) * 10;
-            ctx.fillStyle = "rgba(181, 55, 242, 0.35)";
+        // A. BACK WINGS / HALO / THRUSTERS / BANNERS BY BOSS TYPE
+        const wingFlap = Math.sin(this.anim * 1.3) * 11;
+        if (this.bossType === 1) {
+            // Crystal Behemoth: Giant Back Crystal Clusters
+            ctx.fillStyle = "rgba(0, 242, 254, 0.45)";
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 2;
+            for (const ang of [-0.45, -0.15, 0.25, 0.55]) {
+                ctx.save();
+                ctx.translate(0, -74 + crouch);
+                ctx.rotate(ang);
+                ctx.beginPath();
+                ctx.moveTo(-8, 0);
+                ctx.lineTo(0, -48);
+                ctx.lineTo(8, 0);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+                ctx.restore();
+            }
+        } else if (this.bossType === 2 || this.bossType === 11) {
+            // Executioner / Fortress Commander: Billowing War Cape
+            ctx.fillStyle = this.bossType === 2 ? "rgba(255, 42, 133, 0.38)" : "rgba(231, 29, 54, 0.45)";
+            ctx.beginPath();
+            ctx.moveTo(-18, -82 + crouch);
+            ctx.quadraticCurveTo(-58, -50 + wingFlap * 0.5, -48, -6);
+            ctx.lineTo(-10, -18);
+            ctx.closePath();
+            ctx.fill();
+        } else if (this.bossType === 3 || this.bossType === 6 || this.bossType === 9) {
+            // Emperor / Chaos Dragon / Storm Titan: Articulated Wings
+            ctx.fillStyle = this.bossType === 9 ? "rgba(0, 245, 212, 0.38)" : "rgba(181, 55, 242, 0.38)";
             ctx.strokeStyle = mainGlow;
             ctx.lineWidth = 2.5;
-            for (let side of [-1, 1]) {
+            for (const side of [-1, 1]) {
                 ctx.beginPath();
                 ctx.moveTo(0, -68 + crouch);
-                ctx.lineTo(side * 68, -110 + wingFlap + crouch);
-                ctx.lineTo(side * 52, -45 + crouch);
+                ctx.lineTo(side * 72, -114 + wingFlap + crouch);
+                ctx.lineTo(side * 56, -44 + crouch);
                 ctx.closePath();
                 ctx.fill();
                 ctx.stroke();
             }
+        } else if (this.bossType === 5) {
+            // Hyper-Mecha: Twin Vernier Jet Thrusters + Missile Pods
+            ctx.fillStyle = "#2b3868";
+            ctx.strokeStyle = "#00f2fe";
+            ctx.lineWidth = 2;
+            ctx.fillRect(-38, -96 + crouch, 16, 28);
+            ctx.strokeRect(-38, -96 + crouch, 16, 28);
+            ctx.fillStyle = "#00f2fe";
+            ctx.beginPath();
+            ctx.moveTo(-36, -68 + crouch);
+            ctx.lineTo(-48, -42 + wingFlap * 0.4);
+            ctx.lineTo(-24, -68 + crouch);
+            ctx.fill();
+        } else if (this.bossType === 8) {
+            // Cyber Pharaoh: Floating Golden Sun-Disk Scarab Halo
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(0, -78 + crouch, 48, Math.PI * 1.1, Math.PI * 1.9);
+            ctx.stroke();
+        } else if (this.bossType === 10) {
+            // Cyber Shogun: Twin Samurai Sashimono Back Banners
+            ctx.strokeStyle = "#ffd166";
+            ctx.fillStyle = "#210410";
+            ctx.lineWidth = 2;
+            for (const bx of [-26, -10]) {
+                ctx.fillRect(bx, -124 + crouch, 12, 42);
+                ctx.strokeRect(bx, -124 + crouch, 12, 42);
+            }
+        } else if (this.bossType === 12) {
+            // Universe Emperor: 6 Seraphim Cosmic Wings + Rotating Sacred Geometry Halo
+            ctx.save();
+            ctx.translate(0, -76 + crouch);
+            ctx.rotate(this.anim * 0.4);
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 2.5;
+            ctx.strokeRect(-36, -36, 72, 72);
+            ctx.rotate(Math.PI / 4);
+            ctx.strokeStyle = "#00f2fe";
+            ctx.strokeRect(-36, -36, 72, 72);
+            ctx.restore();
+            for (const side of [-1, 1]) {
+                for (let wIdx = 0; wIdx < 3; wIdx++) {
+                    ctx.fillStyle = wIdx === 1 ? "rgba(0, 242, 254, 0.35)" : "rgba(255, 42, 133, 0.35)";
+                    ctx.beginPath();
+                    ctx.moveTo(0, -68 + crouch);
+                    ctx.lineTo(side * (64 + wIdx * 10), -118 + wIdx * 24 + wingFlap * 0.6 + crouch);
+                    ctx.lineTo(side * 42, -52 + wIdx * 16 + crouch);
+                    ctx.closePath();
+                    ctx.fill();
+                }
+            }
         }
 
-        // 1. Heavy Armored Legs & Claws
-        ctx.fillStyle = "#191d36";
+        // B. HEAVY ARMORED LEGS
+        ctx.fillStyle = prof.armorMid;
         ctx.strokeStyle = mainGlow;
         ctx.lineWidth = 3;
-        // Back leg
         ctx.beginPath();
         ctx.roundRect(-24 - walkSwing * 0.5, -36 + crouch * 0.4, 18, 36 - crouch * 0.4, 6);
         ctx.fill();
         ctx.stroke();
-        // Front leg
         ctx.beginPath();
         ctx.roundRect(6 + walkSwing * 0.5, -36 + crouch * 0.4, 18, 36 - crouch * 0.4, 6);
         ctx.fill();
         ctx.stroke();
 
-        // 2. Hulking Armored Chest & Torso
+        // C. HULKING ARMORED CHEST & TORSO
         const torsoGrad = ctx.createLinearGradient(-38, -96 + crouch, 38, -30);
-        torsoGrad.addColorStop(0, "#2b2347");
-        torsoGrad.addColorStop(0.5, "#151126");
-        torsoGrad.addColorStop(1, "#090712");
+        torsoGrad.addColorStop(0, prof.armorTop);
+        torsoGrad.addColorStop(0.5, prof.armorMid);
+        torsoGrad.addColorStop(1, prof.armorBot);
         ctx.fillStyle = torsoGrad;
         ctx.beginPath();
         ctx.moveTo(-26, -32 + crouch * 0.5);
@@ -975,16 +1720,16 @@ class AbyssBoss {
         ctx.fill();
         ctx.stroke();
 
-        // Spiked Shoulder Pauldrons
-        ctx.fillStyle = "#221a3b";
-        for (let side of [-1, 1]) {
+        // Shoulder Pauldrons
+        ctx.fillStyle = prof.armorTop;
+        for (const side of [-1, 1]) {
             ctx.beginPath();
             ctx.arc(side * 38, -78 + crouch, 16, Math.PI, 0);
             ctx.fill();
             ctx.stroke();
         }
 
-        // Ribcage & Glowing Reactor Core
+        // Chest Reactor Core (Ankh for Pharaoh, Diamond for Crystal, Circle for others)
         ctx.fillStyle = mainGlow;
         ctx.beginPath();
         ctx.arc(0, -60 + crouch, 13 + Math.sin(this.anim * 3) * 2.5, 0, Math.PI * 2);
@@ -994,76 +1739,149 @@ class AbyssBoss {
         ctx.arc(0, -60 + crouch, 6, 0, Math.PI * 2);
         ctx.fill();
 
-        // 3. Sculpted Demon/Mecha Head & Exposed Brain Core
-        ctx.fillStyle = "#1c1630";
+        // D. DISTINCT HEAD, HELMET & CROWN BY BOSS TYPE
+        ctx.fillStyle = prof.armorMid;
         ctx.beginPath();
         ctx.roundRect(-22, -108 + crouch, 44, 28, 8);
         ctx.fill();
         ctx.stroke();
 
-        // Exposed Vulnerable Crown Core on Top of Head
+        // Vulnerable Brain/Crown Core
         ctx.fillStyle = isVulnerable ? "#06d6a0" : "#590d22";
-        ctx.shadowColor = isVulnerable ? "#06d6a0" : "#ff2a85";
         ctx.beginPath();
-        ctx.arc(0, -108 + crouch, 16, Math.PI, 0);
+        ctx.arc(0, -108 + crouch, 15, Math.PI, 0);
         ctx.fill();
 
-        // Curved Horns
-        ctx.fillStyle = mainGlow;
-        for (let side of [-1, 1]) {
+        if (this.bossType === 2) {
+            // Executioner Pointed Hood & Single Cyclops Laser Eye
+            ctx.fillStyle = "#210615";
             ctx.beginPath();
-            ctx.moveTo(side * 16, -102 + crouch);
-            ctx.quadraticCurveTo(side * 36, -112 + crouch, side * 28, -128 + crouch);
-            ctx.lineTo(side * 8, -106 + crouch);
-            ctx.closePath();
-            ctx.fill();
-        }
-
-        // Fierce Glowing Eyes & Fanged Jaw
-        ctx.fillStyle = isVulnerable ? "#00f2fe" : "#ff2a85";
-        ctx.fillRect(-14, -98 + crouch, 11, 6);
-        ctx.fillRect(5, -98 + crouch, 11, 6);
-
-        // 4. Boss-Specific Giant Weapon Arms!
-        ctx.save();
-        ctx.translate(28, -68 + crouch);
-        ctx.rotate(Math.sin(this.anim * 1.4) * 0.25 + (this.state === 'dash' ? 0.5 : 0));
-
-        if (this.variant === 1) {
-            // Boss 1: Giant Jagged Crystal Crusher Fist
-            ctx.fillStyle = "#00f2fe";
-            ctx.strokeStyle = "#ffffff";
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(0, -8);
-            ctx.lineTo(28, -14);
-            ctx.lineTo(36, 4);
-            ctx.lineTo(22, 18);
-            ctx.lineTo(0, 12);
+            ctx.moveTo(-24, -96 + crouch);
+            ctx.lineTo(0, -130 + crouch);
+            ctx.lineTo(24, -96 + crouch);
             ctx.closePath();
             ctx.fill();
             ctx.stroke();
-        } else if (this.variant === 2) {
-            // Boss 2: Cyber Executioner Plasma Scythe Blade
             ctx.fillStyle = "#ff2a85";
+            ctx.fillRect(-14, -97 + crouch, 28, 5);
+        } else if (this.bossType === 5) {
+            // Mecha V-Fin Antenna Crest
             ctx.strokeStyle = "#ffd166";
-            ctx.lineWidth = 2.5;
+            ctx.lineWidth = 3.5;
+            ctx.beginPath();
+            ctx.moveTo(0, -106 + crouch);
+            ctx.lineTo(-28, -128 + crouch);
+            ctx.moveTo(0, -106 + crouch);
+            ctx.lineTo(28, -128 + crouch);
+            ctx.stroke();
+            ctx.fillStyle = "#06d6a0";
+            ctx.fillRect(-14, -98 + crouch, 11, 6);
+            ctx.fillRect(5, -98 + crouch, 11, 6);
+        } else if (this.bossType === 7 || this.bossType === 3 || this.bossType === 12) {
+            // Tall Jagged Ice / Emperor / Cosmic Crown
+            ctx.fillStyle = this.bossType === 7 ? "#90e0ef" : "#ffd166";
+            ctx.beginPath();
+            ctx.moveTo(-20, -108 + crouch);
+            ctx.lineTo(-24, -128 + crouch);
+            ctx.lineTo(-8, -116 + crouch);
+            ctx.lineTo(0, -134 + crouch);
+            ctx.lineTo(8, -116 + crouch);
+            ctx.lineTo(24, -128 + crouch);
+            ctx.lineTo(20, -108 + crouch);
+            ctx.closePath();
+            ctx.fill();
+            ctx.fillStyle = prof.eye;
+            ctx.fillRect(-14, -98 + crouch, 11, 6);
+            ctx.fillRect(5, -98 + crouch, 11, 6);
+        } else if (this.bossType === 8) {
+            // Egyptian Pharaoh Striped Nemes Headdress
+            ctx.fillStyle = "#ffd166";
+            ctx.beginPath();
+            ctx.moveTo(-22, -108 + crouch);
+            ctx.lineTo(-34, -82 + crouch);
+            ctx.lineTo(34, -82 + crouch);
+            ctx.lineTo(22, -108 + crouch);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+            ctx.fillStyle = "#06d6a0";
+            ctx.fillRect(-14, -98 + crouch, 11, 6);
+            ctx.fillRect(5, -98 + crouch, 11, 6);
+        } else if (this.bossType === 10) {
+            // Samurai Kabuto Helmet with Golden Crescent Moon Crest
+            ctx.strokeStyle = "#ffd166";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.arc(0, -122 + crouch, 14, 0.2 * Math.PI, 0.8 * Math.PI, true);
+            ctx.stroke();
+            ctx.fillStyle = "#ff007f";
+            ctx.fillRect(-14, -98 + crouch, 11, 6);
+            ctx.fillRect(5, -98 + crouch, 11, 6);
+        } else {
+            // Curved Demon/Bull/Dragon Horns
+            ctx.fillStyle = mainGlow;
+            for (const side of [-1, 1]) {
+                ctx.beginPath();
+                ctx.moveTo(side * 16, -102 + crouch);
+                ctx.quadraticCurveTo(side * 38, -114 + crouch, side * 30, -130 + crouch);
+                ctx.lineTo(side * 8, -106 + crouch);
+                ctx.closePath();
+                ctx.fill();
+            }
+            ctx.fillStyle = isVulnerable ? "#00f2fe" : prof.eye;
+            ctx.fillRect(-14, -98 + crouch, 11, 6);
+            ctx.fillRect(5, -98 + crouch, 11, 6);
+        }
+
+        // E. BOSS-SPECIFIC GIANT SIGNATURE WEAPONS
+        ctx.save();
+        ctx.translate(28, -68 + crouch);
+        ctx.rotate(Math.sin(this.anim * 1.4) * 0.25 + (this.state === 'dash' ? 0.5 : 0));
+        ctx.fillStyle = prof.glow;
+        ctx.strokeStyle = prof.secondary;
+        ctx.lineWidth = 2.5;
+
+        if (this.bossType === 1 || this.bossType === 4 || this.bossType === 11) {
+            // Giant Crystal Warhammer / Magma Maul / Siege Cannon Mace
+            ctx.fillRect(0, -4, 30, 8);
+            ctx.beginPath();
+            ctx.roundRect(24, -22, 22, 44, 5);
+            ctx.fill();
+            ctx.stroke();
+        } else if (this.bossType === 2 || this.bossType === 8) {
+            // Crimson Executioner Scythe / Pharaoh Was-Scepter
             ctx.beginPath();
             ctx.moveTo(0, 0);
-            ctx.lineTo(32, -26);
-            ctx.quadraticCurveTo(46, 0, 18, 28);
+            ctx.lineTo(34, -28);
+            ctx.quadraticCurveTo(50, 0, 18, 30);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        } else if (this.bossType === 7) {
+            // Double-Bit Runic Frost Battleaxe
+            ctx.beginPath();
+            ctx.moveTo(18, 0);
+            ctx.lineTo(38, -26);
+            ctx.lineTo(44, 0);
+            ctx.lineTo(38, 26);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+        } else if (this.bossType === 9 || this.bossType === 5) {
+            // Thunderbolt Spear / Quantum Laser Lance
+            ctx.beginPath();
+            ctx.moveTo(-6, -4);
+            ctx.lineTo(62, 0);
+            ctx.lineTo(-6, 4);
             ctx.closePath();
             ctx.fill();
             ctx.stroke();
         } else {
-            // Boss 3: Abyssal Emperor Giant Greatsword
-            ctx.fillStyle = "#ffd166";
-            ctx.strokeStyle = "#ff2a85";
-            ctx.lineWidth = 3;
+            // Emperor Greatsword / Samurai Neon Katana / Cosmic Twin-Blade
             ctx.beginPath();
             ctx.moveTo(0, -6);
-            ctx.lineTo(48, -18);
-            ctx.lineTo(58, -10);
+            ctx.lineTo(52, -18);
+            ctx.lineTo(62, -10);
             ctx.lineTo(8, 8);
             ctx.closePath();
             ctx.fill();
@@ -1079,14 +1897,14 @@ class AbyssBoss {
         const drawY = this.y + crouch;
         if (this.shieldActive) {
             ctx.save();
-            ctx.strokeStyle = isTelegraph ? "#ffd166" : "rgba(255, 42, 133, 0.78)";
+            ctx.strokeStyle = isTelegraph ? "#ffd166" : mainGlow;
+            ctx.globalAlpha = 0.72;
             ctx.lineWidth = 3;
             ctx.beginPath();
             ctx.arc(cx, this.y + this.h / 2, this.w * 0.65, 0, Math.PI * 2);
             ctx.stroke();
 
-            // Warning Spikes over head
-            ctx.fillStyle = "#ff2a85";
+            ctx.fillStyle = mainGlow;
             for (let i = -2; i <= 2; i++) {
                 ctx.beginPath();
                 ctx.moveTo(cx + i * 14 - 5, drawY + 6);
